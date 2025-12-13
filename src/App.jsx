@@ -73,7 +73,7 @@ const Portfolio = () => {
             desc: 'Formation hybride technique et stratégique : Architecture Cloud, IA avancée et pilotage de la performance Data (FinOps, Qualité).',
             tags: ['Cloud & Architecture', 'ML & NLP', 'Réseaux de Neurones', 'Data Apps & Auto', 'BI & Reporting', 'FinOps & Stratégie', 'Agile & Éco-conception'],
             logo: 'H',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/fr/thumb/5/52/Logo_HETIC_2020.svg/1200px-Logo_HETIC_2020.svg.png'
+            logoUrl: https://upload.wikimedia.org/wikipedia/commons/e/ed/Logo_HETIC.png
           },
           {
             title: 'Master 1 Ingénierie Mathématique et Data Science',
@@ -83,7 +83,7 @@ const Portfolio = () => {
             desc: 'Formation duale en mathématiques appliquées (Optimisation, Stats R) et génie logiciel (C++, Java, Cloud), avec une spécialisation en BI et architecture de données.',
             tags: ['Maths & Optimisation', 'OOP (C++/Java/Python)', 'Cloud Computing', 'BI & Data Warehouse', 'SQL & Reporting', 'Statistiques & R', 'Traitement d\'Images'],
             logo: 'U',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/fr/thumb/d/df/Logo_Universit%C3%A9_Haute_Alsace_2022.svg/1200px-Logo_Universit%C3%A9_Haute_Alsace_2022.svg.png'
+            logoUrl: https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg
           },
           {
             title: 'Master Recherche Opérationnelle Management Risque et Négociation',
@@ -93,7 +93,7 @@ const Portfolio = () => {
             desc: 'Cursus d\'excellence de 5 ans. De la Licence (Math-Info, Algorithmique, Probabilité-Statistique) au Master spécialisé en Management des Risques, Théorie des Jeux et Optimisation Stochastique.',
             tags: ['Recherche Opérationnelle', 'Processus Stochastiques', 'Théorie des Jeux', 'SQL & Bases de données', 'Aide à la Décision (MCDA)', 'Gestion des Risques', 'Graphes & Complexité'],
             logo: 'U',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/fr/0/07/Logo_USTHB.png'
+            logoUrl: https://upload.wikimedia.org/wikipedia/commons/a/a2/USTHB.png
           }
         ]
       },
@@ -288,7 +288,7 @@ const Portfolio = () => {
             desc: 'Hybrid technical and strategic training: Cloud Architecture, Advanced AI, and Data Performance Management (FinOps, Quality).',
             tags: ['Cloud & Architecture', 'ML & NLP', 'Neural Networks', 'Data Apps & Auto', 'BI & Reporting', 'FinOps & Strategy', 'Agile & Eco-design'],
             logo: 'H',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/fr/thumb/5/52/Logo_HETIC_2020.svg/1200px-Logo_HETIC_2020.svg.png'
+            logoUrl: https://upload.wikimedia.org/wikipedia/commons/e/ed/Logo_HETIC.png
           },
           {
             title: 'Master 1 in Mathematical Engineering & Data Science',
@@ -298,7 +298,7 @@ const Portfolio = () => {
             desc: 'Dual training in applied mathematics (Optimization, Stats R) and software engineering (C++, Java, Cloud), with a specialization in BI and data architecture.',
             tags: ['Maths & Optimization', 'OOP (C++/Java/Python)', 'Cloud Computing', 'BI & Data Warehouse', 'SQL & Reporting', 'Statistics & R', 'Image Processing'],
             logo: 'U',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/fr/thumb/d/df/Logo_Universit%C3%A9_Haute_Alsace_2022.svg/1200px-Logo_Universit%C3%A9_Haute_Alsace_2022.svg.png'
+            logoUrl: https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg
           },
           {
             title: 'Master in Operations Research: Risk Management & Negotiation',
@@ -308,7 +308,7 @@ const Portfolio = () => {
             desc: '5-year excellence program. From Bachelor (Math/CS basics, Algorithms, Prob/Stat) to Master specialized in Risk Management, Game Theory, and Stochastic Optimization.',
             tags: ['Operations Research', 'Stochastic Processes', 'Game Theory', 'SQL & Databases', 'Decision Aid (MCDA)', 'Risk Management', 'Graphs & Complexity'],
             logo: 'U',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/fr/0/07/Logo_USTHB.png'
+            logoUrl: https://upload.wikimedia.org/wikipedia/commons/a/a2/USTHB.png
           }
         ]
       },
