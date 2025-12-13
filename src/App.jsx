@@ -119,27 +119,27 @@ const Portfolio = () => {
             desc: 'Fondamentaux de l\'intelligence artificielle, du Machine Learning et des services cognitifs sur le cloud Azure.',
             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
             color: 'blue',
-            link: '/certificats/Azure_AI_Essentials.pdf'
+            link: '/certificats/Azure AI Essentials.pdf'
           },
            { 
              name: 'Dataverse : Les bases pratiques (Maker)',
-             issuer: 'SNCF',
+             issuer: 'SNCF Voyageurs',
              date: 'Mars 2025',
              desc: 'Compétences de création et sécurisation d\'un environnement : architectures de sécurité, modélisation de données et gestion des accès utilisateurs.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/Certificat Dataverse les bases pratiques (Maker).pdf' // Nom réel du fichier
+             link: '/certificats/Certificat Dataverse les bases pratiques (Maker).pdf'
            },
            { 
              name: 'PowerApps Avancé', 
-             issuer: 'SNCF',
+             issuer: 'SNCF Voyageurs',
              date: 'Mars 2025', 
              desc: 'Optimisation des requêtes, création de composants, deep linking, lancement de flux Power Automate et usage des expressions régulières (RegEx).',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/Certificat PowerApps Avancé .pdf' // Attention à l'espace à la fin si présent dans le nom original
+             link: '/certificats/Certificat PowerApps Avancé .pdf'
            },
            { 
-             name: 'SharePoint Expert (Niv3) : Conception de site', 
-             issuer: 'SNCF',
+             name: 'SharePoint Expert (Niv3) : Maîtriser la conception d\'un site', 
+             issuer: 'SNCF Voyageurs',
              date: 'Févr. 2025',
              desc: 'Mise en place d\'autorisations spécifiques, personnalisation avancée des affichages de listes, gestion des audiences et intégration Power Platform.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
@@ -147,23 +147,23 @@ const Portfolio = () => {
            },
            { 
              name: 'Langage DAX dans Power BI', 
-             issuer: 'SNCF',
+             issuer: 'SNCF Voyageurs',
              date: 'Févr. 2025',
              desc: 'Compréhension approfondie du langage DAX, traitement optimisé des données et mise en place de calculs d\'indicateurs complexes.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat Langage DAX dans Power BI.pdf'
            },
            { 
-             name: 'Power Automate Niv 2 : Atelier pratique', 
-             issuer: 'SNCF',
+             name: 'Power Automate Niv 2 : Atelier de mise en pratique', 
+             issuer: 'SNCF Voyageurs',
              date: 'Déc. 2024',
              desc: 'Amélioration de la pratique de l\'outil à travers des TP, maîtrise de différents usages et transposition aux projets réels.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat Power Automate .pdf'
            },
            { 
-             name: 'SharePoint Avancé (Niv2)', 
-             issuer: 'SNCF',
+             name: 'SharePoint Avancé (Niv2) : Améliorer, administrer son site', 
+             issuer: 'SNCF Voyageurs',
              date: 'Nov. 2024',
              desc: 'Différenciation listes/bibliothèques, personnalisation des affichages et de l\'approbation, définition des autorisations et conception de pages d\'accueil.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
@@ -171,59 +171,11 @@ const Portfolio = () => {
            },
            { 
              name: 'Power BI Expert', 
-             issuer: 'SNCF',
+             issuer: 'SNCF Voyageurs',
              date: 'Oct. 2024',
              desc: 'Interrogation de sources hétérogènes, préparation des données avec M, conception de mesures DAX, optimisation des rapports et dataviz interactive.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat Power BI Expert.pdf'
-           },
-           { 
-             name: 'PowerApps Avancé', 
-             issuer: 'SNCF',
-             date: 'Mars 2025', 
-             desc: 'Optimisation des requêtes, création de composants, deep linking, lancement de flux Power Automate et usage des expressions régulières (RegEx).',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerApps_Avance.pdf'
-           },
-           { 
-             name: 'SharePoint Expert (Niv3) : Conception de site', 
-             issuer: 'SNCF',
-             date: 'Févr. 2025',
-             desc: 'Mise en place d\'autorisations spécifiques, personnalisation avancée des affichages de listes, gestion des audiences et intégration Power Platform.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Expert.pdf'
-           },
-           { 
-             name: 'Langage DAX dans Power BI', 
-             issuer: 'SNCF',
-             date: 'Févr. 2025',
-             desc: 'Compréhension approfondie du langage DAX, traitement optimisé des données et mise en place de calculs d\'indicateurs complexes.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/DAX_PowerBI.pdf'
-           },
-           { 
-             name: 'Power Automate Niv 2 : Atelier pratique', 
-             issuer: 'SNCF',
-             date: 'Déc. 2024',
-             desc: 'Amélioration de la pratique de l\'outil à travers des TP, maîtrise de différents usages et transposition aux projets réels.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerAutomate_N2.pdf'
-           },
-           { 
-             name: 'SharePoint Avancé (Niv2)', 
-             issuer: 'SNCF',
-             date: 'Nov. 2024',
-             desc: 'Différenciation listes/bibliothèques, personnalisation des affichages et de l\'approbation, définition des autorisations et conception de pages d\'accueil.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Avance.pdf'
-           },
-           { 
-             name: 'Power BI Expert', 
-             issuer: 'SNCF',
-             date: 'Oct. 2024',
-             desc: 'Interrogation de sources hétérogènes, préparation des données avec M, conception de mesures DAX, optimisation des rapports et dataviz interactive.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerBI_Expert.pdf'
            },
         ]
       },
@@ -377,56 +329,56 @@ const Portfolio = () => {
           {
             name: 'Azure AI Essentials',
             issuer: 'Microsoft & LinkedIn',
-            date: 'Dec. 2025',
+            date: 'Déc. 2025',
             id: 'AI-Essentials',
             desc: 'Fundamentals of Artificial Intelligence, Machine Learning, and Cognitive Services on the Azure Cloud.',
             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
             color: 'blue',
-            link: '#' // Lien à mettre à jour si disponible
+            link: '/certificats/Azure AI Essentials.pdf'
           },
            { 
-             name: 'Dataverse: Practical Basics (Maker)', 
-             issuer: 'SNCF',
-             date: 'Mar. 2025',
+             name: 'Dataverse : Les bases pratiques (Maker)',
+             issuer: 'SNCF Voyageurs',
+             date: 'Mars 2025',
              desc: 'Environment creation and security, complex data modeling, and security architecture management (RBAC).',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat Dataverse les bases pratiques (Maker).pdf'
            },
            { 
-             name: 'Advanced PowerApps', 
-             issuer: 'SNCF',
-             date: 'Mar. 2025', 
+             name: 'PowerApps Avancé', 
+             issuer: 'SNCF Voyageurs',
+             date: 'Mars 2025', 
              desc: 'Query optimization, reusable component creation, Deep Linking, and advanced use of Regular Expressions (RegEx).',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat PowerApps Avancé .pdf'
            },
            { 
-             name: 'SharePoint Expert (Lvl 3): Site Design', 
-             issuer: 'SNCF',
-             date: 'Feb. 2025',
+             name: 'SharePoint Expert (Niv3) : Maîtriser la conception d\'un site', 
+             issuer: 'SNCF Voyageurs',
+             date: 'Févr. 2025',
              desc: 'Fine-grained permission management, advanced list customization (JSON), audience targeting, and Power Platform integration.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat SharePoint Expert (Niv3) Maîtriser la conception d\'un site.pdf'
            },
            { 
-             name: 'DAX Language in Power BI', 
-             issuer: 'SNCF',
-             date: 'Feb. 2025',
+             name: 'Langage DAX dans Power BI', 
+             issuer: 'SNCF Voyageurs',
+             date: 'Févr. 2025',
              desc: 'Complex measure creation, calculation performance optimization, and advanced Time Intelligence analysis.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat Langage DAX dans Power BI.pdf'
            },
            { 
-             name: 'Power Automate Lvl 2: Practical Workshop', 
-             issuer: 'SNCF',
-             date: 'Dec. 2024',
+             name: 'Power Automate Niv 2 : Atelier de mise en pratique', 
+             issuer: 'SNCF Voyageurs',
+             date: 'Déc. 2024',
              desc: 'Design of complex automated flows, error handling, and translation of business processes into logical workflows.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat Power Automate .pdf'
            },
            { 
-             name: 'Advanced SharePoint (Lvl 2)', 
-             issuer: 'SNCF',
+             name: 'SharePoint Avancé (Niv2) : Améliorer, administrer son site', 
+             issuer: 'SNCF Voyageurs',
              date: 'Nov. 2024',
              desc: 'Site administration, library management, view customization, and approval workflows.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
@@ -434,59 +386,11 @@ const Portfolio = () => {
            },
            { 
              name: 'Power BI Expert', 
-             issuer: 'SNCF',
+             issuer: 'SNCF Voyageurs',
              date: 'Oct. 2024',
              desc: 'Advanced ETL with Power Query (M Language), optimal star schema modeling, and interactive UX/UI report design.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
              link: '/certificats/Certificat Power BI Expert.pdf'
-           },
-           { 
-             name: 'Advanced PowerApps', 
-             issuer: 'SNCF',
-             date: 'Mar. 2025', 
-             desc: 'Query optimization, reusable component creation, Deep Linking, and advanced use of Regular Expressions (RegEx).',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerApps_Avance.pdf'
-           },
-           { 
-             name: 'SharePoint Expert (Lvl 3): Site Design', 
-             issuer: 'SNCF',
-             date: 'Feb. 2025',
-             desc: 'Fine-grained permission management, advanced list customization (JSON), audience targeting, and Power Platform integration.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Expert.pdf'
-           },
-           { 
-             name: 'DAX Language in Power BI', 
-             issuer: 'SNCF',
-             date: 'Feb. 2025',
-             desc: 'Complex measure creation, calculation performance optimization, and advanced Time Intelligence analysis.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/DAX_PowerBI.pdf'
-           },
-           { 
-             name: 'Power Automate Lvl 2: Practical Workshop', 
-             issuer: 'SNCF',
-             date: 'Dec. 2024',
-             desc: 'Design of complex automated flows, error handling, and translation of business processes into logical workflows.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerAutomate_N2.pdf'
-           },
-           { 
-             name: 'Advanced SharePoint (Lvl 2)', 
-             issuer: 'SNCF',
-             date: 'Nov. 2024',
-             desc: 'Site administration, library management, view customization, and approval workflows.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Avance.pdf'
-           },
-           { 
-             name: 'Power BI Expert', 
-             issuer: 'SNCF',
-             date: 'Oct. 2024',
-             desc: 'Advanced ETL with Power Query (M Language), optimal star schema modeling, and interactive UX/UI report design.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerBI_Expert.pdf'
            },
         ]
       },
