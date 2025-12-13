@@ -73,7 +73,7 @@ const Portfolio = () => {
             desc: 'Formation hybride technique et stratégique : Architecture Cloud, IA avancée et pilotage de la performance Data (FinOps, Qualité).',
             tags: ['Cloud & Architecture', 'ML & NLP', 'Réseaux de Neurones', 'Data Apps & Auto', 'BI & Reporting', 'FinOps & Stratégie', 'Agile & Éco-conception'],
             logo: 'H',
-            logoUrl: https://upload.wikimedia.org/wikipedia/commons/e/ed/Logo_HETIC.png
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ed/Logo_HETIC.png'
           },
           {
             title: 'Master 1 Ingénierie Mathématique et Data Science',
@@ -83,7 +83,7 @@ const Portfolio = () => {
             desc: 'Formation duale en mathématiques appliquées (Optimisation, Stats R) et génie logiciel (C++, Java, Cloud), avec une spécialisation en BI et architecture de données.',
             tags: ['Maths & Optimisation', 'OOP (C++/Java/Python)', 'Cloud Computing', 'BI & Data Warehouse', 'SQL & Reporting', 'Statistiques & R', 'Traitement d\'Images'],
             logo: 'U',
-            logoUrl: https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg'
           },
           {
             title: 'Master Recherche Opérationnelle Management Risque et Négociation',
@@ -93,7 +93,7 @@ const Portfolio = () => {
             desc: 'Cursus d\'excellence de 5 ans. De la Licence (Math-Info, Algorithmique, Probabilité-Statistique) au Master spécialisé en Management des Risques, Théorie des Jeux et Optimisation Stochastique.',
             tags: ['Recherche Opérationnelle', 'Processus Stochastiques', 'Théorie des Jeux', 'SQL & Bases de données', 'Aide à la Décision (MCDA)', 'Gestion des Risques', 'Graphes & Complexité'],
             logo: 'U',
-            logoUrl: https://upload.wikimedia.org/wikipedia/commons/a/a2/USTHB.png
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/USTHB.png'
           }
         ]
       },
@@ -127,7 +127,7 @@ const Portfolio = () => {
              date: 'Mars 2025',
              desc: 'Compétences de création et sécurisation d\'un environnement : architectures de sécurité, modélisation de données et gestion des accès utilisateurs.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/Dataverse_Maker.pdf'
+             link: '/certificats/Certificat Dataverse les bases pratiques (Maker).pdf'
            },
            { 
              name: 'PowerApps Avancé', 
@@ -135,7 +135,7 @@ const Portfolio = () => {
              date: 'Mars 2025', 
              desc: 'Optimisation des requêtes, création de composants, deep linking, lancement de flux Power Automate et usage des expressions régulières (RegEx).',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerApps_Avance.pdf'
+             link: '/certificats/Certificat PowerApps Avancé .pdf'
            },
            { 
              name: 'SharePoint Expert (Niv3) : Maîtriser la conception d\'un site', 
@@ -143,7 +143,7 @@ const Portfolio = () => {
              date: 'Févr. 2025',
              desc: 'Mise en place d\'autorisations spécifiques, personnalisation avancée des affichages de listes, gestion des audiences et intégration Power Platform.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Expert.pdf'
+             link: "/certificats/Certificat SharePoint Expert (Niv3) Maîtriser la conception d'un site.pdf"
            },
            { 
              name: 'Langage DAX dans Power BI', 
@@ -151,7 +151,7 @@ const Portfolio = () => {
              date: 'Févr. 2025',
              desc: 'Compréhension approfondie du langage DAX, traitement optimisé des données et mise en place de calculs d\'indicateurs complexes.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/DAX_PowerBI.pdf'
+             link: '/certificats/Certificat Langage DAX dans Power BI.pdf'
            },
            { 
              name: 'Power Automate Niv 2 : Atelier de mise en pratique', 
@@ -159,7 +159,7 @@ const Portfolio = () => {
              date: 'Déc. 2024',
              desc: 'Amélioration de la pratique de l\'outil à travers des TP, maîtrise de différents usages et transposition aux projets réels.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerAutomate_N2.pdf'
+             link: '/certificats/Certificat Power Automate .pdf'
            },
            { 
              name: 'SharePoint Avancé (Niv2) : Améliorer, administrer son site', 
@@ -167,7 +167,7 @@ const Portfolio = () => {
              date: 'Nov. 2024',
              desc: 'Différenciation listes/bibliothèques, personnalisation des affichages et de l\'approbation, définition des autorisations et conception de pages d\'accueil.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Avance.pdf'
+             link: '/certificats/Certificat SharePoint Avancé.pdf'
            },
            { 
              name: 'Power BI Expert', 
@@ -175,7 +175,7 @@ const Portfolio = () => {
              date: 'Oct. 2024',
              desc: 'Interrogation de sources hétérogènes, préparation des données avec M, conception de mesures DAX, optimisation des rapports et dataviz interactive.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerBI_Expert.pdf'
+             link: '/certificats/Certificat Power BI Expert.pdf'
            },
         ]
       },
@@ -288,7 +288,7 @@ const Portfolio = () => {
             desc: 'Hybrid technical and strategic training: Cloud Architecture, Advanced AI, and Data Performance Management (FinOps, Quality).',
             tags: ['Cloud & Architecture', 'ML & NLP', 'Neural Networks', 'Data Apps & Auto', 'BI & Reporting', 'FinOps & Strategy', 'Agile & Eco-design'],
             logo: 'H',
-            logoUrl: https://upload.wikimedia.org/wikipedia/commons/e/ed/Logo_HETIC.png
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ed/Logo_HETIC.png'
           },
           {
             title: 'Master 1 in Mathematical Engineering & Data Science',
@@ -298,7 +298,7 @@ const Portfolio = () => {
             desc: 'Dual training in applied mathematics (Optimization, Stats R) and software engineering (C++, Java, Cloud), with a specialization in BI and data architecture.',
             tags: ['Maths & Optimization', 'OOP (C++/Java/Python)', 'Cloud Computing', 'BI & Data Warehouse', 'SQL & Reporting', 'Statistics & R', 'Image Processing'],
             logo: 'U',
-            logoUrl: https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg'
           },
           {
             title: 'Master in Operations Research: Risk Management & Negotiation',
@@ -308,7 +308,7 @@ const Portfolio = () => {
             desc: '5-year excellence program. From Bachelor (Math/CS basics, Algorithms, Prob/Stat) to Master specialized in Risk Management, Game Theory, and Stochastic Optimization.',
             tags: ['Operations Research', 'Stochastic Processes', 'Game Theory', 'SQL & Databases', 'Decision Aid (MCDA)', 'Risk Management', 'Graphs & Complexity'],
             logo: 'U',
-            logoUrl: https://upload.wikimedia.org/wikipedia/commons/a/a2/USTHB.png
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/USTHB.png'
           }
         ]
       },
@@ -342,7 +342,7 @@ const Portfolio = () => {
              date: 'Mars 2025',
              desc: 'Environment creation and security, complex data modeling, and security architecture management (RBAC).',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/Dataverse_Maker.pdf'
+             link: '/certificats/Certificat Dataverse les bases pratiques (Maker).pdf'
            },
            { 
              name: 'Advanced PowerApps', 
@@ -350,7 +350,7 @@ const Portfolio = () => {
              date: 'Mar. 2025', 
              desc: 'Query optimization, reusable component creation, Deep Linking, and advanced use of Regular Expressions (RegEx).',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerApps_Avance.pdf'
+             link: '/certificats/Certificat PowerApps Avancé .pdf'
            },
            { 
              name: 'SharePoint Expert (Lvl 3): Site Design', 
@@ -358,7 +358,7 @@ const Portfolio = () => {
              date: 'Feb. 2025',
              desc: 'Fine-grained permission management, advanced list customization (JSON), audience targeting, and Power Platform integration.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: "/certificats/SharePoint_Expert.pdf"
+             link: "/certificats/Certificat SharePoint Expert (Niv3) Maîtriser la conception d'un site.pdf"
            },
            { 
              name: 'DAX Language in Power BI', 
@@ -366,7 +366,7 @@ const Portfolio = () => {
              date: 'Feb. 2025',
              desc: 'Complex measure creation, calculation performance optimization, and advanced Time Intelligence analysis.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/DAX_PowerBI.pdf'
+             link: '/certificats/Certificat Langage DAX dans Power BI.pdf'
            },
            { 
              name: 'Power Automate Lvl 2: Practical Workshop', 
@@ -374,7 +374,7 @@ const Portfolio = () => {
              date: 'Dec. 2024',
              desc: 'Design of complex automated flows, error handling, and translation of business processes into logical workflows.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerAutomate_N2.pdf'
+             link: '/certificats/Certificat Power Automate .pdf'
            },
            { 
              name: 'Advanced SharePoint (Lvl 2)', 
@@ -382,7 +382,7 @@ const Portfolio = () => {
              date: 'Nov. 2024',
              desc: 'Site administration, library management, view customization, and approval workflows.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Avance.pdf'
+             link: '/certificats/Certificat SharePoint Avancé.pdf'
            },
            { 
              name: 'Power BI Expert', 
@@ -390,7 +390,7 @@ const Portfolio = () => {
              date: 'Oct. 2024',
              desc: 'Advanced ETL with Power Query (M Language), optimal star schema modeling, and interactive UX/UI report design.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/PowerBI_Expert.pdf'
+             link: '/certificats/Certificat Power BI Expert.pdf'
            },
         ]
       },
