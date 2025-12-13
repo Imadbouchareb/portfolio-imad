@@ -358,7 +358,7 @@ const Portfolio = () => {
              date: 'Feb. 2025',
              desc: 'Fine-grained permission management, advanced list customization (JSON), audience targeting, and Power Platform integration.',
              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logotype_SNCF_Voyageurs.svg/1200px-Logotype_SNCF_Voyageurs.svg.png',
-             link: '/certificats/SharePoint_Expert.pdf'
+             link: "/certificats/SharePoint_Expert.pdf"
            },
            { 
              name: 'DAX Language in Power BI', 
