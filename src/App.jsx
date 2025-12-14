@@ -80,7 +80,7 @@ const Portfolio = () => {
             school: 'Université de Haute-Alsace',
             location: 'Mulhouse, France',
             year: '2023 - 2024',
-            desc: 'Formation duale en mathématiques appliquées (Optimisation, Stats R) et génie logiciel (C++, Java, Cloud), avec une spécialisation en BI et architecture de données.',
+            desc: 'Formation duale en mathématiques appliquées (Optimisation, Stats R) et POO (C++, Java), avec une spécialisation en BI et architecture de données.',
             tags: ['Maths & Optimisation', 'OOP (C++/Java/Python)', 'Cloud Computing', 'BI & Data Warehouse', 'SQL & Reporting', 'Statistiques & R', 'Traitement d\'Images'],
             logo: 'U',
             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg'
@@ -295,7 +295,7 @@ const Portfolio = () => {
             school: 'University of Haute-Alsace',
             location: 'Mulhouse, France',
             year: '2023 - 2024',
-            desc: 'Dual training in applied mathematics (Optimization, Stats R) and software engineering (C++, Java, Cloud), with a specialization in BI and data architecture.',
+            desc: 'Dual training in applied mathematics (Optimization, Stats R) and OOP (C++, Java, Cloud), with a specialization in BI and data architecture.',
             tags: ['Maths & Optimization', 'OOP (C++/Java/Python)', 'Cloud Computing', 'BI & Data Warehouse', 'SQL & Reporting', 'Statistics & R', 'Image Processing'],
             logo: 'U',
             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg'
@@ -442,7 +442,7 @@ const Portfolio = () => {
              ]
            },
            {
-             company: 'CREA • Algiers',
+             company: 'CREAD • Algiers',
              role: 'Data Intern & Final Year Project',
              date: 'Feb. 2022 - July 2022',
              tags: ['Econometrics', 'Time Series', 'Modeling'],
