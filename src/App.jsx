@@ -185,7 +185,7 @@ const Portfolio = () => {
         jobs: [
            {
              company: 'SNCF • Paris',
-             role: 'HR Data Scientist (Apprenticeship)',
+             role: 'Data Scientist (Alternance)',
              date: 'Sept. 2024 - Présent',
              tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
              missionsLabel: 'Missions',
@@ -200,8 +200,8 @@ const Portfolio = () => {
            },
            {
              company: 'HETIC • Montreuil',
-             role: 'Intelligent Customer Service Analysis System with LLM (Final Year Project)',
-             date: 'July 2025 - Nov. 2025',
+             role: 'Système d\'Analyse SAV Intelligent avec LLM (Projet de Fin d\'Études)',
+             date: 'Juill. 2025 - Nov. 2025',
              tags: ['Python', 'LLM & RAG', 'Streamlit'],
              missionsLabel: 'Missions',
              missions: [
@@ -214,9 +214,9 @@ const Portfolio = () => {
              impact: 'Python, LangChain, Pandas, PyTorch, Agile Scrum, Git, SQLite (Cache: -70% API costs).'
            },
            {
-             company: 'Research Institute • Algiers',
-             role: 'Media Coordinator',
-             date: 'Dec. 2022 - Aug. 2023',
+             company: 'Institut de Recherche, Sondages et Marketing • Alger',
+             role: 'Chargé d’Etude Média',
+             date: 'Dec. 2022 - Août 2023',
              tags: ['SPSS', 'Power BI', 'Excel'],
              missionsLabel: 'Missions',
              missions: [
@@ -227,10 +227,10 @@ const Portfolio = () => {
              ]
            },
            {
-             company: 'CREA • Algiers',
-             role: 'Data Intern & Final Year Project',
-             date: 'Feb. 2022 - July 2022',
-             tags: ['Econometrics', 'Time Series', 'Modeling'],
+             company: 'CREAD • Alger',
+             role: 'Stagiaire Data & Projet de Fin d\'Études',
+             date: 'Févr. 2022 - Juill. 2022',
+             tags: ['Econométrie', 'Time Series', 'Modélisation'],
              missionsLabel: 'Missions',
              missions: [
                'Développement de modèles de régression linéaire simple et multiple (R² jusqu\'à 0.87).',
