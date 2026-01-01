@@ -35,7 +35,7 @@ const Portfolio = () => {
   // Dictionnaire de traduction complet
   const content = {
     fr: {
-      nav: ['À Propos', 'Compétences', 'Projets', 'Formation', 'Certifications', 'Expériences', 'Contact'],
+      nav: ['À Propos', 'Compétences', 'Expériences', 'Projets', 'Certifications', 'Formation',  'Contact'],
       downloadCV: 'Télécharger CV',
       hero: {
         status: 'Disponible pour opportunités',
@@ -312,7 +312,7 @@ const Portfolio = () => {
       }
     },
     en: {
-      nav: ['About', 'Skills', 'Projects', 'Education', 'Certifications', 'Experiences', 'Contact'],
+      nav: ['About', 'Skills', 'Experiences', 'Projects', 'Certifications', 'Education',  'Contact'],
       downloadCV: 'Download CV',
       hero: {
         status: 'Available for opportunities',
