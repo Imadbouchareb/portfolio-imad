@@ -3,7 +3,6 @@ import {
   BarChart3, 
   Database, 
   Cloud, 
-  Code2, 
   Brain, 
   Workflow, 
   Github, 
@@ -15,14 +14,15 @@ import {
   Menu,
   X,
   Award,
-  Terminal,
   Cpu,
   Globe,
-  GraduationCap,
   Calendar,
   Building2,
   CheckCircle2,
-  BadgeCheck
+  Layers,
+  Smartphone,
+  Zap,
+  Clock
 } from 'lucide-react';
 
 const Portfolio = () => {
@@ -35,14 +35,14 @@ const Portfolio = () => {
   // Dictionnaire de traduction complet
   const content = {
     fr: {
-      nav: ['À Propos', 'Compétences', 'Formation', 'Certifications', 'Expériences', 'Contact'],
+      nav: ['À Propos', 'Compétences', 'Projets', 'Formation', 'Certifications', 'Expériences', 'Contact'],
       downloadCV: 'Télécharger CV',
       hero: {
         status: 'Disponible pour opportunités',
         greeting: 'Bonjour, je suis',
         role: 'Data Analyst & Scientist | Power Platform',
         quote: "Je ne me contente pas d'analyser vos données, je construis les systèmes qui les rendent intelligentes et actionnables.",
-        btnExp: 'Voir mes expériences',
+        btnExp: 'Voir mes projets',
         btnContact: 'Me contacter'
       },
       about: {
@@ -60,6 +60,68 @@ const Portfolio = () => {
           data: 'Modélisation prédictive (Régression, ARMA), LLM (Mistral, Llama), RAG.',
           cloud: 'Gestion de données massives, Code reviews, Agile Scrum/Kanban.'
         }
+      },
+      projects: {
+        title: 'Projets Phares',
+        subtitle: 'Une sélection de solutions techniques déployées en environnement critique (SNCF).',
+        list: [
+          {
+            title: "Digitalisation Dispatch & Gestion RH",
+            category: "Power Apps / Dataverse",
+            icon: <Layers size={40} />,
+            description: "Conception d'une solution critique pour l'affectation des agents en gare (Projet EOLE). Remplacement des processus papier par une gestion temps réel sur tablette.",
+            details: [
+              "Architecture Dataverse complexe (Agents, Gares, Secteurs)",
+              "Interface Tablet-first pour les managers terrain",
+              "Gestion du cycle de vie (ALM) avec Solutions Gérées"
+            ],
+            techStack: ["Power Apps", "Dataverse", "ALM", "UX Design"],
+            image: "/images/projet-dispatch.png",
+            color: "blue"
+          },
+          {
+            title: "Gestion des Astreintes & Flux Financiers",
+            category: "Business Automation",
+            icon: <Workflow size={40} />,
+            description: "Automatisation complète du cycle de paie des astreintes : de la déclaration terrain à la validation RH multi-niveaux avec gestion des rejets.",
+            details: [
+              "7 Flux Power Automate complexes (Approbations, Boucles)",
+              "Système de Deep Linking (Lien direct vers l'app depuis un mail)",
+              "Audit logs et sécurisation des données sensibles"
+            ],
+            techStack: ["Power Automate", "Workflows", "SharePoint", "Deep Linking"],
+            image: "/images/projet-astreintes.png",
+            color: "purple"
+          },
+          {
+            title: "Architecture Mobile Offline-First",
+            category: "Expertise Technique",
+            icon: <Smartphone size={40} />,
+            description: "Développement de capacités 'Hors-ligne' pour permettre la continuité de service des agents dans les zones blanches (sous-sols, gares).",
+            details: [
+              "Synchronisation asynchrone des données (LoadData/SaveData)",
+              "Gestion des collections locales et conflits",
+              "Optimisation des performances sur tablette"
+            ],
+            techStack: ["Power Apps", "Offline Mode", "Performance Tuning"],
+            image: "/images/projet-offline.png",
+            color: "teal"
+          },
+          {
+            title: "Monitoring RH Proactif (Bot)",
+            category: "Robotic Process Automation",
+            icon: <Clock size={40} />,
+            description: "Bot de surveillance quotidienne pour la conformité des contrats temps partiel. Éradication des oublis de renouvellement.",
+            details: [
+              "Flux planifiés (Scheduled Flows) quotidiens",
+              "Logique anti-spam pour les notifications",
+              "Intégration Excel Online / SharePoint"
+            ],
+            techStack: ["Power Automate", "Scheduled Flows", "Excel Online"],
+            image: "/images/projet-monitoring.png",
+            color: "orange"
+          }
+        ]
       },
       education: {
         title: 'Parcours Académique',
@@ -250,14 +312,14 @@ const Portfolio = () => {
       }
     },
     en: {
-      nav: ['About', 'Skills', 'Education', 'Certifications', 'Experiences', 'Contact'],
+      nav: ['About', 'Skills', 'Projects', 'Education', 'Certifications', 'Experiences', 'Contact'],
       downloadCV: 'Download CV',
       hero: {
         status: 'Available for opportunities',
         greeting: "Hi, I'm",
         role: 'Data Analyst & Scientist | Power Platform',
         quote: "I don't just analyze your data, I build the systems that make them intelligent and actionable.",
-        btnExp: 'View Experiences',
+        btnExp: 'View Projects',
         btnContact: 'Get in Touch'
       },
       about: {
@@ -275,6 +337,68 @@ const Portfolio = () => {
           data: 'Predictive modeling (Regression, ARMA), LLM (Mistral, Llama), RAG.',
           cloud: 'Big Data management, Code reviews, Agile Scrum/Kanban.'
         }
+      },
+      projects: {
+        title: 'Featured Projects',
+        subtitle: 'A selection of technical solutions deployed in critical environments (SNCF).',
+        list: [
+          {
+            title: "Digital Dispatch & HR Management",
+            category: "Power Apps / Dataverse",
+            icon: <Layers size={40} />,
+            description: "Design of a critical solution for station staff assignment (EOLE Project). Replacing paper processes with real-time tablet management.",
+            details: [
+              "Complex Dataverse Architecture (Agents, Stations, Sectors)",
+              "Tablet-first interface for field managers",
+              "Application Lifecycle Management (ALM) with Managed Solutions"
+            ],
+            techStack: ["Power Apps", "Dataverse", "ALM", "UX Design"],
+            image: "/images/projet-dispatch.png",
+            color: "blue"
+          },
+          {
+            title: "On-call Management & Financial Workflows",
+            category: "Business Automation",
+            icon: <Workflow size={40} />,
+            description: "Complete automation of the on-call payroll cycle: from field declaration to multi-level HR validation with rejection handling.",
+            details: [
+              "7 Complex Power Automate Flows (Approvals, Loops)",
+              "Deep Linking System (Direct link to app from email)",
+              "Audit logs and sensitive data security"
+            ],
+            techStack: ["Power Automate", "Workflows", "SharePoint", "Deep Linking"],
+            image: "/images/projet-astreintes.png",
+            color: "purple"
+          },
+          {
+            title: "Offline-First Mobile Architecture",
+            category: "Technical Expertise",
+            icon: <Smartphone size={40} />,
+            description: "Development of 'Offline' capabilities to ensure service continuity for agents in dead zones (basements, stations).",
+            details: [
+              "Asynchronous data synchronization (LoadData/SaveData)",
+              "Local collection and conflict management",
+              "Performance optimization on tablets"
+            ],
+            techStack: ["Power Apps", "Offline Mode", "Performance Tuning"],
+            image: "/images/projet-offline.png",
+            color: "teal"
+          },
+          {
+            title: "Proactive HR Monitoring (Bot)",
+            category: "Robotic Process Automation",
+            icon: <Clock size={40} />,
+            description: "Daily monitoring bot for part-time contract compliance. Elimination of renewal oversights.",
+            details: [
+              "Daily Scheduled Flows",
+              "Anti-spam logic for notifications",
+              "Excel Online / SharePoint Integration"
+            ],
+            techStack: ["Power Automate", "Scheduled Flows", "Excel Online"],
+            image: "/images/projet-monitoring.png",
+            color: "orange"
+          }
+        ]
       },
       education: {
         title: 'Academic Journey',
@@ -408,7 +532,7 @@ const Portfolio = () => {
                'Development of an intuitive app (Dataverse/SharePoint) for station staff assignment.',
                'Creation of a multi-role on-call declaration app with conditional workflows.',
                'Automatic generation of notifications for part-time contract management.',
-               'Creation of operational dashboards (absenteeism, sector tracking) with advanced DAX.'
+               'Creation of operational dashboards (absentéisme, sector tracking) with advanced DAX.'
              ],
              impactLabel: 'Impact',
              impact: '-40% reporting time, total paper elimination, 99.8% data reliability, +20% coordination efficiency.'
@@ -439,7 +563,7 @@ const Portfolio = () => {
                'Analysis and processing of audience data via Power Query, SPSS, and Excel.',
                'Design of dynamic Power BI reports with KPIs and strategic insights.',
                'Management of a team of monitoring officers.'
-             ]
+             ],
            },
            {
              company: 'CREAD • Algiers',
@@ -471,10 +595,11 @@ const Portfolio = () => {
   const navigation = [
     { name: t.nav[0], href: '#about' },
     { name: t.nav[1], href: '#skills' },
-    { name: t.nav[2], href: '#education' },
-    { name: t.nav[3], href: '#certifications' },
-    { name: t.nav[4], href: '#experiences' },
-    { name: t.nav[5], href: '#contact' },
+    { name: t.nav[2], href: '#projects' }, // AJOUT DU LIEN PROJETS
+    { name: t.nav[3], href: '#education' },
+    { name: t.nav[4], href: '#certifications' },
+    { name: t.nav[5], href: '#experiences' },
+    { name: t.nav[6], href: '#contact' },
   ];
 
   return (
@@ -591,7 +716,7 @@ const Portfolio = () => {
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#experiences" className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg font-bold text-lg transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+            <a href="#projects" className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg font-bold text-lg transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1 flex items-center justify-center gap-2">
               {t.hero.btnExp} <ChevronDown size={20} />
             </a>
             <a href="#contact" className="px-8 py-4 bg-transparent hover:bg-slate-800 text-white rounded-lg font-bold text-lg transition-all border border-slate-600 hover:border-slate-400 flex items-center justify-center gap-2">
@@ -712,7 +837,85 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* NEW Education Section */}
+      {/* NEW PROJECTS SECTION */}
+      <section id="projects" className="py-20 bg-slate-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-white mb-4">{t.projects.title}</h2>
+            <p className="text-slate-400">{t.projects.subtitle}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {t.projects.list.map((project, index) => {
+               // Dynamic Styles based on category color
+               const colorStyles = {
+                 blue: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'hover:border-blue-500/50' },
+                 purple: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'hover:border-purple-500/50' },
+                 teal: { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'hover:border-teal-500/50' },
+                 orange: { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'hover:border-orange-500/50' },
+               };
+               const style = colorStyles[project.color] || colorStyles.blue;
+
+               return (
+                <div key={index} className={`bg-slate-950 rounded-xl overflow-hidden border border-slate-800 transition-all duration-300 hover:shadow-2xl ${style.border} flex flex-col`}>
+                  
+                  {/* Image Placeholder area */}
+                  <div className="h-48 bg-slate-900 relative overflow-hidden group">
+                     {/* Try to load image, fallback to icon pattern if fails/not exists */}
+                     <img 
+                       src={project.image} 
+                       alt={project.title} 
+                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                       onError={(e) => {
+                         e.target.style.display = 'none';
+                         e.target.nextSibling.style.display = 'flex';
+                       }}
+                     />
+                     <div className={`hidden w-full h-full absolute top-0 left-0 ${style.bg} flex-col items-center justify-center gap-2`}>
+                        <div className={`${style.text}`}>{project.icon}</div>
+                        <span className="text-slate-500 text-xs font-mono uppercase tracking-widest">Aperçu Projet</span>
+                     </div>
+                     
+                     {/* Category Badge overlay */}
+                     <div className="absolute top-4 right-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold bg-slate-950/90 backdrop-blur border border-slate-700 ${style.text}`}>
+                          {project.category}
+                        </span>
+                     </div>
+                  </div>
+
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
+                    <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    {/* Bullet points */}
+                    <ul className="space-y-2 mb-6">
+                      {project.details.map((detail, i) => (
+                        <li key={i} className="flex items-start text-xs text-slate-300">
+                          <span className={`mr-2 mt-0.5 ${style.text}`}>▹</span> {detail}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Tech Stack */}
+                    <div className="mt-auto pt-4 border-t border-slate-900 flex flex-wrap gap-2">
+                       {project.techStack.map((tech, i) => (
+                         <span key={i} className={`px-2 py-1 rounded text-[10px] font-semibold uppercase tracking-wider ${style.bg} ${style.text}`}>
+                           {tech}
+                         </span>
+                       ))}
+                    </div>
+                  </div>
+                </div>
+               );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Education Section */}
       <section id="education" className="py-20 bg-slate-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -722,7 +925,6 @@ const Portfolio = () => {
 
           <div className="space-y-8">
             {t.education.degrees.map((degree, index) => {
-              // Alternate gradient borders like in Skills section
               const gradients = [
                 'hover:border-blue-500/50 hover:shadow-blue-500/10',
                 'hover:border-teal-500/50 hover:shadow-teal-500/10'
@@ -733,7 +935,6 @@ const Portfolio = () => {
                 <div key={index} className={`relative bg-slate-950 p-8 rounded-2xl border border-slate-800 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${borderClass}`}>
                   <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                     
-                    {/* Left Side: Content */}
                     <div className="flex-1">
                       <h3 className="text-2xl font-bold text-white mb-2">{degree.title}</h3>
                       
@@ -767,7 +968,6 @@ const Portfolio = () => {
                       </div>
                     </div>
 
-                    {/* Right Side: Logo Placeholder */}
                     <div className="hidden md:flex flex-shrink-0 items-center justify-center w-24 h-24 bg-white rounded-xl shadow-lg p-2 overflow-hidden">
                        {degree.logoUrl ? (
                           <img 
@@ -776,12 +976,11 @@ const Portfolio = () => {
                             className="w-full h-full object-contain"
                             onError={(e) => {
                               e.target.onerror = null; 
-                              e.target.style.display = 'none'; // Cache l'image si elle ne charge pas
-                              e.target.nextSibling.style.display = 'block'; // Affiche la lettre de secours
+                              e.target.style.display = 'none'; 
+                              e.target.nextSibling.style.display = 'block'; 
                             }} 
                           />
                        ) : null}
-                       {/* Fallback Letter if no image or image fails */}
                        <span className="text-3xl font-black text-slate-900" style={{display: degree.logoUrl ? 'none' : 'block'}}>
                          {degree.logo}
                        </span>
@@ -795,7 +994,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* NEW Certifications Section */}
+      {/* Certifications Section */}
       <section id="certifications" className="py-20 bg-slate-950">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -804,15 +1003,10 @@ const Portfolio = () => {
           </div>
 
           <div className="space-y-8">
-            
-            {/* Unified Certification Grid (Microsoft + SNCF) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {t.certifications.all.map((cert, index) => {
-                // Determine styling based on issuer or specific color prop
                 const isMicrosoft = cert.issuer.includes('Microsoft');
                 const borderColor = isMicrosoft ? (cert.color === 'yellow' ? 'hover:border-yellow-500/50' : 'hover:border-blue-500/50') : 'hover:border-teal-500/50';
-                
-                // Wrap content in <a> if link exists, otherwise a <div>
                 const CardWrapper = cert.link ? 'a' : 'div';
                 const wrapperProps = cert.link ? { 
                   href: cert.link, 
@@ -825,7 +1019,6 @@ const Portfolio = () => {
 
                 return (
                   <CardWrapper key={index} {...wrapperProps}>
-                     {/* External Link Icon indicator */}
                      {cert.link && (
                        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-slate-400">
                          <ExternalLink size={16} />
@@ -833,12 +1026,10 @@ const Portfolio = () => {
                      )}
 
                      <div className="flex items-start justify-between mb-4">
-                       {/* Logo Area */}
                        <div className="w-12 h-12 rounded-lg bg-white p-2 flex items-center justify-center overflow-hidden shadow-sm">
                          <img src={cert.logoUrl} alt={`${cert.issuer} logo`} className="w-full h-full object-contain" />
                        </div>
                        
-                       {/* Optional ID Badge for Microsoft certs */}
                        {cert.id && (
                          <span className="text-xs font-mono text-slate-500 border border-slate-700 px-2 py-1 rounded mr-6">{cert.id}</span>
                        )}
@@ -850,7 +1041,6 @@ const Portfolio = () => {
                      
                      <div className="text-sm font-medium text-slate-400 mb-4">{cert.issuer}</div>
                      
-                     {/* Description */}
                      <p className="text-sm text-slate-300 mb-6 leading-relaxed border-l-2 border-slate-700 pl-3 flex-grow">
                        {cert.desc}
                      </p>
@@ -863,7 +1053,6 @@ const Portfolio = () => {
                 );
               })}
             </div>
-
           </div>
         </div>
       </section>
@@ -879,7 +1068,6 @@ const Portfolio = () => {
           <div className="space-y-12">
             
             {t.experiences.jobs.map((job, index) => {
-              // Définition dynamique des couleurs selon l'index
               const colors = [
                  { border: 'hover:border-blue-500/30', text: 'text-blue-400', bg: 'bg-blue-900/20', borderSmall: 'border-blue-500/20', textSmall: 'text-blue-300' },
                  { border: 'hover:border-purple-500/30', text: 'text-purple-400', bg: 'bg-purple-900/20', borderSmall: 'border-purple-500/20', textSmall: 'text-purple-300' },
