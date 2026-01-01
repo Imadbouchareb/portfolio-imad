@@ -34,15 +34,15 @@ const Portfolio = () => {
   // Dictionnaire de traduction complet
   const content = {
     fr: {
-      // ORDRE MODIFIÉ ICI
-      nav: ['À Propos', 'Compétences', 'Projets', 'Expériences', 'Certifications', 'Formation', 'Contact'],
+      // ORDRE MODIFIÉ : Expériences avant Projets
+      nav: ['À Propos', 'Compétences', 'Expériences', 'Projets', 'Certifications', 'Formation', 'Contact'],
       downloadCV: 'Télécharger CV',
       hero: {
         status: 'Disponible pour opportunités',
         greeting: 'Bonjour, je suis',
         role: 'Data Analyst & Scientist | Power Platform',
         quote: "Je ne me contente pas d'analyser vos données, je construis les systèmes qui les rendent intelligentes et actionnables.",
-        btnExp: 'Voir mes projets',
+        btnExp: 'Voir mes expériences',
         btnContact: 'Me contacter'
       },
       about: {
@@ -60,6 +60,69 @@ const Portfolio = () => {
           data: 'Modélisation prédictive (Régression, ARMA), LLM (Mistral, Llama), RAG.',
           cloud: 'Gestion de données massives, Code reviews, Agile Scrum/Kanban.'
         }
+      },
+      experiences: {
+        title: 'Expériences Professionnelles',
+        subtitle: 'Parcours & Réalisations (Méthode STAR)',
+        jobs: [
+           {
+             company: 'SNCF • Paris',
+             role: 'Data Scientist (Alternance)',
+             date: 'Sept. 2024 - Présent',
+             tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Développement d\'une app intuitive (Dataverse/SharePoint) pour l\'affectation du personnel en gare.',
+               'Création d\'une app de déclaration d\'astreintes multi-rôles avec workflows conditionnels.',
+               'Génération automatique de notifications pour le pilotage des contrats temps partiels.',
+               'Création de dashboards opérationnels (absentéisme, suivi par secteur) avec DAX avancé.'
+             ],
+             impactLabel: 'Impact',
+             impact: '-40% temps de reporting, suppression totale du papier, fiabilité des données à 99.8%, +20% efficacité de coordination.'
+           },
+           {
+             company: 'HETIC • Montreuil',
+             role: 'Système d\'Analyse SAV Intelligent avec LLM (Projet de Fin d\'Études)',
+             date: 'Juill. 2025 - Nov. 2025',
+             tags: ['Python', 'LLM & RAG', 'Streamlit'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Développement d\'un pipeline d\'analyse de tweets avec LLM (Mistral AI, Ollama).',
+               'RAG implementation avec BERT embeddings pour classification multi-tâches (sentiment, urgence).',
+               'Création d\'un Chatbot avec recherche vectorielle (ChromaDB, LangChain, Llama 3.3).',
+               'Développement de dashboards interactifs sous Streamlit (KPIs temps réel).'
+             ],
+             impactLabel: 'Tech Stack',
+             impact: 'Python, LangChain, Pandas, PyTorch, Agile Scrum, Git, SQLite (Cache: -70% API costs).'
+           },
+           {
+             company: 'Institut de Recherche, Sondages et Marketing • Alger',
+             role: 'Chargé d’Etude Média',
+             date: 'Dec. 2022 - Août 2023',
+             tags: ['SPSS', 'Power BI', 'Excel'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Élaboration de plans médias sur mesure pour maximiser le ROI publicitaire (ciblage chaînes/créneaux).',
+               'Analyse et traitement des données d\'audience via Power Query, SPSS et Excel.',
+               'Conception de rapports Power BI dynamiques avec KPIs et insights stratégiques.',
+               'Pilotage d\'une équipe de chargés de veille.'
+             ]
+           },
+           {
+             company: 'CREAD • Alger',
+             role: 'Stagiaire Data & Projet de Fin d\'Études',
+             date: 'Févr. 2022 - Juill. 2022',
+             tags: ['Econométrie', 'Time Series', 'Modélisation'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Développement de modèles de régression linéaire simple et multiple (R² jusqu\'à 0.87).',
+               'Conception d\'un pipeline d\'analyse de séries temporelles (ARMA/Box-Jenkins).',
+               'Prévision du PIB via méthodes LES/L.E.D & BJ (RMSE inf à écart type).'
+             ],
+             impactLabel: 'Résultat',
+             impact: 'Intensive simulation et statistical validation (forecast accuracy ±5%).'
+           }
+        ]
       },
       projects: {
         title: 'Projets Phares',
@@ -241,69 +304,6 @@ const Portfolio = () => {
            },
         ]
       },
-      experiences: {
-        title: 'Expériences Professionnelles',
-        subtitle: 'Parcours & Réalisations (Méthode STAR)',
-        jobs: [
-           {
-             company: 'SNCF • Paris',
-             role: 'Data Scientist (Alternance)',
-             date: 'Sept. 2024 - Présent',
-             tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Développement d\'une app intuitive (Dataverse/SharePoint) pour l\'affectation du personnel en gare.',
-               'Création d\'une app de déclaration d\'astreintes multi-rôles avec workflows conditionnels.',
-               'Génération automatique de notifications pour le pilotage des contrats temps partiels.',
-               'Création de dashboards opérationnels (absentéisme, suivi par secteur) avec DAX avancé.'
-             ],
-             impactLabel: 'Impact',
-             impact: '-40% temps de reporting, suppression totale du papier, fiabilité des données à 99.8%, +20% efficacité de coordination.'
-           },
-           {
-             company: 'HETIC • Montreuil',
-             role: 'Système d\'Analyse SAV Intelligent avec LLM (Projet de Fin d\'Études)',
-             date: 'Juill. 2025 - Nov. 2025',
-             tags: ['Python', 'LLM & RAG', 'Streamlit'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Développement d\'un pipeline d\'analyse de tweets avec LLM (Mistral AI, Ollama).',
-               'RAG implementation avec BERT embeddings pour classification multi-tâches (sentiment, urgence).',
-               'Création d\'un Chatbot avec recherche vectorielle (ChromaDB, LangChain, Llama 3.3).',
-               'Développement de dashboards interactifs sous Streamlit (KPIs temps réel).'
-             ],
-             impactLabel: 'Tech Stack',
-             impact: 'Python, LangChain, Pandas, PyTorch, Agile Scrum, Git, SQLite (Cache: -70% API costs).'
-           },
-           {
-             company: 'Institut de Recherche, Sondages et Marketing • Alger',
-             role: 'Chargé d’Etude Média',
-             date: 'Dec. 2022 - Août 2023',
-             tags: ['SPSS', 'Power BI', 'Excel'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Élaboration de plans médias sur mesure pour maximiser le ROI publicitaire (ciblage chaînes/créneaux).',
-               'Analyse et traitement des données d\'audience via Power Query, SPSS et Excel.',
-               'Conception de rapports Power BI dynamiques avec KPIs et insights stratégiques.',
-               'Pilotage d\'une équipe de chargés de veille.'
-             ]
-           },
-           {
-             company: 'CREAD • Alger',
-             role: 'Stagiaire Data & Projet de Fin d\'Études',
-             date: 'Févr. 2022 - Juill. 2022',
-             tags: ['Econométrie', 'Time Series', 'Modélisation'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Développement de modèles de régression linéaire simple et multiple (R² jusqu\'à 0.87).',
-               'Conception d\'un pipeline d\'analyse de séries temporelles (ARMA/Box-Jenkins).',
-               'Prévision du PIB via méthodes LES/L.E.D & BJ (RMSE inf à écart type).'
-             ],
-             impactLabel: 'Résultat',
-             impact: 'Intensive simulation et statistical validation (forecast accuracy ±5%).'
-           }
-        ]
-      },
       contact: {
         title: 'Travaillons ensemble',
         subtitle: 'À la recherche de nouveaux défis en Data Analysis, Science ou Power Platform.',
@@ -312,15 +312,15 @@ const Portfolio = () => {
       }
     },
     en: {
-      // ORDER UPDATED HERE
-      nav: ['About', 'Skills', 'Projects', 'Experiences', 'Certifications', 'Education', 'Contact'],
+      // ORDER MODIFIED: Experiences before Projects
+      nav: ['About', 'Skills', 'Experiences', 'Projects', 'Certifications', 'Education', 'Contact'],
       downloadCV: 'Download CV',
       hero: {
         status: 'Available for opportunities',
         greeting: "Hi, I'm",
         role: 'Data Analyst & Scientist | Power Platform',
         quote: "I don't just analyze your data, I build the systems that make them intelligent and actionable.",
-        btnExp: 'View Projects',
+        btnExp: 'View Experiences',
         btnContact: 'Get in Touch'
       },
       about: {
@@ -338,6 +338,69 @@ const Portfolio = () => {
           data: 'Predictive modeling (Regression, ARMA), LLM (Mistral, Llama), RAG.',
           cloud: 'Big Data management, Code reviews, Agile Scrum/Kanban.'
         }
+      },
+      experiences: {
+        title: 'Professional Experiences',
+        subtitle: 'Career & Achievements (STAR Method)',
+        jobs: [
+           {
+             company: 'SNCF • Paris',
+             role: 'HR Data Scientist (Apprenticeship)',
+             date: 'Sept. 2024 - Present',
+             tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Development of an intuitive app (Dataverse/SharePoint) for station staff assignment.',
+               'Creation of a multi-role on-call declaration app with conditional workflows.',
+               'Automatic generation of notifications for part-time contract management.',
+               'Creation of operational dashboards (absentéisme, sector tracking) with advanced DAX.'
+             ],
+             impactLabel: 'Impact',
+             impact: '-40% reporting time, total paper elimination, 99.8% data reliability, +20% coordination efficiency.'
+           },
+           {
+             company: 'HETIC • Montreuil',
+             role: 'Intelligent Customer Service Analysis System with LLM (Final Year Project)',
+             date: 'July 2025 - Nov. 2025',
+             tags: ['Python', 'LLM & RAG', 'Streamlit'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Development of a tweet analysis pipeline with LLM (Mistral AI, Ollama).',
+               'RAG implementation with BERT embeddings for multi-task classification (sentiment, urgency).',
+               'Creation of a Chatbot with vector search (ChromaDB, LangChain, Llama 3.3).',
+               'Development of interactive dashboards under Streamlit (Real-time KPIs).'
+             ],
+             impactLabel: 'Tech Stack',
+             impact: 'Python, LangChain, Pandas, PyTorch, Agile Scrum, Git, SQLite (Cache: -70% API costs).'
+           },
+           {
+             company: 'Research Institute • Algiers',
+             role: 'Media Coordinator',
+             date: 'Dec. 2022 - Aug. 2023',
+             tags: ['SPSS', 'Power BI', 'Excel'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Development of tailored media plans to maximize advertising ROI (channel/slot targeting).',
+               'Analysis and processing of audience data via Power Query, SPSS, and Excel.',
+               'Design of dynamic Power BI reports with KPIs and strategic insights.',
+               'Management of a team of monitoring officers.'
+             ],
+           },
+           {
+             company: 'CREAD • Algiers',
+             role: 'Data Intern & Final Year Project',
+             date: 'Feb. 2022 - July 2022',
+             tags: ['Econometrics', 'Time Series', 'Modeling'],
+             missionsLabel: 'Missions',
+             missions: [
+               'Development of simple and multiple linear regression models (R² up to 0.87).',
+               'Design of a time series analysis pipeline (ARMA/Box-Jenkins).',
+               'GDP forecasting via LES/L.E.D & BJ methods (RMSE lower than standard deviation).'
+             ],
+             impactLabel: 'Result',
+             impact: 'Intensive simulation and statistical validation (forecast accuracy ±5%).'
+           }
+        ]
       },
       projects: {
         title: 'Featured Projects',
@@ -519,69 +582,6 @@ const Portfolio = () => {
            },
         ]
       },
-      experiences: {
-        title: 'Professional Experiences',
-        subtitle: 'Career & Achievements (STAR Method)',
-        jobs: [
-           {
-             company: 'SNCF • Paris',
-             role: 'HR Data Scientist (Apprenticeship)',
-             date: 'Sept. 2024 - Present',
-             tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of an intuitive app (Dataverse/SharePoint) for station staff assignment.',
-               'Creation of a multi-role on-call declaration app with conditional workflows.',
-               'Automatic generation of notifications for part-time contract management.',
-               'Creation of operational dashboards (absentéisme, sector tracking) with advanced DAX.'
-             ],
-             impactLabel: 'Impact',
-             impact: '-40% reporting time, total paper elimination, 99.8% data reliability, +20% coordination efficiency.'
-           },
-           {
-             company: 'HETIC • Montreuil',
-             role: 'Intelligent Customer Service Analysis System with LLM (Final Year Project)',
-             date: 'July 2025 - Nov. 2025',
-             tags: ['Python', 'LLM & RAG', 'Streamlit'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of a tweet analysis pipeline with LLM (Mistral AI, Ollama).',
-               'RAG implementation with BERT embeddings for multi-task classification (sentiment, urgency).',
-               'Creation of a Chatbot with vector search (ChromaDB, LangChain, Llama 3.3).',
-               'Development of interactive dashboards under Streamlit (Real-time KPIs).'
-             ],
-             impactLabel: 'Tech Stack',
-             impact: 'Python, LangChain, Pandas, PyTorch, Agile Scrum, Git, SQLite (Cache: -70% API costs).'
-           },
-           {
-             company: 'Research Institute • Algiers',
-             role: 'Media Coordinator',
-             date: 'Dec. 2022 - Aug. 2023',
-             tags: ['SPSS', 'Power BI', 'Excel'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of tailored media plans to maximize advertising ROI (channel/slot targeting).',
-               'Analysis and processing of audience data via Power Query, SPSS, and Excel.',
-               'Design of dynamic Power BI reports with KPIs and strategic insights.',
-               'Management of a team of monitoring officers.'
-             ],
-           },
-           {
-             company: 'CREAD • Algiers',
-             role: 'Data Intern & Final Year Project',
-             date: 'Feb. 2022 - July 2022',
-             tags: ['Econometrics', 'Time Series', 'Modeling'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of simple and multiple linear regression models (R² up to 0.87).',
-               'Design of a time series analysis pipeline (ARMA/Box-Jenkins).',
-               'GDP forecasting via LES/L.E.D & BJ methods (RMSE lower than standard deviation).'
-             ],
-             impactLabel: 'Result',
-             impact: 'Intensive simulation and statistical validation (forecast accuracy ±5%).'
-           }
-        ]
-      },
       contact: {
         title: 'Let\'s work together',
         subtitle: 'Looking for new challenges in Data Analysis, Science, or Power Platform.',
@@ -596,8 +596,8 @@ const Portfolio = () => {
   const navigation = [
     { name: t.nav[0], href: '#about' },
     { name: t.nav[1], href: '#skills' },
-    { name: t.nav[2], href: '#projects' },
-    { name: t.nav[3], href: '#experiences' },
+    { name: t.nav[2], href: '#experiences' }, // EXPERIENCES ICI
+    { name: t.nav[3], href: '#projects' },    // PROJETS ENSUITE
     { name: t.nav[4], href: '#certifications' },
     { name: t.nav[5], href: '#education' },
     { name: t.nav[6], href: '#contact' },
@@ -717,7 +717,7 @@ const Portfolio = () => {
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#projects" className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg font-bold text-lg transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+            <a href="#experiences" className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg font-bold text-lg transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1 flex items-center justify-center gap-2">
               {t.hero.btnExp} <ChevronDown size={20} />
             </a>
             <a href="#contact" className="px-8 py-4 bg-transparent hover:bg-slate-800 text-white rounded-lg font-bold text-lg transition-all border border-slate-600 hover:border-slate-400 flex items-center justify-center gap-2">
@@ -838,86 +838,8 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* SECTION PROJECTS (JUSTE APRÈS SKILLS) */}
-      <section id="projects" className="py-20 bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">{t.projects.title}</h2>
-            <p className="text-slate-400">{t.projects.subtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {t.projects.list.map((project, index) => {
-               // Dynamic Styles based on category color
-               const colorStyles = {
-                 blue: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'hover:border-blue-500/50' },
-                 purple: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'hover:border-purple-500/50' },
-                 teal: { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'hover:border-teal-500/50' },
-                 orange: { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'hover:border-orange-500/50' },
-               };
-               const style = colorStyles[project.color] || colorStyles.blue;
-
-               return (
-                <div key={index} className={`bg-slate-950 rounded-xl overflow-hidden border border-slate-800 transition-all duration-300 hover:shadow-2xl ${style.border} flex flex-col`}>
-                  
-                  {/* Image Placeholder area */}
-                  <div className="h-48 bg-slate-900 relative overflow-hidden group">
-                     {/* Try to load image, fallback to icon pattern if fails/not exists */}
-                     <img 
-                       src={project.image} 
-                       alt={project.title} 
-                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                       onError={(e) => {
-                         e.target.style.display = 'none';
-                         e.target.nextSibling.style.display = 'flex';
-                       }}
-                     />
-                     <div className={`hidden w-full h-full absolute top-0 left-0 ${style.bg} flex-col items-center justify-center gap-2`}>
-                        <div className={`${style.text}`}>{project.icon}</div>
-                        <span className="text-slate-500 text-xs font-mono uppercase tracking-widest">Aperçu Projet</span>
-                     </div>
-                     
-                     {/* Category Badge overlay */}
-                     <div className="absolute top-4 right-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold bg-slate-950/90 backdrop-blur border border-slate-700 ${style.text}`}>
-                          {project.category}
-                        </span>
-                     </div>
-                  </div>
-
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
-                    <p className="text-slate-400 text-sm mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Bullet points */}
-                    <ul className="space-y-2 mb-6">
-                      {project.details.map((detail, i) => (
-                        <li key={i} className="flex items-start text-xs text-slate-300">
-                          <span className={`mr-2 mt-0.5 ${style.text}`}>▹</span> {detail}
-                        </li>
-                      ))}
-                    </ul>
-
-                    {/* Tech Stack */}
-                    <div className="mt-auto pt-4 border-t border-slate-900 flex flex-wrap gap-2">
-                       {project.techStack.map((tech, i) => (
-                         <span key={i} className={`px-2 py-1 rounded text-[10px] font-semibold uppercase tracking-wider ${style.bg} ${style.text}`}>
-                           {tech}
-                         </span>
-                       ))}
-                    </div>
-                  </div>
-                </div>
-               );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION EXPERIENCES (REMONTÉE ICI) */}
-      <section id="experiences" className="py-20 bg-slate-950">
+      {/* SECTION EXPERIENCES (PLACÉE AVANT LES PROJETS) */}
+      <section id="experiences" className="py-20 bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-white mb-4">{t.experiences.title}</h2>
@@ -976,6 +898,78 @@ const Portfolio = () => {
               );
             })}
 
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION PROJECTS (MAINTENANT APRÈS EXPERIENCES) */}
+      <section id="projects" className="py-20 bg-slate-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-white mb-4">{t.projects.title}</h2>
+            <p className="text-slate-400">{t.projects.subtitle}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {t.projects.list.map((project, index) => {
+               const colorStyles = {
+                 blue: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'hover:border-blue-500/50' },
+                 purple: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'hover:border-purple-500/50' },
+                 teal: { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'hover:border-teal-500/50' },
+                 orange: { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'hover:border-orange-500/50' },
+               };
+               const style = colorStyles[project.color] || colorStyles.blue;
+
+               return (
+                <div key={index} className={`bg-slate-950 rounded-xl overflow-hidden border border-slate-800 transition-all duration-300 hover:shadow-2xl ${style.border} flex flex-col`}>
+                  
+                  <div className="h-48 bg-slate-900 relative overflow-hidden group">
+                     <img 
+                       src={project.image} 
+                       alt={project.title} 
+                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                       onError={(e) => {
+                         e.target.style.display = 'none';
+                         e.target.nextSibling.style.display = 'flex';
+                       }}
+                     />
+                     <div className={`hidden w-full h-full absolute top-0 left-0 ${style.bg} flex-col items-center justify-center gap-2`}>
+                        <div className={`${style.text}`}>{project.icon}</div>
+                        <span className="text-slate-500 text-xs font-mono uppercase tracking-widest">Aperçu Projet</span>
+                     </div>
+                     
+                     <div className="absolute top-4 right-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold bg-slate-950/90 backdrop-blur border border-slate-700 ${style.text}`}>
+                          {project.category}
+                        </span>
+                     </div>
+                  </div>
+
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
+                    <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    <ul className="space-y-2 mb-6">
+                      {project.details.map((detail, i) => (
+                        <li key={i} className="flex items-start text-xs text-slate-300">
+                          <span className={`mr-2 mt-0.5 ${style.text}`}>▹</span> {detail}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-auto pt-4 border-t border-slate-900 flex flex-wrap gap-2">
+                       {project.techStack.map((tech, i) => (
+                         <span key={i} className={`px-2 py-1 rounded text-[10px] font-semibold uppercase tracking-wider ${style.bg} ${style.text}`}>
+                           {tech}
+                         </span>
+                       ))}
+                    </div>
+                  </div>
+                </div>
+               );
+            })}
           </div>
         </div>
       </section>
@@ -1043,7 +1037,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Education Section (DESCENDUE ICI) */}
+      {/* Education Section */}
       <section id="education" className="py-20 bg-slate-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
