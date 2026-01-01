@@ -34,7 +34,6 @@ const Portfolio = () => {
   // Dictionnaire de traduction complet
   const content = {
     fr: {
-      // ORDRE MODIFIÉ : Expériences avant Projets
       nav: ['À Propos', 'Compétences', 'Expériences', 'Projets', 'Certifications', 'Formation', 'Contact'],
       downloadCV: 'Télécharger CV',
       hero: {
@@ -141,6 +140,7 @@ const Portfolio = () => {
             techStack: ["Power Apps", "Dataverse", "ALM", "UX Design"],
             image: "/images/projet-dispatch.png",
             color: "blue",
+            layout: "horizontal", // DISPOSITION HORIZONTALE
             imageFit: "contain"
           },
           {
@@ -156,6 +156,7 @@ const Portfolio = () => {
             techStack: ["Power Automate", "Workflows", "SharePoint", "Deep Linking"],
             image: "/images/projet-astreintes.png",
             color: "purple",
+            layout: "horizontal", // DISPOSITION HORIZONTALE
             imageFit: "contain"
           },
           {
@@ -171,7 +172,7 @@ const Portfolio = () => {
             techStack: ["Power Apps", "Offline Mode", "Performance Tuning"],
             image: "/images/projet-offline.png",
             color: "teal",
-            imageFit: "contain"
+            layout: "vertical" // DISPOSITION VERTICALE CLASSIQUE
           },
           {
             title: "Monitoring RH Proactif (Bot)",
@@ -186,7 +187,7 @@ const Portfolio = () => {
             techStack: ["Power Automate", "Scheduled Flows", "Excel Online"],
             image: "/images/projet-monitoring.png",
             color: "orange",
-            imageFit: "contain"
+            layout: "vertical" // DISPOSITION VERTICALE CLASSIQUE
           }
         ]
       },
@@ -314,284 +315,6 @@ const Portfolio = () => {
         rights: 'Tous droits réservés.',
         location: 'Paris, France'
       }
-    },
-    en: {
-      // ORDER MODIFIED: Experiences before Projects
-      nav: ['About', 'Skills', 'Experiences', 'Projects', 'Certifications', 'Education', 'Contact'],
-      downloadCV: 'Download CV',
-      hero: {
-        status: 'Available for opportunities',
-        greeting: "Hi, I'm",
-        role: 'Data Analyst & Scientist | Power Platform',
-        quote: "I don't just analyze your data, I build the systems that make them intelligent and actionable.",
-        btnExp: 'View Experiences',
-        btnContact: 'Get in Touch'
-      },
-      about: {
-        title: 'About Me',
-        p1: <>My career path mirrors my work ethic: <span className="text-white font-semibold">structured, analytical, and result-oriented</span>.</>,
-        p2: <>Graduated with a <span className="text-blue-400">Master's in Data & AI</span> and coming from a rigorous background in <span className="text-blue-400">Mathematical Engineering and Operations Research</span>, I honed my analytical mindset through complex modeling. However, I believe mathematics takes on its full value when it solves concrete business problems.</>,
-        p3: <>Today, as a Data Analyst & Scientist certified in <span className="text-yellow-400 font-medium">Microsoft Power BI (PL-300)</span>, I combine this scientific rigor with the power of <span className="text-white">Cloud (Azure/AWS)</span> and <span className="text-white">Machine Learning</span>. From automating processes at <span className="font-bold text-white">SNCF</span> to creating NLP pipelines, my goal is simple: eliminate time-consuming manual tasks and let data speak to facilitate decision-making.</>
-      },
-      skills: {
-        title: 'Technical Arsenal',
-        subtitle: 'Technical skills based on my academic and professional projects.',
-        details: {
-          bi: 'Design of dynamic reports, Audience data analysis, Strategic KPIs.',
-          power: 'Development of HR apps, Process automation (emails, notifications), Microsoft Lists.',
-          data: 'Predictive modeling (Regression, ARMA), LLM (Mistral, Llama), RAG.',
-          cloud: 'Big Data management, Code reviews, Agile Scrum/Kanban.'
-        }
-      },
-      experiences: {
-        title: 'Professional Experiences',
-        subtitle: 'Career & Achievements (STAR Method)',
-        jobs: [
-           {
-             company: 'SNCF • Paris',
-             role: 'HR Data Scientist (Apprenticeship)',
-             date: 'Sept. 2024 - Present',
-             tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of an intuitive app (Dataverse/SharePoint) for station staff assignment.',
-               'Creation of a multi-role on-call declaration app with conditional workflows.',
-               'Automatic generation of notifications for part-time contract management.',
-               'Creation of operational dashboards (absentéisme, sector tracking) with advanced DAX.'
-             ],
-             impactLabel: 'Impact',
-             impact: '-40% reporting time, total paper elimination, 99.8% data reliability, +20% coordination efficiency.'
-           },
-           {
-             company: 'HETIC • Montreuil',
-             role: 'Intelligent Customer Service Analysis System with LLM (Final Year Project)',
-             date: 'July 2025 - Nov. 2025',
-             tags: ['Python', 'LLM & RAG', 'Streamlit'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of a tweet analysis pipeline with LLM (Mistral AI, Ollama).',
-               'RAG implementation with BERT embeddings for multi-task classification (sentiment, urgency).',
-               'Creation of a Chatbot with vector search (ChromaDB, LangChain, Llama 3.3).',
-               'Development of interactive dashboards under Streamlit (Real-time KPIs).'
-             ],
-             impactLabel: 'Tech Stack',
-             impact: 'Python, LangChain, Pandas, PyTorch, Agile Scrum, Git, SQLite (Cache: -70% API costs).'
-           },
-           {
-             company: 'Research Institute • Algiers',
-             role: 'Media Coordinator',
-             date: 'Dec. 2022 - Aug. 2023',
-             tags: ['SPSS', 'Power BI', 'Excel'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of tailored media plans to maximize advertising ROI (channel/slot targeting).',
-               'Analysis and processing of audience data via Power Query, SPSS, and Excel.',
-               'Design of dynamic Power BI reports with KPIs and strategic insights.',
-               'Management of a team of monitoring officers.'
-             ],
-           },
-           {
-             company: 'CREAD • Algiers',
-             role: 'Data Intern & Final Year Project',
-             date: 'Feb. 2022 - July 2022',
-             tags: ['Econometrics', 'Time Series', 'Modeling'],
-             missionsLabel: 'Missions',
-             missions: [
-               'Development of simple and multiple linear regression models (R² up to 0.87).',
-               'Design of a time series analysis pipeline (ARMA/Box-Jenkins).',
-               'GDP forecasting via LES/L.E.D & BJ methods (RMSE lower than standard deviation).'
-             ],
-             impactLabel: 'Result',
-             impact: 'Intensive simulation and statistical validation (forecast accuracy ±5%).'
-           }
-        ]
-      },
-      projects: {
-        title: 'Featured Projects',
-        subtitle: 'A selection of technical solutions deployed in critical environments (SNCF).',
-        list: [
-          {
-            title: "Digital Dispatch & HR Management",
-            category: "Power Apps / Dataverse",
-            icon: <Layers size={40} />,
-            description: "Design of a critical solution for station staff assignment (EOLE Project). Replacing paper processes with real-time tablet management.",
-            details: [
-              "Complex Dataverse Architecture (Agents, Stations, Sectors)",
-              "Tablet-first interface for field managers",
-              "Application Lifecycle Management (ALM) with Managed Solutions"
-            ],
-            techStack: ["Power Apps", "Dataverse", "ALM", "UX Design"],
-            image: "/images/projet-dispatch.png",
-            color: "blue"
-          },
-          {
-            title: "On-call Management & Financial Workflows",
-            category: "Business Automation",
-            icon: <Workflow size={40} />,
-            description: "Complete automation of the on-call payroll cycle: from field declaration to multi-level HR validation with rejection handling.",
-            details: [
-              "7 Complex Power Automate Flows (Approvals, Loops)",
-              "Deep Linking System (Direct link to app from email)",
-              "Audit logs and sensitive data security"
-            ],
-            techStack: ["Power Automate", "Workflows", "SharePoint", "Deep Linking"],
-            image: "/images/projet-astreintes.png",
-            color: "purple"
-          },
-          {
-            title: "Offline-First Mobile Architecture",
-            category: "Technical Expertise",
-            icon: <Smartphone size={40} />,
-            description: "Development of 'Offline' capabilities to ensure service continuity for agents in dead zones (basements, stations).",
-            details: [
-              "Asynchronous data synchronization (LoadData/SaveData)",
-              "Local collection and conflict management",
-              "Performance optimization on tablets"
-            ],
-            techStack: ["Power Apps", "Offline Mode", "Performance Tuning"],
-            image: "/images/projet-offline.png",
-            color: "teal"
-          },
-          {
-            title: "Proactive HR Monitoring (Bot)",
-            category: "Robotic Process Automation",
-            icon: <Clock size={40} />,
-            description: "Daily monitoring bot for part-time contract compliance. Elimination of renewal oversights.",
-            details: [
-              "Daily Scheduled Flows",
-              "Anti-spam logic for notifications",
-              "Excel Online / SharePoint Integration"
-            ],
-            techStack: ["Power Automate", "Scheduled Flows", "Excel Online"],
-            image: "/images/projet-monitoring.png",
-            color: "orange"
-          }
-        ]
-      },
-      education: {
-        title: 'Academic Journey',
-        subtitle: 'My academic journey.',
-        degrees: [
-          {
-            title: 'Master Data & IA',
-            school: 'HETIC',
-            location: 'Montreuil, France',
-            year: '2024 - 2025',
-            desc: 'Hybrid technical and strategic training: Cloud Architecture, Advanced AI, and Data Performance Management (FinOps, Quality).',
-            tags: ['Cloud & Architecture', 'ML & NLP', 'Neural Networks', 'Data Apps & Auto', 'BI & Reporting', 'FinOps & Strategy', 'Agile & Eco-design'],
-            logo: 'H',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ed/Logo_HETIC.png'
-          },
-          {
-            title: 'Master 1 in Mathematical Engineering & Data Science',
-            school: 'University of Haute-Alsace',
-            location: 'Mulhouse, France',
-            year: '2023 - 2024',
-            desc: 'Dual training in applied mathematics (Optimization, Stats R) and OOP (C++, Java, Cloud), with a specialization in BI and data architecture.',
-            tags: ['Maths & Optimization', 'OOP (C++/Java/Python)', 'Cloud Computing', 'BI & Data Warehouse', 'SQL & Reporting', 'Statistics & R', 'Image Processing'],
-            logo: 'U',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Logo_Universit%C3%A9_de_Haute-Alsace.svg'
-          },
-          {
-            title: 'Master in Operations Research: Risk Management & Negotiation',
-            school: 'USTHB',
-            location: 'Algiers, Algeria',
-            year: '2017 - 2022',
-            desc: '5-year excellence program. From Bachelor (Math/CS basics, Algorithms, Prob/Stat) to Master specialized in Risk Management, Game Theory, and Stochastic Optimization.',
-            tags: ['Operations Research', 'Stochastic Processes', 'Game Theory', 'SQL & Databases', 'Decision Aid (MCDA)', 'Risk Management', 'Graphs & Complexity'],
-            logo: 'U',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/USTHB.png'
-          }
-        ]
-      },
-      certifications: {
-        title: 'Certifications',
-        subtitle: 'Professional certifications and qualifications that validate my expertise and commitment to continuous learning.',
-        all: [
-          {
-            name: 'Microsoft Certified: Power BI Data Analyst Associate (PL-300)',
-            issuer: 'Microsoft',
-            date: 'Nov. 2025',
-            id: 'PL-300',
-            desc: 'Complete mastery of data preparation, modeling, and visualization to maximize organizational value.',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
-            color: 'yellow',
-            link: 'https://learn.microsoft.com/fr-fr/users/imadbouchareb-5714/credentials/95f829197097baa7?ref=https%3A%2F%2Fwww.linkedin.com%2F'
-          },
-          {
-            name: 'Azure AI Essentials',
-            issuer: 'Microsoft & LinkedIn',
-            date: 'Déc. 2025',
-            id: 'AI-Essentials',
-            desc: 'Fundamentals of Artificial Intelligence, Machine Learning, and Cognitive Services on the Azure Cloud.',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
-            color: 'blue',
-            link: '/certificats/Azure AI Essentials.pdf'
-          },
-           { 
-             name: 'Dataverse : Les bases pratiques (Maker)',
-             issuer: 'SNCF',
-             date: 'Mars 2025',
-             desc: 'Environment creation and security, complex data modeling, and security architecture management (RBAC).',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/78/LOGO_SNCF_GROUPE_CMJN.jpg',
-             link: '/certificats/Dataverse_Maker.pdf'
-           },
-           { 
-             name: 'Advanced PowerApps', 
-             issuer: 'SNCF',
-             date: 'Mar. 2025', 
-             desc: 'Query optimization, reusable component creation, Deep Linking, and advanced use of Regular Expressions (RegEx).',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/78/LOGO_SNCF_GROUPE_CMJN.jpg',
-             link: '/certificats/PowerApps_Avance.pdf'
-           },
-           { 
-             name: 'SharePoint Expert (Lvl 3): Site Design', 
-             issuer: 'SNCF',
-             date: 'Feb. 2025',
-             desc: 'Fine-grained permission management, advanced list customization (JSON), audience targeting, and Power Platform integration.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/78/LOGO_SNCF_GROUPE_CMJN.jpg',
-             link: '/certificats/SharePoint_Expert.pdf'
-           },
-           { 
-             name: 'DAX Language in Power BI', 
-             issuer: 'SNCF',
-             date: 'Feb. 2025',
-             desc: 'Complex measure creation, calculation performance optimization, and advanced Time Intelligence analysis.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/78/LOGO_SNCF_GROUPE_CMJN.jpg',
-             link: '/certificats/DAX_PowerBI.pdf'
-           },
-           { 
-             name: 'Power Automate Lvl 2: Practical Workshop', 
-             issuer: 'SNCF',
-             date: 'Dec. 2024',
-             desc: 'Design of complex automated flows, error handling, and translation of business processes into logical workflows.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/78/LOGO_SNCF_GROUPE_CMJN.jpg',
-             link: '/certificats/PowerAutomate_N2.pdf'
-           },
-           { 
-             name: 'Advanced SharePoint (Lvl 2)', 
-             issuer: 'SNCF',
-             date: 'Nov. 2024',
-             desc: 'Site administration, library management, view customization, and approval workflows.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/78/LOGO_SNCF_GROUPE_CMJN.jpg',
-             link: '/certificats/SharePoint_Avance.pdf'
-           },
-           { 
-             name: 'Power BI Expert', 
-             issuer: 'SNCF',
-             date: 'Oct. 2024',
-             desc: 'Advanced ETL with Power Query (M Language), optimal star schema modeling, and interactive UX/UI report design.',
-             logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/78/LOGO_SNCF_GROUPE_CMJN.jpg',
-             link: '/certificats/PowerBI_Expert.pdf'
-           },
-        ]
-      },
-      contact: {
-        title: 'Let\'s work together',
-        subtitle: 'Looking for new challenges in Data Analysis, Science, or Power Platform.',
-        rights: 'All rights reserved.',
-        location: 'Paris, France'
-      }
     }
   };
 
@@ -600,8 +323,8 @@ const Portfolio = () => {
   const navigation = [
     { name: t.nav[0], href: '#about' },
     { name: t.nav[1], href: '#skills' },
-    { name: t.nav[2], href: '#experiences' }, // EXPERIENCES ICI
-    { name: t.nav[3], href: '#projects' },    // PROJETS ENSUITE
+    { name: t.nav[2], href: '#experiences' },
+    { name: t.nav[3], href: '#projects' },
     { name: t.nav[4], href: '#certifications' },
     { name: t.nav[5], href: '#education' },
     { name: t.nav[6], href: '#contact' },
@@ -842,7 +565,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* SECTION EXPERIENCES (PLACÉE AVANT LES PROJETS) */}
+      {/* SECTION EXPERIENCES */}
       <section id="experiences" className="py-20 bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -906,7 +629,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* SECTION PROJECTS (MAINTENANT APRÈS EXPERIENCES) */}
+      {/* SECTION PROJECTS (MODIFIÉE POUR SUPPORT HORIZONTAL/VERTICAL) */}
       <section id="projects" className="py-20 bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -914,7 +637,8 @@ const Portfolio = () => {
             <p className="text-slate-400">{t.projects.subtitle}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Grille s'adapte maintenant à la largeur complète pour les éléments horizontaux */}
+          <div className="flex flex-col gap-8">
             {t.projects.list.map((project, index) => {
                const colorStyles = {
                  blue: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'hover:border-blue-500/50' },
@@ -923,15 +647,17 @@ const Portfolio = () => {
                  orange: { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'hover:border-orange-500/50' },
                };
                const style = colorStyles[project.color] || colorStyles.blue;
+               const isHorizontal = project.layout === 'horizontal';
 
                return (
-                <div key={index} className={`bg-slate-950 rounded-xl overflow-hidden border border-slate-800 transition-all duration-300 hover:shadow-2xl ${style.border} flex flex-col`}>
+                <div key={index} className={`bg-slate-950 rounded-xl overflow-hidden border border-slate-800 transition-all duration-300 hover:shadow-2xl ${style.border} flex flex-col ${isHorizontal ? 'md:flex-row' : ''}`}>
                   
-                  <div className="h-48 bg-slate-900 relative overflow-hidden group">
+                  {/* Zone Image */}
+                  <div className={`${isHorizontal ? 'md:w-2/5 h-64 md:h-auto' : 'h-48'} bg-slate-900 relative overflow-hidden group`}>
                      <img 
                        src={project.image} 
                        alt={project.title} 
-                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                       className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${project.imageFit === 'contain' ? 'object-contain p-4' : 'object-cover'}`}
                        onError={(e) => {
                          e.target.style.display = 'none';
                          e.target.nextSibling.style.display = 'flex';
@@ -949,7 +675,8 @@ const Portfolio = () => {
                      </div>
                   </div>
 
-                  <div className="p-6 flex flex-col flex-grow">
+                  {/* Zone Contenu */}
+                  <div className={`p-6 flex flex-col flex-grow ${isHorizontal ? 'md:w-3/5' : ''}`}>
                     <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
                     <p className="text-slate-400 text-sm mb-4 leading-relaxed">
                       {project.description}
