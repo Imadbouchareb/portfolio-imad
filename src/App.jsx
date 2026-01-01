@@ -21,7 +21,6 @@ import {
   CheckCircle2,
   Layers,
   Smartphone,
-  Zap,
   Clock
 } from 'lucide-react';
 
@@ -35,7 +34,8 @@ const Portfolio = () => {
   // Dictionnaire de traduction complet
   const content = {
     fr: {
-      nav: ['À Propos', 'Compétences', 'Expériences', 'Projets', 'Certifications', 'Formation',  'Contact'],
+      // ORDRE MODIFIÉ ICI
+      nav: ['À Propos', 'Compétences', 'Projets', 'Expériences', 'Certifications', 'Formation', 'Contact'],
       downloadCV: 'Télécharger CV',
       hero: {
         status: 'Disponible pour opportunités',
@@ -312,7 +312,8 @@ const Portfolio = () => {
       }
     },
     en: {
-      nav: ['About', 'Skills', 'Experiences', 'Projects', 'Certifications', 'Education',  'Contact'],
+      // ORDER UPDATED HERE
+      nav: ['About', 'Skills', 'Projects', 'Experiences', 'Certifications', 'Education', 'Contact'],
       downloadCV: 'Download CV',
       hero: {
         status: 'Available for opportunities',
@@ -405,7 +406,7 @@ const Portfolio = () => {
         subtitle: 'My academic journey.',
         degrees: [
           {
-            title: 'Master Data & AI',
+            title: 'Master Data & IA',
             school: 'HETIC',
             location: 'Montreuil, France',
             year: '2024 - 2025',
@@ -590,15 +591,15 @@ const Portfolio = () => {
     }
   };
 
-  const t = content[language]; // Sélection rapide du contenu actuel
+  const t = content[language]; 
 
   const navigation = [
     { name: t.nav[0], href: '#about' },
     { name: t.nav[1], href: '#skills' },
-    { name: t.nav[2], href: '#projects' }, // AJOUT DU LIEN PROJETS
-    { name: t.nav[3], href: '#education' },
+    { name: t.nav[2], href: '#projects' },
+    { name: t.nav[3], href: '#experiences' },
     { name: t.nav[4], href: '#certifications' },
-    { name: t.nav[5], href: '#experiences' },
+    { name: t.nav[5], href: '#education' },
     { name: t.nav[6], href: '#contact' },
   ];
 
@@ -837,7 +838,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* NEW PROJECTS SECTION */}
+      {/* SECTION PROJECTS (JUSTE APRÈS SKILLS) */}
       <section id="projects" className="py-20 bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -915,7 +916,134 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Education Section */}
+      {/* SECTION EXPERIENCES (REMONTÉE ICI) */}
+      <section id="experiences" className="py-20 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-white mb-4">{t.experiences.title}</h2>
+            <p className="text-slate-400">{t.experiences.subtitle}</p>
+          </div>
+
+          <div className="space-y-12">
+            
+            {t.experiences.jobs.map((job, index) => {
+              const colors = [
+                 { border: 'hover:border-blue-500/30', text: 'text-blue-400', bg: 'bg-blue-900/20', borderSmall: 'border-blue-500/20', textSmall: 'text-blue-300' },
+                 { border: 'hover:border-purple-500/30', text: 'text-purple-400', bg: 'bg-purple-900/20', borderSmall: 'border-purple-500/20', textSmall: 'text-purple-300' },
+                 { border: 'hover:border-orange-500/30', text: 'text-orange-400', bg: 'bg-orange-900/20', borderSmall: 'border-orange-500/20', textSmall: 'text-orange-300' },
+                 { border: 'hover:border-emerald-500/30', text: 'text-emerald-400', bg: 'bg-emerald-900/20', borderSmall: 'border-emerald-500/20', textSmall: 'text-emerald-300' }
+              ];
+              const c = colors[index % colors.length];
+
+              return (
+                <div key={index} className={`bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden ${c.border} transition-all`}>
+                  <div className="md:flex">
+                    <div className="md:w-1/3 bg-slate-900 p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800">
+                      <div>
+                        <div className={`text-xs font-bold ${c.text} uppercase tracking-wider mb-2`}>{job.company}</div>
+                        <h3 className="text-2xl font-bold text-white mb-4">{job.role}</h3>
+                        <div className="text-slate-500 text-sm mb-4">{job.date}</div>
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {job.tags.map((tag, i) => (
+                             <span key={i} className="px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-300">{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="text-6xl text-slate-800 font-black opacity-50">0{index + 1}</div>
+                    </div>
+                    <div className="md:w-2/3 p-8">
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className={`${c.text} font-semibold mb-1`}>{job.missionsLabel}</h4>
+                          <ul className="list-disc list-inside text-slate-300 text-sm space-y-1">
+                            {job.missions.map((mission, i) => (
+                              <li key={i}>{mission}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        {job.impact && (
+                          <div className={`${c.bg} p-4 rounded-lg border ${c.borderSmall}`}>
+                            <h4 className={`${c.textSmall} font-bold mb-1 flex items-center gap-2`}>
+                              {index === 1 ? <Cpu size={16}/> : <Award size={16}/>} {job.impactLabel}
+                            </h4>
+                            <p className="text-white font-medium">{job.impact}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications Section */}
+      <section id="certifications" className="py-20 bg-slate-900">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-white mb-4">{t.certifications.title}</h2>
+            <p className="text-slate-400">{t.certifications.subtitle}</p>
+          </div>
+
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {t.certifications.all.map((cert, index) => {
+                const isMicrosoft = cert.issuer.includes('Microsoft');
+                const borderColor = isMicrosoft ? (cert.color === 'yellow' ? 'hover:border-yellow-500/50' : 'hover:border-blue-500/50') : 'hover:border-teal-500/50';
+                const CardWrapper = cert.link ? 'a' : 'div';
+                const wrapperProps = cert.link ? { 
+                  href: cert.link, 
+                  target: "_blank", 
+                  rel: "noopener noreferrer",
+                  className: `flex flex-col bg-slate-900/50 p-6 rounded-xl border border-slate-700 ${borderColor} transition-all group h-full hover:shadow-lg hover:bg-slate-900 cursor-pointer relative`
+                } : {
+                  className: `flex flex-col bg-slate-900/50 p-6 rounded-xl border border-slate-700 ${borderColor} transition-all group h-full`
+                };
+
+                return (
+                  <CardWrapper key={index} {...wrapperProps}>
+                     {cert.link && (
+                       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-slate-400">
+                         <ExternalLink size={16} />
+                       </div>
+                     )}
+
+                     <div className="flex items-start justify-between mb-4">
+                       <div className="w-12 h-12 rounded-lg bg-white p-2 flex items-center justify-center overflow-hidden shadow-sm">
+                         <img src={cert.logoUrl} alt={`${cert.issuer} logo`} className="w-full h-full object-contain" />
+                       </div>
+                       
+                       {cert.id && (
+                         <span className="text-xs font-mono text-slate-500 border border-slate-700 px-2 py-1 rounded mr-6">{cert.id}</span>
+                       )}
+                     </div>
+                     
+                     <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors line-clamp-2 min-h-[3.5rem]">
+                       {cert.name}
+                     </h3>
+                     
+                     <div className="text-sm font-medium text-slate-400 mb-4">{cert.issuer}</div>
+                     
+                     <p className="text-sm text-slate-300 mb-6 leading-relaxed border-l-2 border-slate-700 pl-3 flex-grow">
+                       {cert.desc}
+                     </p>
+  
+                     <div className="flex items-center gap-2 text-xs text-slate-500 mt-auto pt-4 border-t border-slate-800 w-full">
+                       <CheckCircle2 size={14} className="text-green-500" />
+                       <span>{cert.date}</span>
+                     </div>
+                  </CardWrapper>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Education Section (DESCENDUE ICI) */}
       <section id="education" className="py-20 bg-slate-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -990,133 +1118,6 @@ const Portfolio = () => {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Certifications Section */}
-      <section id="certifications" className="py-20 bg-slate-950">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">{t.certifications.title}</h2>
-            <p className="text-slate-400">{t.certifications.subtitle}</p>
-          </div>
-
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {t.certifications.all.map((cert, index) => {
-                const isMicrosoft = cert.issuer.includes('Microsoft');
-                const borderColor = isMicrosoft ? (cert.color === 'yellow' ? 'hover:border-yellow-500/50' : 'hover:border-blue-500/50') : 'hover:border-teal-500/50';
-                const CardWrapper = cert.link ? 'a' : 'div';
-                const wrapperProps = cert.link ? { 
-                  href: cert.link, 
-                  target: "_blank", 
-                  rel: "noopener noreferrer",
-                  className: `flex flex-col bg-slate-900/50 p-6 rounded-xl border border-slate-700 ${borderColor} transition-all group h-full hover:shadow-lg hover:bg-slate-900 cursor-pointer relative`
-                } : {
-                  className: `flex flex-col bg-slate-900/50 p-6 rounded-xl border border-slate-700 ${borderColor} transition-all group h-full`
-                };
-
-                return (
-                  <CardWrapper key={index} {...wrapperProps}>
-                     {cert.link && (
-                       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-slate-400">
-                         <ExternalLink size={16} />
-                       </div>
-                     )}
-
-                     <div className="flex items-start justify-between mb-4">
-                       <div className="w-12 h-12 rounded-lg bg-white p-2 flex items-center justify-center overflow-hidden shadow-sm">
-                         <img src={cert.logoUrl} alt={`${cert.issuer} logo`} className="w-full h-full object-contain" />
-                       </div>
-                       
-                       {cert.id && (
-                         <span className="text-xs font-mono text-slate-500 border border-slate-700 px-2 py-1 rounded mr-6">{cert.id}</span>
-                       )}
-                     </div>
-                     
-                     <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors line-clamp-2 min-h-[3.5rem]">
-                       {cert.name}
-                     </h3>
-                     
-                     <div className="text-sm font-medium text-slate-400 mb-4">{cert.issuer}</div>
-                     
-                     <p className="text-sm text-slate-300 mb-6 leading-relaxed border-l-2 border-slate-700 pl-3 flex-grow">
-                       {cert.desc}
-                     </p>
-  
-                     <div className="flex items-center gap-2 text-xs text-slate-500 mt-auto pt-4 border-t border-slate-800 w-full">
-                       <CheckCircle2 size={14} className="text-green-500" />
-                       <span>{cert.date}</span>
-                     </div>
-                  </CardWrapper>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Experience Section */}
-      <section id="experiences" className="py-20 bg-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">{t.experiences.title}</h2>
-            <p className="text-slate-400">{t.experiences.subtitle}</p>
-          </div>
-
-          <div className="space-y-12">
-            
-            {t.experiences.jobs.map((job, index) => {
-              const colors = [
-                 { border: 'hover:border-blue-500/30', text: 'text-blue-400', bg: 'bg-blue-900/20', borderSmall: 'border-blue-500/20', textSmall: 'text-blue-300' },
-                 { border: 'hover:border-purple-500/30', text: 'text-purple-400', bg: 'bg-purple-900/20', borderSmall: 'border-purple-500/20', textSmall: 'text-purple-300' },
-                 { border: 'hover:border-orange-500/30', text: 'text-orange-400', bg: 'bg-orange-900/20', borderSmall: 'border-orange-500/20', textSmall: 'text-orange-300' },
-                 { border: 'hover:border-emerald-500/30', text: 'text-emerald-400', bg: 'bg-emerald-900/20', borderSmall: 'border-emerald-500/20', textSmall: 'text-emerald-300' }
-              ];
-              const c = colors[index % colors.length];
-
-              return (
-                <div key={index} className={`bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden ${c.border} transition-all`}>
-                  <div className="md:flex">
-                    <div className="md:w-1/3 bg-slate-900 p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800">
-                      <div>
-                        <div className={`text-xs font-bold ${c.text} uppercase tracking-wider mb-2`}>{job.company}</div>
-                        <h3 className="text-2xl font-bold text-white mb-4">{job.role}</h3>
-                        <div className="text-slate-500 text-sm mb-4">{job.date}</div>
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {job.tags.map((tag, i) => (
-                             <span key={i} className="px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-300">{tag}</span>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="text-6xl text-slate-800 font-black opacity-50">0{index + 1}</div>
-                    </div>
-                    <div className="md:w-2/3 p-8">
-                      <div className="space-y-4">
-                        <div>
-                          <h4 className={`${c.text} font-semibold mb-1`}>{job.missionsLabel}</h4>
-                          <ul className="list-disc list-inside text-slate-300 text-sm space-y-1">
-                            {job.missions.map((mission, i) => (
-                              <li key={i}>{mission}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        {job.impact && (
-                          <div className={`${c.bg} p-4 rounded-lg border ${c.borderSmall}`}>
-                            <h4 className={`${c.textSmall} font-bold mb-1 flex items-center gap-2`}>
-                              {index === 1 ? <Cpu size={16}/> : <Award size={16}/>} {job.impactLabel}
-                            </h4>
-                            <p className="text-white font-medium">{job.impact}</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-
           </div>
         </div>
       </section>
