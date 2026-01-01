@@ -140,7 +140,8 @@ const Portfolio = () => {
             ],
             techStack: ["Power Apps", "Dataverse", "ALM", "UX Design"],
             image: "/images/projet-dispatch.png",
-            color: "blue"
+            color: "blue",
+            imageFit: "contain"
           },
           {
             title: "Gestion des Astreintes & Flux Financiers",
@@ -154,7 +155,8 @@ const Portfolio = () => {
             ],
             techStack: ["Power Automate", "Workflows", "SharePoint", "Deep Linking"],
             image: "/images/projet-astreintes.png",
-            color: "purple"
+            color: "purple",
+            imageFit: "contain"
           },
           {
             title: "Architecture Mobile Offline-First",
@@ -168,7 +170,8 @@ const Portfolio = () => {
             ],
             techStack: ["Power Apps", "Offline Mode", "Performance Tuning"],
             image: "/images/projet-offline.png",
-            color: "teal"
+            color: "teal",
+            imageFit: "contain"
           },
           {
             title: "Monitoring RH Proactif (Bot)",
@@ -182,7 +185,8 @@ const Portfolio = () => {
             ],
             techStack: ["Power Automate", "Scheduled Flows", "Excel Online"],
             image: "/images/projet-monitoring.png",
-            color: "orange"
+            color: "orange",
+            imageFit: "contain"
           }
         ]
       },
