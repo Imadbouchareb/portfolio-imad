@@ -249,7 +249,7 @@ const Portfolio = () => {
             date: 'Déc. 2025',
             id: 'AI-Essentials',
             desc: 'Fondamentaux de l\'intelligence artificielle, du Machine Learning et des services cognitifs sur le cloud Azure.',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
             color: 'blue',
             link: '/certificats/Azure AI Essentials.pdf'
           },
