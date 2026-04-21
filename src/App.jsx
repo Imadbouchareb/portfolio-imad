@@ -239,7 +239,7 @@ const Portfolio = () => {
             date: 'Nov. 2025',
             id: 'PL-300',
             desc: 'Maîtrise complète de la préparation, de la modélisation et de la visualisation des données pour maximiser la valeur organisationnelle.',
-            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png',
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
             color: 'yellow',
             link: 'https://learn.microsoft.com/fr-fr/users/imadbouchareb-5714/credentials/95f829197097baa7?ref=https%3A%2F%2Fwww.linkedin.com%2F'
           },
