@@ -64,10 +64,28 @@ const Portfolio = () => {
         title: 'Expériences Professionnelles',
         subtitle: 'Parcours & Réalisations (Méthode STAR)',
         jobs: [
+	{
+  company: 'Groupe Rand (Rand Diffusion) • Paris',
+  role: 'Data Analyst BI – Retail & Performance Commerciale',
+  date: 'Jan. 2026 - Présent',
+  tags: ['Power BI', 'DAX', 'Power Query (M)', 'SAP Analytics Cloud', 'SQL', 'Jira'],
+  missionsLabel: 'Missions',
+  missions: [
+    'Reporting Power BI multi-fréquences (quotidien, hebdomadaire, mensuel) sur un portefeuille de 35 à 40 enseignes retail (HEMA, GÉMO, PROMOD…) : CA comparable, marges, indices rayon, performance par pays et par magasin.',
+    'Analyse comparative N/N-1 : identification des leviers explicatifs (mix produit, performance promotionnelle, saisonnalité, météo) pour orienter les décisions commerciales.',
+    'Élaboration des dossiers d\'analyse pour les RDV commerciaux de la Direction Générale (2 à 7/semaine) : CA/m², palmarès Top/Flop 20, analyse par collection (PE/AH) et par rayon.',
+    'Analyses saisonnières fashion retail : collections PE/AH, comparatifs N/N-1, analyse soldes en 4 jalons (J1, S1, S2, soldes complètes).',
+    'Maintenance, évolution et automatisation des modèles Power BI : ajout de KPIs, optimisation DAX, refonte des pipelines via Power Query (M).',
+    'Gestion des demandes ad hoc multi-services (Gestion, Commercial, Direction) et coordination en binôme via Jira.'
+  ],
+  impactLabel: 'Stack',
+  impact: 'Power BI · DAX · Power Query (M) · Excel avancé · SAP Analytics Cloud (SAC) · SQL · Jira'
+	},
+
            {
              company: 'SNCF • Paris',
              role: 'Data Scientist (Alternance)',
-             date: 'Sept. 2024 - Présent',
+             date: 'Sept. 2024 - Déc. 2025',
              tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
              missionsLabel: 'Missions',
              missions: [
@@ -349,10 +367,27 @@ const Portfolio = () => {
         title: 'Professional Experiences',
         subtitle: 'Career & Achievements (STAR Method)',
         jobs: [
+{
+  company: 'Groupe Rand (Rand Diffusion) • Paris',
+  role: 'BI Data Analyst – Retail & Commercial Performance',
+  date: 'Jan. 2026 - Present',
+  tags: ['Power BI', 'DAX', 'Power Query (M)', 'SAP Analytics Cloud', 'SQL', 'Jira'],
+  missionsLabel: 'Missions',
+  missions: [
+    'Multi-frequency Power BI reporting (daily, weekly, monthly) across a portfolio of 35–40 retail clients (HEMA, GÉMO, PROMOD…): comparable revenue, margins, aisle indices, performance by country and store.',
+    'N/N-1 comparative analysis: identification of performance drivers (product mix, promotional performance, seasonality, weather) to support commercial decisions.',
+    'Preparation of analysis reports for General Management commercial meetings (2–7/week): revenue/m², Top/Flop 20 rankings, analysis by collection (SS/AW) and by aisle.',
+    'Seasonal fashion retail analysis: SS/AW collections, N/N-1 comparisons, structured sales analysis across 4 milestones (D1, W1, W2, full sales).',
+    'Power BI model maintenance and evolution: KPI addition, DAX optimization, pipeline refactoring via Power Query (M).',
+    'Ad hoc requests handling across departments (Finance, Sales, Management) and task coordination via Jira.'
+  ],
+  impactLabel: 'Stack',
+  impact: 'Power BI · DAX · Power Query (M) · Advanced Excel · SAP Analytics Cloud (SAC) · SQL · Jira'
+},
            {
              company: 'SNCF • Paris',
              role: 'HR Data Scientist (Apprenticeship)',
-             date: 'Sept. 2024 - Present',
+             date: 'Sept. 2024 - Dec. 2025',
              tags: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI & DAX'],
              missionsLabel: 'Missions',
              missions: [
