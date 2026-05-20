@@ -65,7 +65,7 @@ const Portfolio = () => {
         subtitle: 'Parcours & Réalisations',
         jobs: [
            {
-             company: 'Groupe Rand (Rand Diffusion) • Paris',
+             company: 'Groupe Rand • Paris',
              role: 'Data Analyst BI – Retail & Performance Commerciale',
              date: 'Jan. 2026 - Présent',
              tags: ['Power BI', 'DAX', 'Power Query (M)', 'SAP Analytics Cloud', 'SQL', 'Jira'],
