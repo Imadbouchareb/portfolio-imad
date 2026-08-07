@@ -2,9 +2,49 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Imad Bouchareb - Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>Imad Bouchareb — Data Analyst BI | Power BI &amp; Power Platform</title>
+    <meta
+      name="description"
+      content="Data Analyst BI et Data Scientist basé à Paris. Certifié Microsoft Power BI (PL-300). Reporting retail, modélisation DAX, automatisation Power Platform et projets NLP/LLM."
+    />
+    <meta name="author" content="Imad Bouchareb" />
+    <link rel="canonical" href="https://portfolio-imad-theta.vercel.app/" />
+
+    <!-- Aperçu au partage (LinkedIn, WhatsApp, Slack…) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Imad Bouchareb — Data Analyst BI" />
+    <meta
+      property="og:description"
+      content="Reporting retail, modélisation DAX, automatisation Power Platform et projets NLP/LLM. Certifié Power BI PL-300."
+    />
+    <meta property="og:url" content="https://portfolio-imad-theta.vercel.app/" />
+    <meta property="og:image" content="https://portfolio-imad-theta.vercel.app/preview.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Évite le flash blanc au chargement en mode sombre -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var dark = stored
+            ? stored === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root"></div>
