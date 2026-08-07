@@ -288,6 +288,7 @@ const content = {
         {
           name: 'Microsoft Certified: Power BI Data Analyst Associate (PL-300)',
           issuer: 'Microsoft',
+          logo: '/logos/microsoft.svg',
           date: 'Nov. 2025',
           featured: true,
           desc: 'Préparation, modélisation et visualisation des données pour maximiser la valeur métier.',
@@ -296,6 +297,7 @@ const content = {
         {
           name: 'Azure AI Essentials',
           issuer: 'Microsoft & LinkedIn',
+          logo: '/logos/microsoft.svg',
           date: 'Déc. 2025',
           desc: "Fondamentaux de l'IA, du machine learning et des services cognitifs sur Azure.",
           link: '/certificats/Azure AI Essentials.pdf'
@@ -663,6 +665,7 @@ const content = {
         {
           name: 'Microsoft Certified: Power BI Data Analyst Associate (PL-300)',
           issuer: 'Microsoft',
+          logo: '/logos/microsoft.svg',
           date: 'Nov. 2025',
           featured: true,
           desc: 'Data preparation, modelling and visualisation to maximise business value.',
@@ -671,6 +674,7 @@ const content = {
         {
           name: 'Azure AI Essentials',
           issuer: 'Microsoft & LinkedIn',
+          logo: '/logos/microsoft.svg',
           date: 'Dec. 2025',
           desc: 'Fundamentals of AI, machine learning and cognitive services on Azure.',
           link: '/certificats/Azure AI Essentials.pdf'
@@ -1131,8 +1135,22 @@ const Portfolio = () => {
                   className="group flex flex-col bg-paper p-6 transition-colors hover:bg-surface"
                 >
                   <div className="mb-3 flex items-start justify-between gap-3">
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
-                      {c.issuer}
+                    <span className="flex items-center gap-2.5">
+                      {/* Logo optionnel : si le fichier manque, seul le texte reste */}
+                      {c.logo && (
+                        <img
+                          src={c.logo}
+                          alt=""
+                          loading="lazy"
+                          className="h-4 w-auto"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      )}
+                      <span className="font-mono text-[11px] uppercase tracking-widest text-muted">
+                        {c.issuer}
+                      </span>
                     </span>
                     {c.featured && (
                       <span className="rounded-full bg-accent/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-wide text-accent">
