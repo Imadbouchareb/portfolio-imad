@@ -148,7 +148,7 @@ const content = {
         },
         {
           company: 'HETIC',
-          location: 'Montreuil',
+          location: 'Paris',
           role: "Projet de fin d'études — Système d'analyse SAV avec LLM",
           date: 'Juil. 2025 — Nov. 2025',
           missions: [
@@ -357,7 +357,7 @@ const content = {
         {
           title: 'Master Data & IA',
           school: 'HETIC',
-          location: 'Montreuil, France',
+          location: 'Paris, France',
           year: '2024 — 2025',
           desc: 'Formation hybride technique et stratégique : architecture cloud, IA avancée, pilotage de la performance data (FinOps, qualité).',
           tags: ['Cloud & architecture', 'ML & NLP', 'Réseaux de neurones', 'BI & reporting', 'FinOps', 'Agile']
@@ -523,7 +523,7 @@ const content = {
         },
         {
           company: 'HETIC',
-          location: 'Montreuil',
+          location: 'Paris',
           role: 'Final year project — LLM-powered customer service analysis',
           date: 'July 2025 — Nov. 2025',
           missions: [
@@ -732,7 +732,7 @@ const content = {
         {
           title: "Master's in Data & AI",
           school: 'HETIC',
-          location: 'Montreuil, France',
+          location: 'Paris, France',
           year: '2024 — 2025',
           desc: 'A blend of technical and strategic training: cloud architecture, advanced AI, and data performance management (FinOps, quality).',
           tags: ['Cloud & architecture', 'ML & NLP', 'Neural networks', 'BI & reporting', 'FinOps', 'Agile']
