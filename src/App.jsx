@@ -103,7 +103,7 @@ const CaseCard = ({ c, lang, t }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-paper transition-colors hover:border-ink/40">
       <div className="pointer-events-none max-h-[19rem] overflow-hidden bg-surface [mask-image:linear-gradient(to_bottom,black_80%,transparent)]" aria-hidden="true">
-        <Visual lang={lang} compact />
+        <Visual lang={lang} compact shots={c.shots} />
       </div>
       <div className="flex flex-1 flex-col p-6">
         <p className="text-sm font-medium text-accent">{d.kind}<span className="font-normal text-muted">, {d.sector}</span></p>
@@ -321,10 +321,17 @@ const CasePage = ({ t, lang, slug }) => {
         </dl>
       </header>
 
-      <figure className="overflow-hidden rounded-xl bg-surface">
-        <div className="mx-auto max-w-4xl"><Visual lang={lang} /></div>
-        <figcaption className="border-t border-line/70 px-5 py-3 text-xs text-muted">{d.caption}</figcaption>
-      </figure>
+      {c.shots ? (
+        <figure className="overflow-hidden rounded-xl border border-line bg-surface">
+          <a href={c.shots[0].src} target="_blank" rel="noopener noreferrer"><Visual lang={lang} shots={c.shots} /></a>
+          <figcaption className="border-t border-line/70 px-5 py-3 text-xs text-muted">{c.shots[0][lang]} {d.caption}</figcaption>
+        </figure>
+      ) : (
+        <figure className="overflow-hidden rounded-xl bg-surface">
+          <div className="mx-auto max-w-4xl"><Visual lang={lang} /></div>
+          <figcaption className="border-t border-line/70 px-5 py-3 text-xs text-muted">{d.caption}</figcaption>
+        </figure>
+      )}
 
       <div className="mt-6">
         <Block title={L.context}><p className="text-lg leading-relaxed text-ink">{d.context}</p></Block>
@@ -342,6 +349,21 @@ const CasePage = ({ t, lang, slug }) => {
             ))}
           </dl>
         </Block>
+        {c.shots && c.shots.length > 1 && (
+          <section className="border-t border-line py-10">
+            <h2 className="text-sm font-semibold text-ink">{L.pages}</h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              {c.shots.slice(1).map((s) => (
+                <figure key={s.src} className="overflow-hidden rounded-xl border border-line bg-surface md:[&:last-child:nth-child(odd)]:col-span-2">
+                  <a href={s.src} target="_blank" rel="noopener noreferrer">
+                    <img src={s.src} alt={s[lang]} width="1426" height="802" loading="lazy" className="block h-auto w-full" />
+                  </a>
+                  <figcaption className="border-t border-line/70 px-4 py-3 text-xs leading-relaxed text-muted">{s[lang]}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
         <Block title={L.result}>
           <p className="border-l-2 border-accent pl-4 text-lg leading-relaxed text-ink">{d.result}</p>
         </Block>

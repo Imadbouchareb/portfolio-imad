@@ -3,6 +3,84 @@
 
 export const cases = [
   {
+    slug: 'dossier-rendez-vous-client',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'Excel'],
+    shots: [
+      { src: '/images/dossier-client/1-synthese.webp', fr: 'Synthèse : ventes comparables, marges, démarque et écart au budget, sur la période 1 et la période d’opération.', en: 'Summary: like-for-like sales, margins, markdown and gap to budget, for period 1 and the promotion period.' },
+      { src: '/images/dossier-client/3-kpi-magasins.webp', fr: 'KPI par type de magasin, face à N-1 et au budget : indice de vente, prix moyen, panier moyen, tickets en opération.', en: 'KPIs by store type against last year and budget: items per ticket, average price, average basket, promotion tickets.' },
+      { src: '/images/dossier-client/2-courbe-mensuelle.webp', fr: 'Ventes comparables mois par mois face à 2025, les mois de l’opération en jaune.', en: 'Like-for-like sales month by month against 2025, promotion months in yellow.' },
+      { src: '/images/dossier-client/5-mix-picots.webp', fr: 'Mix des rayons et indice de rendement : ce que chaque rayon vend rapporté à la place qu’il occupe.', en: 'Department mix and space productivity: what each department sells against the space it takes.' },
+      { src: '/images/dossier-client/6-best-worst.webp', fr: 'Meilleurs et moins bons magasins, positionnés face à N-1 et au budget.', en: 'Best and worst stores, positioned against last year and budget.' },
+      { src: '/images/dossier-client/4-tranches-prix.webp', fr: 'Ventes par tranche de prix pour un rayon, affiliés et succursales, période 1 et période d’opération.', en: 'Sales by price band for one department, affiliates and company-owned stores, period 1 and promotion period.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'Distribution retail, 2026',
+      title: 'Dossier d’analyse pour un rendez-vous client',
+      summary:
+        'Un rapport Power BI qui prépare un rendez-vous de la direction avec une enseigne cliente : ventes comparables, marges au prix de revient, démarque, budget, tickets et rendement de la place en rayon.',
+      role: 'Modèle et rapport, préparés en binôme',
+      period: 'Octobre 2026',
+      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
+      context:
+        'La direction rencontre une enseigne cliente pour faire le point sur l’année : performance des magasins, rentabilité par rayon, effet d’une opération commerciale. Il fallait un dossier unique, lisible en réunion, avec des chiffres comparables d’une année sur l’autre.',
+      challenge:
+        'Comparer ce qui est comparable sur neuf mois et sur deux types de magasins, affiliés et succursales. Calculer des marges à partir d’un prix de revient tenu dans un fichier à part. Isoler l’effet d’une opération répartie sur quatre mois.',
+      built: [
+        'Une base comparable magasin × mois appliquée à toutes les mesures : ventes, budget, tickets et coûts partagent exactement le même périmètre.',
+        'Les marges brute et nette par rayon, valorisées au prix de revient, et la démarque accordée par tranche de prix.',
+        'Des tableaux de KPI par type de magasin, face à N-1 et au budget.',
+        'Un classement des meilleurs et moins bons magasins au sein de chaque statut, avec un nuage de positionnement.',
+        'Un indice de rendement des rayons : leur part dans les ventes rapportée à leur part des picots en magasin.',
+        'Un référentiel Excel (tranches de prix, rayons, budget, prix de revient) modifiable sans toucher au rapport.'
+      ],
+      decisions: [
+        { title: 'Comparabilité au mois et au magasin', text: 'Un couple magasin × mois n’entre dans les calculs que s’il a vendu en 2025 et en 2026. Un magasin fermé un mois ne perd que ce mois-là, pas toute l’année.' },
+        { title: 'TREATAS plutôt que des relations supplémentaires', text: 'La table des couples comparables filtre ventes, budget, tickets et coûts par TREATAS : un seul périmètre pour tout le dossier, sans alourdir le modèle.' },
+        { title: 'Un classement qui ne dépend pas du rayon', text: 'Le rang Best / Worst est calculé hors filtre rayon, avec une table déconnectée pour comparer les deux groupes : on peut ventiler par rayon sans changer qui est en tête.' },
+        { title: 'Des tableaux plutôt que des cartes', text: 'Sur la page KPI, deux tableaux remplacent 24 cartes : affiliés et succursales, N et N-1, se comparent d’un seul regard.' },
+        { title: 'Une mesure de contrôle', text: 'Une mesure compare les ventes des deux tables de faits, tickets et ventes agrégées. L’écart doit rester nul avant chaque export.' }
+      ],
+      result:
+        'Un dossier unique pour le rendez-vous, où chaque chiffre repose sur le même périmètre comparable, et une structure qui sert de base aux prochains dossiers clients.',
+      next: 'Brancher les relevés réels de picots et rendre les périodes paramétrables dans le référentiel plutôt que dans le modèle.'
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'Retail distribution, 2026',
+      title: 'Analysis pack for a client meeting',
+      summary:
+        'A Power BI report preparing a leadership meeting with a retail client: like-for-like sales, margins at cost price, markdown, budget, tickets and shelf-space productivity.',
+      role: 'Model and report, built as a pair',
+      period: 'October 2026',
+      caption: 'Screenshots of the Power BI report, running on fictional data.',
+      context:
+        'Leadership meets a retail client to review the year: store performance, profitability by department, effect of a promotion. They needed a single pack, readable in the meeting, with figures comparable year on year.',
+      challenge:
+        'Compare like with like over nine months and two store types, affiliates and company-owned. Compute margins from a cost price kept in a separate file. Isolate the effect of a promotion spread over four months.',
+      built: [
+        'A store × month comparable base applied to every measure: sales, budget, tickets and costs share exactly the same scope.',
+        'Gross and net margins by department at cost price, and markdown by price band.',
+        'KPI tables by store type, against last year and budget.',
+        'A best and worst store ranking within each store type, with a positioning scatter.',
+        'A space productivity index: each department’s share of sales against its share of display hooks.',
+        'An Excel reference workbook (price bands, departments, budget, cost prices) editable without touching the report.'
+      ],
+      decisions: [
+        { title: 'Comparability by month and store', text: 'A store × month pair only counts if it sold in both 2025 and 2026. A store closed for a month loses that month only, not the whole year.' },
+        { title: 'TREATAS instead of extra relationships', text: 'The comparable pairs table filters sales, budget, tickets and costs through TREATAS: one scope for the whole pack, without weighing down the model.' },
+        { title: 'A ranking independent of department', text: 'The Best / Worst rank ignores the department filter and uses a disconnected table to compare groups: you can split by department without changing who leads.' },
+        { title: 'Tables instead of cards', text: 'On the KPI page, two tables replace 24 cards: affiliates and company-owned stores, this year and last, compared at a glance.' },
+        { title: 'A control measure', text: 'A measure compares sales across the two fact tables, tickets and aggregated sales. The gap must stay at zero before every export.' }
+      ],
+      result:
+        'A single pack for the meeting, where every figure rests on the same comparable scope, and a structure that serves as the base for the next client packs.',
+      next: 'Connect the real display hook counts and make periods configurable in the reference workbook rather than in the model.'
+    }
+  },
+
+  {
     slug: 'alertes-ventes-comparables',
     visual: 'alerts',
     stack: ['Power BI', 'DAX', 'SAP HANA', 'Power Query'],

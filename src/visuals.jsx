@@ -320,4 +320,13 @@ export const SncfVisual = ({ lang }) => (
   </div>
 );
 
-export const VISUALS = { alerts: AlertsVisual, pipeline: PipelineVisual, test: TestVisual, mcp: McpVisual, llm: LlmVisual, sncf: SncfVisual };
+export const ShotsVisual = ({ lang, shots = [] }) => {
+  const s = shots[0];
+  if (!s) return null;
+  return (
+    <img src={s.src} alt={s[lang]} width="1426" height="802" loading="lazy"
+      className="block h-auto w-full" />
+  );
+};
+
+export const VISUALS = { shots: ShotsVisual,  alerts: AlertsVisual, pipeline: PipelineVisual, test: TestVisual, mcp: McpVisual, llm: LlmVisual, sncf: SncfVisual };
