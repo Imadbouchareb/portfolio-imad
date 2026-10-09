@@ -82,92 +82,110 @@ export const cases = [
 
   {
     slug: 'alertes-ventes-comparables',
-    visual: 'alerts',
-    stack: ['Power BI', 'DAX', 'SAP HANA', 'Power Query'],
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
+    shots: [
+      { src: '/images/tableau-confie/1-vue-ensemble.webp', fr: 'Vue d’ensemble : cumul de l’année, mois par mois et par centrale, face à 2025. Le mois en cours, en gris, est comparé aux mêmes jours de l’an dernier.', en: 'Overview: year to date, month by month and by account, against 2025. The current month, in grey, is compared with the same days last year.' },
+      { src: '/images/tableau-confie/2-suivi-hebdo.webp', fr: 'Nouvelle page : évolution comparable par centrale et par semaine, et contribution de chaque centrale à l’écart.', en: 'New page: like-for-like change by account and by week, and each account’s contribution to the gap.' },
+      { src: '/images/tableau-confie/3-sept-jours.webp', fr: 'Les 7 derniers jours face à N-1, par centrale, par rayon et par jour, avec le nombre de rayons en alerte.', en: 'The last 7 days against last year, by account, department and day, with the number of departments on alert.' },
+      { src: '/images/tableau-confie/4-detail-produit.webp', fr: 'Détail produit : poids des rayons, écart en valeur par rayon et résultats par sous-famille.', en: 'Product detail: department mix, value gap by department and results by sub-family.' },
+      { src: '/images/tableau-confie/5-detail-magasin.webp', fr: 'Détail magasin : VA par magasin et par semaine, tableau exportable vers Excel.', en: 'Store detail: sales per store and per week, table exportable to Excel.' }
+    ],
     fr: {
       kind: 'Power BI',
       sector: 'Distribution retail, 2026',
-      title: 'Alerte quotidienne sur les ventes comparables',
+      title: 'Tableau de bord quotidien des centrales',
       summary:
-        'Un tableau consulté chaque matin par les responsables de centrale : ventes comparables des 7 derniers jours face à N-1, rayons en baisse signalés, détail jusqu’au rayon.',
-      role: 'Conception et développement, à la demande du Directeur Général',
-      period: 'Été 2026',
-      caption: 'Reconstitution avec des données fictives. Le rapport réel est confidentiel.',
+        'Le tableau de bord du contrôle de gestion pour suivre chaque jour les ventes des enseignes clientes de l’activité Confié : cumul de l’année, 7 jours glissants avec alertes, détail produit et magasin.',
+      role: 'Reprise et évolutions du rapport, page 7 jours créée à la demande du Directeur Général',
+      period: '2026',
+      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
       context:
-        "Le Directeur Général voulait repérer chaque jour, et non en fin de mois, les centrales dont les ventes décrochent par rapport à l'an dernier, sur les deux activités du groupe : Retail et Confié.",
+        "Le contrôle de gestion suit les ventes de dizaines d'enseignes clientes, dans plusieurs pays. Le Directeur Général voulait repérer chaque jour, et non en fin de mois, les centrales et les rayons qui décrochent par rapport à l'an dernier.",
       challenge:
-        "Comparer ce qui est comparable : un rayon absent l'an dernier ou un magasin fermé un jour donné fausse l'indice. Et ne pas ajouter un fichier de plus à actualiser chaque jour : le tableau devait vivre dans les rapports existants.",
+        "Comparer ce qui est comparable : un magasin ouvert cette année ou un rayon absent l'an dernier fausse l'indice. Certaines centrales envoient leurs ventes avec retard, et le mois en cours n'est jamais complet.",
       built: [
-        'Une page ajoutée aux rapports Retail et Confié existants, connectés à SAP HANA.',
-        'Une fenêtre glissante J-1 à J-7 : ventes comparables N, N-1, indice, ligne de total.',
-        'Une carte « rayons en alerte » colorée selon le seuil, en vert, orange ou rouge.',
-        'Un second volet : choisir une ou plusieurs centrales pour isoler les rayons qui décrochent.'
+        'Une base comparable magasin × rayon × semaine, et × jour de la semaine pour la vue 7 jours, calculée une fois et portée sur chaque ligne de vente.',
+        'Une vue d’ensemble en mois ou en semaine : cumul de l’année, résultats mensuels, évolution par centrale.',
+        'Une page 7 jours glissants, avec une carte « rayons en alerte » colorée selon le seuil.',
+        'Un détail produit (rayon, sous-famille, écart en valeur) et un détail magasin exportable.',
+        'Une nouvelle page de suivi hebdomadaire : heatmap centrale × semaine et contribution de chaque centrale à l’écart.',
+        'Une page FAQ dans le rapport, qui explique les règles de calcul aux utilisateurs.'
       ],
       decisions: [
         {
-          title: 'Comparabilité au niveau magasin, rayon et jour',
-          text: "Un rayon n'entre dans l'indice que s'il a vendu le même jour de la même semaine en N et en N-1. C'est plus strict que la règle hebdomadaire déjà en place, mais c'est la seule qui reste juste sur une fenêtre de 7 jours."
+          title: 'Comparabilité au niveau magasin, rayon et semaine',
+          text: "Un couple magasin × rayon n'entre dans l'indice que s'il a vendu la même semaine en 2025 et en 2026. Pour la vue 7 jours, la règle descend au jour de la semaine : c'est la seule qui reste juste sur une fenêtre aussi courte."
+        },
+        {
+          title: 'Deux définitions du N-1, au choix',
+          text: 'En vue semaine, le N-1 est décalé de 364 jours pour comparer un lundi à un lundi. En vue mois, il suit les dates du calendrier. Un signet bascule de l’une à l’autre, et la FAQ l’explique.'
+        },
+        {
+          title: 'Corriger le mois en cours',
+          text: "SAMEPERIODLASTYEAR comparait les dix premiers jours de septembre au mois complet de l'an dernier, d'où un faux recul de plus de 60 %. Le N-1 est désormais borné à la dernière date de vente moins un an."
+        },
+        {
+          title: 'Une heatmap plutôt qu’un tableau de chiffres',
+          text: 'Sur la nouvelle page, la couleur de chaque case dit si la centrale est au-dessus ou en dessous de N-1 cette semaine-là : on repère d’un coup d’œil qui décroche, et depuis quand.'
         },
         {
           title: 'Un segment de date déconnecté',
-          text: "La date choisie alimente une mesure « jour relatif » (0 à 6). La fenêtre glisse avec la date sans casser les autres filtres du rapport."
-        },
-        {
-          title: 'TREATAS plutôt qu’une relation de plus',
-          text: 'La table de comparabilité filtre les mesures de ventes via TREATAS. Le modèle garde ses relations, et les autres pages ne sont pas affectées.'
-        },
-        {
-          title: 'Réutiliser plutôt que créer',
-          text: 'Une page dans les rapports existants : un seul rafraîchissement, une seule définition des ventes pour tout le monde.'
+          text: 'La date choisie pilote la fenêtre de 7 jours sans casser les autres filtres du rapport.'
         }
       ],
       result:
-        "Les responsables de centrale et les chefs de groupe ouvrent ce tableau avant toute autre tâche. Quand un rayon passe en alerte, l'information remonte au chef de groupe et à la Direction Générale le jour même.",
-      next: 'Intégrer les seuils d’alerte définitifs et envoyer automatiquement les alertes du jour par e-mail.'
+        "Les responsables de centrale et les chefs de groupe ouvrent ce tableau chaque matin. Quand un rayon passe en alerte, l'information remonte au chef de groupe et à la Direction Générale le jour même.",
+      next: 'Sortir les règles écrites en dur (affectation des centrales, correspondances de magasins) dans un référentiel, ranger les 150 mesures dans une table dédiée, et envoyer les alertes du jour par e-mail.'
     },
     en: {
       kind: 'Power BI',
       sector: 'Retail distribution, 2026',
-      title: 'Daily alert on like-for-like sales',
+      title: 'Daily dashboard for retail accounts',
       summary:
-        'A dashboard regional managers open every morning: like-for-like sales for the last 7 days against last year, departments in decline flagged, drill-down to department level.',
-      role: 'Design and build, requested by the CEO',
-      period: 'Summer 2026',
-      caption: 'Recreated with fictional data. The real report is confidential.',
+        'The financial control dashboard that tracks, every day, the sales of the retail accounts in the consignment business: year to date, rolling 7 days with alerts, product and store detail.',
+      role: 'Took over and extended the report; built the 7-day page at the CEO’s request',
+      period: '2026',
+      caption: 'Screenshots of the Power BI report, running on fictional data.',
       context:
-        'The CEO wanted to spot every day, not at month end, which retail accounts were falling behind last year, across both business lines: Retail and Consignment.',
+        'Financial control follows the sales of dozens of retail accounts across several countries. The CEO wanted to spot every day, not at month end, which accounts and departments were falling behind last year.',
       challenge:
-        'Compare like with like: a department missing last year or a store closed on a given day skews the index. And no new file to refresh every day: the dashboard had to live inside the existing reports.',
+        'Compare like with like: a store opened this year or a department missing last year skews the index. Some accounts send their sales late, and the current month is never complete.',
       built: [
-        'A page added to the existing Retail and Consignment reports, connected to SAP HANA.',
-        'A rolling D-1 to D-7 window: like-for-like sales this year, last year, index, total row.',
-        'A “departments on alert” card coloured by threshold: green, orange or red.',
-        'A second view: pick one or more accounts to isolate the departments falling behind.'
+        'A store × department × week comparable base, down to weekday for the 7-day view, computed once and carried on every sales row.',
+        'An overview by month or by week: year to date, monthly results, change by account.',
+        'A rolling 7-day page, with a “departments on alert” card coloured by threshold.',
+        'A product detail (department, sub-family, value gap) and an exportable store detail.',
+        'A new weekly tracking page: account × week heatmap and each account’s contribution to the gap.',
+        'An FAQ page inside the report that explains the calculation rules to users.'
       ],
       decisions: [
         {
-          title: 'Comparability at store, department and day level',
-          text: 'A department only counts if it sold on the same day of the same week this year and last year. Stricter than the existing weekly rule, but the only one that stays accurate on a 7-day window.'
+          title: 'Comparability at store, department and week level',
+          text: 'A store × department pair only counts if it sold in the same week in 2025 and 2026. For the 7-day view the rule goes down to the weekday: the only one that stays accurate on such a short window.'
+        },
+        {
+          title: 'Two definitions of last year, by choice',
+          text: 'In week view, last year is shifted by 364 days to compare a Monday with a Monday. In month view, it follows calendar dates. A bookmark switches between them, and the FAQ explains it.'
+        },
+        {
+          title: 'Fixing the current month',
+          text: 'SAMEPERIODLASTYEAR compared the first ten days of September with the whole of last September, showing a false drop of over 60%. Last year is now capped at the last sales date minus one year.'
+        },
+        {
+          title: 'A heatmap instead of a table of numbers',
+          text: 'On the new page, each cell’s colour shows whether the account is above or below last year that week: you see at a glance who is falling behind, and since when.'
         },
         {
           title: 'A disconnected date slicer',
-          text: 'The chosen date feeds a “relative day” measure (0 to 6). The window moves with the date without breaking the report’s other filters.'
-        },
-        {
-          title: 'TREATAS instead of another relationship',
-          text: 'The comparability table filters sales measures through TREATAS. The model keeps its relationships and other pages are unaffected.'
-        },
-        {
-          title: 'Reuse rather than rebuild',
-          text: 'One page in the existing reports: a single refresh, a single definition of sales for everyone.'
+          text: 'The chosen date drives the 7-day window without breaking the report’s other filters.'
         }
       ],
       result:
-        'Account managers and group heads open this dashboard before anything else. When a department goes on alert, it reaches the group head and the CEO the same day.',
-      next: 'Add the final alert thresholds and email the day’s alerts automatically.'
+        'Account managers and group heads open this dashboard every morning. When a department goes on alert, it reaches the group head and the CEO the same day.',
+      next: 'Move hard-coded rules (account assignment, store mappings) into a reference table, gather the 150 measures in a dedicated table, and email the day’s alerts automatically.'
     }
   },
-
   {
     slug: 'pipeline-donnees-ventes',
     visual: 'pipeline',
