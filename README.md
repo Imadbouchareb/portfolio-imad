@@ -1,54 +1,34 @@
 # Portfolio — Imad Bouchareb
 
-Portfolio personnel présentant mon parcours et mes projets en Data Analysis, Business Intelligence et Data Science.
-
-**Démo : [portfolio-imad-theta.vercel.app](https://portfolio-imad-theta.vercel.app)**
-
-![Aperçu du portfolio](public/preview.png)
+Site personnel : études de cas en Business Intelligence, préparation de données et IA appliquée.
 
 ## Stack
 
-- **React** — interface en composants
-- **Vite** — build et dev server
-- **Tailwind CSS** — styling
-- **Vercel** — déploiement continu depuis `main`
-
-## Fonctionnalités
-
-- Interface bilingue français / anglais
-- Sections : à propos, expériences, projets, contact
-- CV téléchargeable en PDF
-- Design responsive
+React 18, Vite, Tailwind CSS. Chaque page est prérendue en HTML statique au build
+(accueil et études de cas, en français et en anglais), ce qui la rend lisible par
+Google et par les aperçus LinkedIn, puis React prend le relais dans le navigateur.
 
 ## Lancer en local
 
 ```bash
-git clone https://github.com/Imadbouchareb/portfolio-imad.git
-cd portfolio-imad
 npm install
-npm run dev
+npm run dev        # développement
+npm run build      # build + prérendu dans dist/
+npx serve dist     # vérifier le résultat final
 ```
 
-Le site est alors disponible sur `http://localhost:5173`.
+## Modifier le contenu
 
-## Build de production
+- `src/content.js` : textes généraux, parcours, compétences, certifications, liens, photo
+- `src/cases.js` : les six études de cas (FR et EN), dans l'ordre d'affichage
+- `src/visuals.jsx` : les visuels des études de cas, dessinés en code avec des données fictives
 
-```bash
-npm run build
-npm run preview
-```
+Changer la photo : remplacer `public/photo.webp` (portrait 4:5, 600 × 750 px).
+Les images d'aperçu LinkedIn sont `public/og-fr.jpg` et `public/og-en.jpg` (1200 × 630 px).
 
-## Structure du projet
+Ajouter un lien GitHub à une étude de cas : renseigner `link` dans `src/cases.js`.
 
-```
-portfolio-imad/
-├── public/          # Assets statiques (images, CV PDF)
-├── src/             # Composants React et styles
-├── index.html
-├── tailwind.config.js
-└── vite.config.js
-```
+## Déploiement
 
-## Contact
-
-[LinkedIn](https://linkedin.com/in/imadbouchareb/) · [GitHub](https://github.com/Imadbouchareb) · imad.bouchareb08@gmail.com
+Vercel déploie automatiquement la branche `main`. `vercel.json` gère les URL avec
+barre finale et le cache des fichiers statiques.

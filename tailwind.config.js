@@ -11,13 +11,15 @@ export default {
         muted: 'rgb(var(--muted) / <alpha-value>)',
         line: 'rgb(var(--line) / <alpha-value>)',
         accent: 'rgb(var(--accent) / <alpha-value>)',
+        prior: 'rgb(var(--prior) / <alpha-value>)',
+        warn: 'rgb(var(--warn) / <alpha-value>)',
+        alert: 'rgb(var(--alert) / <alpha-value>)'
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Newsreader', 'Georgia', 'serif'],
-        mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"Instrument Sans"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif']
       },
-    },
+      maxWidth: { prose: '68ch' }
+    }
   },
-  plugins: [],
+  plugins: []
 }
