@@ -166,6 +166,91 @@ export const cases = [
   },
 
   {
+    slug: 'pilotage-budgetaire-sncf',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'Excel'],
+    shots: [
+      { src: '/images/finance-sncf/0-origine.webp', fr: 'L’écran d’origine, celui que le CODIR ouvrait : les charges externes à date par métier, réalisé, budget et écart, la répartition par nœud comptable et l’évolution mois par mois. Gardé en page d’accueil, sur données fictives.', en: 'The original screen the management committee opened: external costs to date by business line, actual, budget and variance, the split by accounting node and the month-by-month trend. Kept as the landing page, on fictitious data.' },
+      { src: '/images/finance-sncf/1-synthese.webp', fr: 'La synthèse CODIR ajoutée : une phrase qui résume le mois, puis les charges externes, la masse salariale, l’effectif disponible et l’intérim, chacun face au budget, avec l’atterrissage de fin d’année.', en: 'The new management summary: one sentence on the month, then external costs, payroll, available headcount and temp staff, each against budget, with the year-end landing.' },
+      { src: '/images/finance-sncf/2-effectifs.webp', fr: 'Les effectifs : l’effectif disponible en fin de mois et en moyenne sur l’année, face au budget.', en: 'Headcount: available staff at month end and on a yearly average, against budget.' },
+      { src: '/images/finance-sncf/3-interim.webp', fr: 'L’intérim en équivalents temps plein, par métier et par unité de gestion, mois par mois.', en: 'Temp staff in full-time equivalents, by business line and cost unit, month by month.' },
+      { src: '/images/finance-sncf/4-detail.webp', fr: 'Le détail des charges externes : du métier au nœud comptable, puis jusqu’au fournisseur, à la commande et à la pièce.', en: 'External cost detail: from business line to accounting node, down to supplier, purchase order and document.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2024',
+      title: 'Pilotage budgétaire : le réalisé face au budget, chaque mois',
+      summary:
+        'Le rapport que le CODIR de l’établissement Transilien L, A et J lisait chaque mois après la clôture : charges externes, masse salariale, effectifs et intérim, réalisé contre budget, par métier et jusqu’à la facture.',
+      role: 'Conception du rapport en alternance avec l’équipe finance, puis audit et refonte pour le portfolio',
+      period: '2024',
+      caption: 'Captures du rapport refondu, alimenté par des données entièrement fictives.',
+      context:
+        "Chaque mois, après la clôture comptable, le CODIR de l'établissement fait le point sur les dépenses face au budget : charges externes (ACE), masse salariale, effectif disponible, intérim, investissements. Les chiffres viennent des extractions du grand livre, des fichiers de budget et de la base des effectifs, que l'équipe finance dépose chaque mois.",
+      challenge:
+        "Le rapport d'origine comptait 20 pages et 37 tables de données, une par année et par source, plus 14 tables de dates créées automatiquement. Les charges y étaient en négatif : un dépassement s'affichait comme un écart négatif, et les courbes descendaient quand les dépenses montaient. La page CODIR lisait un tableau Excel retapé à la main, alors que les données de détail permettaient de la calculer. Quelques mesures étaient fausses ou mal nommées : la moyenne annuelle des effectifs divisée par des mois pas encore chargés, un cumul « 2023 » qui calculait 2024, une mesure qui pointait vers une table supprimée. Enfin, certaines pages affichaient des noms d'agents.",
+      built: [
+        'Une page Synthèse CODIR calculée à partir des données de détail : charges externes, masse salariale, effectif disponible et intérim, chacun avec le réalisé à date, l’écart au budget et l’atterrissage de fin d’année.',
+        'Une phrase de synthèse écrite en DAX, qui se met à jour avec le dernier mois clos : ce que le CODIR lit en premier.',
+        'Les écarts par métier et par nœud comptable, avec une seule convention : un dépassement est positif, et rouge.',
+        '31 mesures ajoutées, documentées et rangées dans un même dossier, et la moyenne annuelle des effectifs corrigée.',
+        'Les pages d’origine gardées et rebranchées sur des données fictives, les pages nominatives retirées, une page de définitions ajoutée.'
+      ],
+      decisions: [
+        {
+          title: 'Calculer la synthèse plutôt que la saisir',
+          text: "Le tableau CODIR était retapé chaque mois dans Excel à partir des mêmes extractions que le reste du rapport. Le calculer supprime une ressaisie et garantit que la synthèse et le détail disent la même chose."
+        },
+        {
+          title: 'Un dépassement est positif',
+          text: "En comptabilité, les charges sont négatives. En réunion, un écart positif en rouge se lit sans effort ; un écart négatif en rouge oblige à se souvenir de la convention. Les mesures de synthèse remettent les charges en positif."
+        },
+        {
+          title: 'Le dernier mois clos comme repère',
+          text: "Toute la page se cale sur le dernier mois clos, pas sur la date du jour : le réalisé et le budget à date couvrent les mêmes mois, et le titre dit de quel mois on parle."
+        },
+        {
+          title: 'Un atterrissage simple',
+          text: "Le réalisé à date plus le budget des mois restants. Ce n'est pas une prévision, c'est la question du CODIR : si les prochains mois tiennent leur budget, où finit l'année ?"
+        }
+      ],
+      result:
+        "Le CODIR ouvre une page qui dit, en une phrase et quatre blocs, où en est l'établissement à la fin du mois : réalisé, écart au budget, atterrissage. Pour chaque écart, on descend du métier au nœud comptable, puis jusqu'au fournisseur et à la commande.",
+      next: "Regrouper les tables par source plutôt que par année, pour qu'une nouvelle année ne demande plus de dupliquer tables et mesures, et remplacer les dates automatiques par un seul calendrier."
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2024',
+      title: 'Budget control: actuals against budget, every month',
+      summary:
+        'The report the management committee of the Transilien L, A and J network read every month after closing: external costs, payroll, headcount and temp staff, actual against budget, by business line and down to the invoice.',
+      role: 'Built the report during my work-study with the finance team, then audited and rebuilt it for this portfolio',
+      period: '2024',
+      caption: 'Screens of the rebuilt report, fed with entirely fictitious data.',
+      context:
+        'Every month, after the books close, the management committee reviews spending against budget: external costs, payroll, available headcount, temp staff, capital spending. The figures come from general ledger extracts, budget files and the headcount base, which the finance team drops in every month.',
+      challenge:
+        'The original report had 20 pages and 37 data tables, one per year and per source, plus 14 auto-generated date tables. Costs were carried as negatives: an overspend showed as a negative variance, and lines went down when spending went up. The management page read a hand-typed Excel table, although the detail data could compute it. Some measures were wrong or mislabelled: the yearly average headcount divided by months not yet loaded, a “2023” running total that computed 2024, a measure pointing to a deleted table. And some pages showed staff names.',
+      built: [
+        'A management summary page computed from the detail data: external costs, payroll, available headcount and temp staff, each with actual to date, variance to budget and year-end landing.',
+        'A summary sentence written in DAX that updates with the last closed month: what the committee reads first.',
+        'Variances by business line and accounting node, with one convention: an overspend is positive, and red.',
+        '31 new measures, documented and grouped in one folder, and the yearly average headcount fixed.',
+        'The original pages kept and rewired to fictitious data, the pages with names removed, a definitions page added.'
+      ],
+      decisions: [
+        { title: 'Compute the summary instead of typing it', text: 'The management table was retyped in Excel every month from the same extracts as the rest of the report. Computing it removes a manual step and guarantees the summary and the detail say the same thing.' },
+        { title: 'An overspend is positive', text: 'In accounting, costs are negative. In a meeting, a positive variance in red reads at a glance; a negative one in red makes people remember the convention. The summary measures turn costs back into positives.' },
+        { title: 'The last closed month as the anchor', text: 'The whole page aligns on the last closed month, not today’s date: actual and budget to date cover the same months, and the title says which month it is about.' },
+        { title: 'A simple landing', text: 'Actual to date plus the budget of the remaining months. It is not a forecast; it is the committee’s question: if the coming months stay on budget, where does the year end?' }
+      ],
+      result:
+        'The committee opens one page that says, in a sentence and four blocks, where the network stands at month end: actual, variance to budget, landing. For each variance, you drill from business line to accounting node, then down to supplier and purchase order.',
+      next: 'Group tables by source rather than by year, so a new year no longer means duplicating tables and measures, and replace the auto-generated dates with a single calendar.'
+    }
+  },
+
+  {
     slug: 'alertes-ventes-comparables',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
