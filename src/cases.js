@@ -85,6 +85,7 @@ export const cases = [
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint'],
     shots: [
+      { src: '/images/couverture-conduite/0-ecran-origine.webp', fr: 'L’écran d’origine, celui que le pôle ouvrait chaque matin : une ligne par jour, les JS au tas, les ressources et les absences en colonnes, les week-ends repérés. Gardé comme page d’accueil, rebranché sur le modèle refondu.', en: 'The original screen the team opened every morning: one row per day, uncovered duties, resources and absences in columns, weekends flagged. Kept as the landing page, rewired to the rebuilt model.' },
       { src: '/images/couverture-conduite/1-synthese.webp', fr: 'La synthèse du matin : les JS au tas des huit prochains jours par ligne, la marge de couverture et le statut de chaque jour.', en: 'The morning summary: uncovered duties for the next eight days by line, the coverage margin and each day’s status.' },
       { src: '/images/couverture-conduite/2-jour-par-jour.webp', fr: 'La vue de travail du pôle : une ligne par jour, toutes les mesures, le statut en couleur.', en: 'The team’s working view: one row per day, every measure, status in colour.' },
       { src: '/images/couverture-conduite/3-js-au-tas.webp', fr: 'Un jour de grève : les JS au tas une par une, les trains qu’elles portent, par branche et par heure de prise de service.', en: 'A strike day: uncovered duties one by one, the trains they carry, by branch and by start time.' },
@@ -108,7 +109,7 @@ export const cases = [
         'Des règles métier écrites une seule fois, en colonnes calculées : JS non couverte, réserve non couverte, motif d’absence, ligne commerciale, type de train.',
         'Une marge de couverture (conducteurs disponibles moins JS au tas) et un statut par jour : couvert, sous tension, découvert.',
         'Un horizon de planification recalculé à chaque extraction : J à J+7, J+8 à J+14, J+15 à J+28, au-delà.',
-        'Cinq pages : la synthèse du matin, la vue jour par jour, le détail des JS au tas avec leurs trains, les absences, et une page de définitions.'
+        'L’écran d’origine gardé en page d’accueil, rebranché sur le nouveau modèle, et cinq pages ajoutées : la synthèse du matin, la vue jour par jour, le détail des JS au tas avec leurs trains, les absences, et une page de définitions.'
       ],
       decisions: [
         {
@@ -150,7 +151,7 @@ export const cases = [
         'Business rules written once, as calculated columns: uncovered duty, uncovered standby, absence reason, line, train type.',
         'A coverage margin (available drivers minus uncovered duties) and a daily status: covered, under pressure, short.',
         'A planning horizon recalculated at each extraction: D to D+7, D+8 to D+14, D+15 to D+28, beyond.',
-        'Five pages: the morning summary, the day-by-day view, uncovered duties with their trains, absences, and a definitions page.'
+        'The original screen kept as the landing page, rewired to the new model, plus five new pages: the morning summary, the day-by-day view, uncovered duties with their trains, absences, and a definitions page.'
       ],
       decisions: [
         { title: 'A margin, not just a backlog', text: 'Twenty uncovered duties with thirty available drivers is not the same morning as twenty with ten. The margin and the daily status show at once where trains will be cancelled if nothing changes.' },
