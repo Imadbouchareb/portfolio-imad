@@ -56,7 +56,7 @@ export const content = {
     sections: {
       projects: 'Études de cas',
       projectsLead:
-        'Sept projets livrés, chacun avec son contexte, mes choix techniques et ce que ça a changé. Les données affichées sont fictives.',
+        'Huit projets livrés, chacun avec son contexte, mes choix techniques et ce que ça a changé. Les données affichées sont fictives.',
       path: 'Parcours',
       skills: 'Compétences',
       skillsLead: "Classées par endroit où je m'en sers, pas par liste de mots-clés.",
@@ -204,7 +204,7 @@ export const content = {
     ],
     sections: {
       projects: 'Case studies',
-      projectsLead: 'Seven delivered projects, each with its context, my technical choices and what changed. All figures shown are fictional.',
+      projectsLead: 'Eight delivered projects, each with its context, my technical choices and what changed. All figures shown are fictional.',
       path: 'Experience',
       skills: 'Skills',
       skillsLead: 'Grouped by where I actually use them.',

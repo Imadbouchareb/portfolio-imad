@@ -187,6 +187,111 @@ export const cases = [
     }
   },
   {
+    slug: 'pilotage-magasins-retail',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server'],
+    shots: [
+      { src: '/images/dashboard-retail/1-vue-ensemble.webp', fr: 'Vue d’ensemble par enseigne : CA, quantités, démarque, parc, fréquentation par jour, CA hebdomadaire et palmarès des magasins. La semaine en cours est grisée.', en: 'Overview by banner: sales, units, markdown, store count, footfall by weekday, weekly sales and store ranking. The current week is greyed out.' },
+      { src: '/images/dashboard-retail/2-sept-jours.webp', fr: 'Les 7 derniers jours face à N-1, global et à périmètre comparable, par magasin, par rayon et par jour.', en: 'The last 7 days against last year, total and like-for-like, by store, department and day.' },
+      { src: '/images/dashboard-retail/4-guide.webp', fr: 'Guide de lecture intégré au rapport : les règles de calcul, écrites pour les utilisateurs.', en: 'Built-in reading guide: the calculation rules, written for users.' },
+      { src: '/images/dashboard-retail/3-trafic.webp', fr: 'Nouvelle page : le CA décomposé en entrées × transformation × panier, magasin par magasin, avec un contrôle de la couverture des compteurs.', en: 'New page: sales broken down into footfall × conversion × basket, store by store, with a check on people-counter coverage.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'Distribution retail, 2026',
+      title: 'Pilotage des magasins en propre',
+      summary:
+        'Le tableau de bord des magasins des enseignes du groupe : ventes, démarque, fréquentation et transformation, en cumul et sur 7 jours glissants. Repris, audité et remis à plat.',
+      role: 'Reprise du rapport, audit, corrections de calcul et nouvelle page trafic',
+      period: '2026',
+      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
+      context:
+        "Le groupe exploite quatre enseignes en propre, en succursale, en affiliation et en corner, en France, dans les DOM et dans quelques pays voisins. Le rapport sert aux responsables d'enseigne pour suivre leurs magasins. En le reprenant, j'ai trouvé 29 pages dont 26 masquées, des mesures écrites pour des opérations ponctuelles et des indicateurs de trafic qui ne disaient pas la même chose selon la page.",
+      challenge:
+        "Tous les magasins n'ont pas de compteur d'entrées, et certains compteurs tombent en panne. Le taux de transformation et l'évolution de la fréquentation mélangeaient donc des magasins comptés et non comptés, et une panne suffisait à afficher une baisse de trafic qui n'existait pas.",
+      built: [
+        'Un audit complet du modèle et des pages : 26 pages masquées retirées, 67 mesures et 2 tables liées à des opérations terminées supprimées.',
+        'Un taux de transformation calculé uniquement sur les jours où le compteur a fonctionné.',
+        'Une fréquentation « à compteurs comparables », qui ne garde que les magasins comptés de la même façon en N et en N-1.',
+        'Une nouvelle page trafic : CA = entrées × transformation × panier, en nuage de points par magasin et en tableau de décomposition.',
+        'Une date de référence par défaut égale au dernier jour de ventes chargé, et la semaine en cours grisée dans le graphique hebdomadaire.',
+        'Un thème commun, un bandeau aux couleurs de l’enseigne sélectionnée et un guide de lecture qui remplace une FAQ devenue inexacte.'
+      ],
+      decisions: [
+        {
+          title: 'Ne diviser que ce qui a été compté',
+          text: "Le taux de transformation rapportait tous les tickets aux seules entrées comptées. Sur une enseigne où la moitié des magasins n'a pas de compteur, le taux était gonflé. Il ne prend plus que les tickets des jours où le compteur a remonté une valeur."
+        },
+        {
+          title: 'Une fréquentation comparable, comme le CA',
+          text: "Un magasin n'entre dans l'évolution des entrées que si son compteur a fonctionné un nombre de jours proche sur les deux périodes. La page affiche les deux chiffres, brut et comparable, avec le taux de couverture."
+        },
+        {
+          title: 'Décomposer plutôt qu’empiler les indicateurs',
+          text: "Entrées, transformation et panier expliquent ensemble l'évolution du CA. Les mettre côte à côte, magasin par magasin, montre tout de suite si un magasin perd du trafic ou convertit moins bien."
+        },
+        {
+          title: 'Le dernier jour chargé, pas la date du jour',
+          text: "Avec TODAY(), la fenêtre de 7 jours glissait d'un jour dès qu'un chargement avait du retard et affichait une journée vide. La référence par défaut est maintenant la dernière date de vente."
+        },
+        {
+          title: 'Corriger une clé fausse',
+          text: "Une clé de comparabilité était construite avec FORMAT(DAY(date), \"dddd\") : le numéro du jour du mois était lu comme une date, et le nom du jour obtenu était faux. Elle utilise désormais le vrai jour de la semaine."
+        }
+      ],
+      result:
+        'Le rapport passe de 29 pages à 4 pages lisibles, et le modèle perd les mesures et tables mortes. Les indicateurs de trafic sont cohérents d’une page à l’autre, et la fréquentation ne baisse plus quand un compteur tombe en panne.',
+      next: 'Reporter ces corrections dans le rapport de production, sortir les exclusions de magasins écrites en dur dans un référentiel, et remplacer les relations bidirectionnelles entre tables de faits par une table de dates et de magasins commune.'
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'Retail distribution, 2026',
+      title: 'Own-store performance dashboard',
+      summary:
+        'The dashboard for the group’s own stores: sales, markdown, footfall and conversion, year to date and over a rolling 7 days. Taken over, audited and rebuilt.',
+      role: 'Took over the report: audit, calculation fixes and a new traffic page',
+      period: '2026',
+      caption: 'Screenshots of the Power BI report, running on fictional data.',
+      context:
+        'The group runs four banners of its own, through branches, affiliates and corners, in France, the overseas departments and a few neighbouring countries. Banner managers use the report to follow their stores. When I took it over, it had 29 pages, 26 of them hidden, measures written for one-off operations, and traffic indicators that disagreed from one page to the next.',
+      challenge:
+        'Not every store has a people counter, and some counters break down. Conversion rate and footfall change mixed counted and uncounted stores, and a single faulty counter was enough to show a traffic drop that did not exist.',
+      built: [
+        'A full audit of the model and pages: 26 hidden pages removed, 67 measures and 2 tables tied to finished operations deleted.',
+        'A conversion rate computed only on days when the counter worked.',
+        'A “like-for-like counters” footfall, keeping only stores counted the same way this year and last year.',
+        'A new traffic page: sales = footfall × conversion × basket, as a store scatter plot and a breakdown table.',
+        'A default reference date set to the last day of loaded sales, and the current week greyed out in the weekly chart.',
+        'A shared theme, a header in the selected banner’s colour, and a reading guide replacing an FAQ that had become inaccurate.'
+      ],
+      decisions: [
+        {
+          title: 'Only divide what was counted',
+          text: 'Conversion divided all receipts by counted visitors only. For a banner where half the stores have no counter, the rate was inflated. It now only uses receipts from days when the counter reported a value.'
+        },
+        {
+          title: 'Like-for-like footfall, just like sales',
+          text: 'A store only counts towards footfall change if its counter worked a similar number of days in both periods. The page shows both figures, raw and like-for-like, with the coverage rate.'
+        },
+        {
+          title: 'Break down instead of stacking indicators',
+          text: 'Footfall, conversion and basket together explain the change in sales. Putting them side by side, store by store, shows at once whether a store is losing traffic or converting less.'
+        },
+        {
+          title: 'The last loaded day, not today',
+          text: 'With TODAY(), the 7-day window moved forward as soon as a load ran late and showed an empty day. The default reference is now the last sales date.'
+        },
+        {
+          title: 'Fixing a broken key',
+          text: 'A comparability key used FORMAT(DAY(date), "dddd"): the day of the month was read as a date, so the weekday name was wrong. It now uses the actual weekday.'
+        }
+      ],
+      result:
+        'The report goes from 29 pages to 4 readable ones, and the model loses its dead measures and tables. Traffic indicators agree across pages, and footfall no longer drops when a counter breaks down.',
+      next: 'Carry these fixes into the production report, move hard-coded store exclusions into a reference table, and replace the bidirectional relationships between fact tables with shared date and store tables.'
+    }
+  },
+  {
     slug: 'pipeline-donnees-ventes',
     visual: 'pipeline',
     stack: ['Python', 'Polars', 'Parquet', 'Power BI', 'DAX', 'SAP Analytics Cloud'],
