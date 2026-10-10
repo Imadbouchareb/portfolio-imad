@@ -273,9 +273,9 @@ export const cases = [
       context:
         "La DRH de l'établissement suit l'absentéisme de chacune de ses entités à partir d'extractions RH mensuelles déposées sur SharePoint, et les contrats à temps partiel à partir d'un fichier de suivi : le même que lit le bot Power Automate qui prévient les agents et leurs managers. Chaque entité avait son rapport, présenté en revue de performance.",
       challenge:
-        "Six rapports d'absentéisme, un par entité, construits sur le même principe mais chacun avec ses tables, ses noms et ses mesures : de 6 à 31 mesures selon le rapport. Dans les six, le calendrier n'était relié à aucune table : ses filtres d'année et de mois ne filtraient pas les absences. L'objectif annuel était comparé au cumul à date sans être ramené aux mois écoulés. Côté temps partiels, l'échéance comptait les mois à 30 jours, ignorait l'année et la date de fin, et se calculait à la date du jour : un contrat terminé depuis un mois pouvait s'afficher « dans les délais ».",
+        "Six rapports d'absentéisme, un par entité, construits sur le même principe mais chacun avec ses tables, ses noms et ses mesures : de 6 à 31 mesures selon le rapport, et un calendrier automatique étendu aux dates d'embauche, soit près de soixante ans de dates. L'objectif annuel était comparé au cumul à date sans être ramené aux mois écoulés. Côté temps partiels, l'échéance comptait les mois à 30 jours, ignorait l'année et la date de fin, et se calculait à la date du jour : un contrat terminé depuis un mois pouvait s'afficher « dans les délais ».",
       built: [
-        'Un seul modèle pour les six entités : une table d’absences, un référentiel de secteurs et d’UO qui porte l’entité, et un calendrier enfin relié aux données.',
+        'Un seul modèle pour les six entités : une table d’absences, un référentiel de secteurs et d’UO qui porte l’entité, et un seul calendrier, borné aux années suivies.',
         'Les pages du rapport le plus complet (EST PSL) et du suivi des temps partiels gardées et rebranchées : revue de performance, objectifs, accidents du travail, détail par motif, par secteur et par agent.',
         'Une vue d’ensemble ajoutée : le cumul depuis janvier face à l’objectif à date et à l’an dernier, par entité et par secteur, avec une phrase de synthèse.',
         'Une page temps partiels ajoutée : la vraie date d’échéance, les contrats échus, les ETP perdus par entité, et l’ancien statut à côté du nouveau.',
@@ -315,9 +315,9 @@ export const cases = [
       context:
         'HR tracks absence for each of its units from monthly HR extracts dropped on SharePoint, and part-time contracts from a tracking file: the same one the Power Automate bot reads to notify employees and their managers. Each unit had its own report, presented in performance reviews.',
       challenge:
-        'Six absence reports, one per unit, built on the same idea but each with its own tables, names and measures: from 6 to 31 measures depending on the report. In all six, the calendar was linked to no table, so its year and month filters did not filter absences. The yearly target was compared with the year-to-date figure without being pro-rated. On the part-time side, the due date counted months as 30 days, ignored the year and the end date, and was computed on today’s date: a contract that ended a month ago could show as “on time”.',
+        'Six absence reports, one per unit, built on the same idea but each with its own tables, names and measures: from 6 to 31 measures depending on the report, and an automatic calendar stretched to hiring dates, nearly sixty years of dates. The yearly target was compared with the year-to-date figure without being pro-rated. On the part-time side, the due date counted months as 30 days, ignored the year and the end date, and was computed on today’s date: a contract that ended a month ago could show as “on time”.',
       built: [
-        'One model for all six units: one absence table, a sector and team reference that carries the unit, and a calendar finally linked to the data.',
+        'One model for all six units: one absence table, a sector and team reference that carries the unit, and a single calendar limited to the years tracked.',
         'The pages of the most complete report (EST PSL) and of the part-time tracker kept and rewired: performance review, targets, workplace accidents, detail by reason, sector and employee.',
         'A new overview: year to date against the pro-rated target and last year, by unit and by sector, with a summary sentence.',
         'A new part-time page: the actual due date, expired contracts, FTEs lost by unit, and the old status next to the new one.',
