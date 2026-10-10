@@ -81,6 +81,90 @@ export const cases = [
   },
 
   {
+    slug: 'couverture-conduite-sncf',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint'],
+    shots: [
+      { src: '/images/couverture-conduite/1-synthese.webp', fr: 'La synthèse du matin : les JS au tas des huit prochains jours par ligne, la marge de couverture et le statut de chaque jour.', en: 'The morning summary: uncovered duties for the next eight days by line, the coverage margin and each day’s status.' },
+      { src: '/images/couverture-conduite/2-jour-par-jour.webp', fr: 'La vue de travail du pôle : une ligne par jour, toutes les mesures, le statut en couleur.', en: 'The team’s working view: one row per day, every measure, status in colour.' },
+      { src: '/images/couverture-conduite/3-js-au-tas.webp', fr: 'Un jour de grève : les JS au tas une par une, les trains qu’elles portent, par branche et par heure de prise de service.', en: 'A strike day: uncovered duties one by one, the trains they carry, by branch and by start time.' },
+      { src: '/images/couverture-conduite/4-absences.webp', fr: 'Les absences non planifiables par motif et par dépôt, face aux JS au tas.', en: 'Unplanned absences by reason and depot, against uncovered duties.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2025',
+      title: 'Couverture de la conduite : les trains sans conducteur, chaque matin',
+      summary:
+        'Le rapport que le pôle Production Traction de l’établissement Transilien L, A et J ouvrait chaque matin : combien de journées de service restent sans conducteur, sur quelle ligne, quels trains elles portent, et si les conducteurs disponibles suffisent pour les couvrir.',
+      role: 'Conception du rapport en alternance, puis audit et refonte pour le portfolio',
+      period: '2025',
+      caption: 'Captures du rapport refondu, alimenté par des données entièrement fictives.',
+      context:
+        "Chaque jour de service d'un conducteur (une JS) porte une suite de trains. Une JS sans conducteur affecté, « au tas », c'est autant de trains menacés de suppression. Deux fois par jour, le planning de conduite est extrait et déposé sur SharePoint ; le pôle Production Traction s'en sert pour décider, chaque matin, quelles JS couvrir en priorité et avec quels conducteurs.",
+      challenge:
+        "Le rapport d'origine tenait en un grand tableau de 24 colonnes et 128 mesures, dont beaucoup en double. Le dossier lu était écrit en dur pour un mois donné, des mesures d'historique pointaient vers une table qui n'existait plus, et les JS étaient comptées par code sur la période, donc sous-comptées dans les totaux dès qu'on regardait plusieurs jours. Surtout, il disait combien de JS restaient au tas, pas si on pouvait les couvrir.",
+      built: [
+        'Un modèle propre : 37 mesures documentées et rangées par thème (charge, ressources, absences, pilotage) à la place des 128 d’origine.',
+        'Des règles métier écrites une seule fois, en colonnes calculées : JS non couverte, réserve non couverte, motif d’absence, ligne commerciale, type de train.',
+        'Une marge de couverture (conducteurs disponibles moins JS au tas) et un statut par jour : couvert, sous tension, découvert.',
+        'Un horizon de planification recalculé à chaque extraction : J à J+7, J+8 à J+14, J+15 à J+28, au-delà.',
+        'Cinq pages : la synthèse du matin, la vue jour par jour, le détail des JS au tas avec leurs trains, les absences, et une page de définitions.'
+      ],
+      decisions: [
+        {
+          title: 'Une marge, pas seulement un stock',
+          text: "Vingt JS au tas avec trente conducteurs disponibles, ce n'est pas le même matin que vingt JS au tas avec dix. La marge et le statut du jour disent tout de suite où il faudra supprimer des trains si rien ne change."
+        },
+        {
+          title: 'Compter les JS jour par jour',
+          text: "Un même code de JS revient chaque jour. Un comptage distinct sur la période en perdait la plupart dès qu'on sélectionnait une semaine. Les mesures comptent maintenant jour par jour, puis additionnent."
+        },
+        {
+          title: 'Relier les JS aux trains',
+          text: "Chaque JS au tas est reliée aux trains qu'elle porte, en séparant les trains commerciaux des trains sans voyageurs. Le pôle voit l'impact pour les voyageurs, pas seulement un nombre de JS."
+        },
+        {
+          title: 'Lire selon l’horizon',
+          text: "Une JS au tas à J+20 est normale, à J+1 c'est une alerte. L'horizon, recalculé par rapport à la date d'extraction, sépare ce qui est urgent de ce que le planning comblera de lui-même."
+        }
+      ],
+      result:
+        "Chaque matin, une page répond aux trois questions du pôle : combien de JS restent à couvrir, sur quelle ligne et quels trains elles portent, et si les conducteurs disponibles suffisent. Les jours découverts sont repérés une semaine à l'avance, avec les JS et les trains concernés.",
+      next: "Lire automatiquement le dossier du mois en cours plutôt qu'un chemin écrit en dur, et reconstruire l'historique quotidien des JS au tas pour suivre la tendance d'un mois sur l'autre."
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2025',
+      title: 'Driver coverage: trains without a driver, every morning',
+      summary:
+        'The report the train-driving production team of the Transilien L, A and J network opened every morning: how many duties still have no driver, on which line, which trains they carry, and whether the available drivers are enough to cover them.',
+      role: 'Built the report during my work-study, then audited and rebuilt it for this portfolio',
+      period: '2025',
+      caption: 'Screens of the rebuilt report, fed with entirely fictitious data.',
+      context:
+        'Each driver duty carries a sequence of trains. A duty with no driver assigned puts all those trains at risk of cancellation. Twice a day the driving schedule is extracted to SharePoint; the production team uses it every morning to decide which duties to cover first, and with whom.',
+      challenge:
+        'The original report was one 24-column table and 128 measures, many of them duplicates. The source folder was hard-coded to one month, history measures pointed to a table that no longer existed, and duties were counted by code over the period, so totals were undercounted as soon as several days were selected. Above all, it said how many duties were uncovered, not whether they could be covered.',
+      built: [
+        'A clean model: 37 documented measures grouped by theme (workload, resources, absences, steering) instead of the original 128.',
+        'Business rules written once, as calculated columns: uncovered duty, uncovered standby, absence reason, line, train type.',
+        'A coverage margin (available drivers minus uncovered duties) and a daily status: covered, under pressure, short.',
+        'A planning horizon recalculated at each extraction: D to D+7, D+8 to D+14, D+15 to D+28, beyond.',
+        'Five pages: the morning summary, the day-by-day view, uncovered duties with their trains, absences, and a definitions page.'
+      ],
+      decisions: [
+        { title: 'A margin, not just a backlog', text: 'Twenty uncovered duties with thirty available drivers is not the same morning as twenty with ten. The margin and the daily status show at once where trains will be cancelled if nothing changes.' },
+        { title: 'Count duties day by day', text: 'The same duty code comes back every day. A distinct count over the period lost most of them as soon as a week was selected. Measures now count day by day, then add up.' },
+        { title: 'Link duties to trains', text: 'Each uncovered duty is linked to the trains it carries, separating passenger trains from empty runs. The team sees the impact on passengers, not just a number of duties.' },
+        { title: 'Read by horizon', text: 'An uncovered duty at D+20 is normal; at D+1 it is an alert. The horizon, recalculated from the extraction date, separates what is urgent from what the schedule will fill on its own.' }
+      ],
+      result:
+        'Every morning, one page answers the team’s three questions: how many duties are left to cover, on which line and with which trains, and whether the available drivers are enough. Short days are spotted a week ahead, with the duties and trains involved.',
+      next: 'Read the current month’s folder automatically instead of a hard-coded path, and rebuild the daily history of uncovered duties to track the trend month after month.'
+    }
+  },
+
+  {
     slug: 'alertes-ventes-comparables',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
