@@ -365,6 +365,22 @@ const CasePage = ({ t, lang, slug }) => {
             </div>
           </section>
         )}
+        {c.reports && (
+          <section className="border-t border-line py-10">
+            <h2 className="text-sm font-semibold text-ink">{L.reports}</h2>
+            {d.reportsIntro && <p className="mt-3 max-w-3xl leading-relaxed text-muted">{d.reportsIntro}</p>}
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              {c.reports.map((s, i) => (
+                <figure key={s.src} className={`overflow-hidden rounded-xl border border-line bg-surface ${i === 0 ? 'md:col-span-2' : ''} md:[&:last-child:nth-child(even)]:col-span-2`}>
+                  <a href={s.src} target="_blank" rel="noopener noreferrer">
+                    <img src={s.src} alt={s[lang]} width="1426" height="802" loading="lazy" className="block h-auto w-full" />
+                  </a>
+                  <figcaption className="border-t border-line/70 px-4 py-3 text-xs leading-relaxed text-muted">{s[lang]}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
         {c.shots && c.shots.length > 1 && (
           <section className="border-t border-line py-10">
             <h2 className="text-sm font-semibold text-ink">{L.pages}</h2>

@@ -917,7 +917,14 @@ export const cases = [
   {
     slug: 'affectation-agents-sncf',
     visual: 'sncf',
-    stack: ['Power Apps', 'Dataverse', 'Power Automate', 'SharePoint'],
+    stack: ['Power Apps', 'Dataverse', 'Power Automate', 'SharePoint', 'Power BI'],
+    reports: [
+      { src: '/images/dispatch-sncf/0-planning.webp', fr: 'Le planning d’un périmètre tel que les chefs d’équipe l’ont saisi : une ligne par agent, un code par jour (MA/VE pour une matinée en vente, RP pour un repos, CA pour un congé).', en: 'A station network’s schedule as team leaders entered it: one row per employee, one code per day (MA/VE for a morning on sales, RP for a rest day, CA for leave).' },
+      { src: '/images/dispatch-sncf/1-race.webp', fr: 'RACE, le rapport d’activité des chefs d’équipe : pour un agent et un mois, la dernière saisie de chaque jour et son code POGS, construit à partir de la gare, du rang dans la gare, de l’horaire et de l’activité.', en: 'RACE, the team leaders’ activity report: for one employee and one month, the last entry of each day and its POGS code, built from the station, the rank in the station, the shift and the activity.' },
+      { src: '/images/dispatch-sncf/2-presence.webp', fr: 'Présents et absents sur les huit secteurs, par activité et par mois.', en: 'Present and absent staff across the eight sectors, by activity and month.' },
+      { src: '/images/dispatch-sncf/3-statistiques.webp', fr: 'Combien d’agents en moyenne par jour de la semaine et par horaire, secteur par secteur.', en: 'Average staff per weekday and per shift, sector by sector.' },
+      { src: '/images/dispatch-sncf/4-indisponibilite.webp', fr: 'Les indisponibilités jour par jour et par type.', en: 'Unavailability day by day and by type.' }
+    ],
     figures: [
       { v: 'astreinteFlow', fr: 'Le circuit d’une astreinte, de la déclaration à la mise en paiement : 8 flux Power Automate, un écran par rôle.', en: 'An on-call claim from declaration to payment: 8 Power Automate flows, one screen per role.' },
       { v: 'botFlow', fr: 'Le bot temps partiel : deux tests avant chaque envoi, dont l’historique qui évite les relances en double.', en: 'The part-time contract bot: two checks before each email, including the history that prevents duplicate reminders.' }
@@ -927,7 +934,7 @@ export const cases = [
       sector: 'SNCF, 2024–2025',
       title: 'Affectation des agents en gare et astreintes, sans papier',
       summary:
-        'Deux applications mobiles en production : l’affectation des agents en gare (45 écrans) et la déclaration des astreintes avec un circuit de validation jusqu’à quatre rôles (24 écrans, 8 flux). Plus un bot qui prévient des fins de contrat à temps partiel.',
+        'Deux applications mobiles en production : l’affectation des agents en gare (45 écrans) et la déclaration des astreintes avec un circuit de validation jusqu’à quatre rôles (24 écrans, 8 flux). Plus un bot qui prévient des fins de contrat à temps partiel, et trois rapports Power BI alimentés par les saisies.',
       role: 'Conception et développement, en alternance',
       period: 'Septembre 2024 à décembre 2025',
       caption: 'Écrans des applications en production.',
@@ -940,13 +947,17 @@ export const cases = [
         'Astreintes : l’agent déclare son astreinte et ses sorties ; le responsable valide, refuse avec un motif ou transmet au DUO ; le GU met en paiement ou rejette.',
         '8 flux Power Automate : soumission, validations, refus et mise en paiement, chacun avec un e-mail qui ouvre directement le bon écran.',
         'Un bot RH : quand le fichier de suivi des temps partiels est mis à jour, il prévient l’agent et son manager des contrats arrivés à échéance, avec un message différent en cas de tacite reconduction.',
-        'Un mode opératoire interactif pour habiliter un nouvel utilisateur, afin qu’un remplaçant puisse le faire sans moi.'
+        'Un mode opératoire interactif pour habiliter un nouvel utilisateur, afin qu’un remplaçant puisse le faire sans moi.',
+        'Trois rapports Power BI branchés sur les saisies de Dispatch : le planning de chaque périmètre, la présence par activité, et RACE, qui donne le code POGS de chaque journée d’agent.'
       ],
       decisions: [
         { title: 'Un écran par rôle, ouvert depuis l’e-mail', text: 'Le lien de chaque e-mail porte la page à ouvrir : le responsable, le DUO ou le GU arrive directement sur l’astreinte à traiter.' },
         { title: 'Les droits dans une table d’accès', text: 'Au démarrage, l’application lit le matricule de l’utilisateur et en déduit son secteur : chacun ne voit que ses gares et ses équipes.' },
-        { title: 'Une seule relance par contrat', text: 'Avant d’envoyer, le bot vérifie dans un historique que le matricule n’a pas déjà été prévenu, puis enregistre l’envoi. Pas de doublons dans les boîtes mail.' }
+        { title: 'Une seule relance par contrat', text: 'Avant d’envoyer, le bot vérifie dans un historique que le matricule n’a pas déjà été prévenu, puis enregistre l’envoi. Pas de doublons dans les boîtes mail.' },
+        { title: 'La dernière saisie fait foi', text: 'Un chef d’équipe corrige souvent une affectation après coup, et la liste garde les deux lignes. RACE ne retient que la plus récente pour un agent et un jour : sinon, le même agent compterait présent et absent.' }
       ],
+      reportsIntro:
+        'Chaque affectation saisie dans Dispatch arrive dans une liste SharePoint, une ligne par agent et par jour. Les rapports Power BI s’en servent pour le planning de chaque périmètre et pour RACE, le rapport d’activité des chefs d’équipe. Captures d’une copie sur données fictives.',
       result: 'Fin des impressions papier et −40 % de temps de reporting manuel. Deux applications en production.',
       next: ''
     },
@@ -955,7 +966,7 @@ export const cases = [
       sector: 'SNCF, 2024–2025',
       title: 'Paperless station staff dispatch and on-call duty',
       summary:
-        'Two mobile apps in production: station staff dispatch (45 screens) and on-call declarations with an approval chain of up to four roles (24 screens, 8 flows). Plus a bot that flags part-time contracts reaching their end date.',
+        'Two mobile apps in production: station staff dispatch (45 screens) and on-call declarations with an approval chain of up to four roles (24 screens, 8 flows). Plus a bot that flags part-time contracts reaching their end date, and three Power BI reports fed by the entries.',
       role: 'Design and build, work-study',
       period: 'September 2024 to December 2025',
       caption: 'Screens from the production apps.',
@@ -966,13 +977,17 @@ export const cases = [
         'On-call: the employee declares the duty and call-outs; the manager approves, rejects with a reason or escalates to the DUO; the GU releases payment or rejects.',
         '8 Power Automate flows: submission, approvals, rejections and payment, each with an email that opens the right screen.',
         'An HR bot: when the part-time tracking file is updated, it emails the employee and their manager about contracts reaching their end date, with a different message for automatic renewals.',
-        'An interactive runbook for granting access to a new user, so a stand-in can do it without me.'
+        'An interactive runbook for granting access to a new user, so a stand-in can do it without me.',
+        'Three Power BI reports built on the Dispatch entries: each network’s schedule, attendance by activity, and RACE, which gives the POGS code of every employee day.'
       ],
       decisions: [
         { title: 'One screen per role, opened from the email', text: 'Each email link carries the page to open: the manager, DUO or GU lands straight on the claim to handle.' },
         { title: 'Access rights in a table', text: 'On launch, the app reads the user’s staff ID and derives their sector: everyone only sees their own stations and teams.' },
-        { title: 'One reminder per contract', text: 'Before sending, the bot checks a history list that the employee has not been notified yet, then logs the email. No duplicates in inboxes.' }
+        { title: 'One reminder per contract', text: 'Before sending, the bot checks a history list that the employee has not been notified yet, then logs the email. No duplicates in inboxes.' },
+        { title: 'The last entry wins', text: 'Team leaders often correct an assignment afterwards, and the list keeps both rows. RACE keeps only the latest one per employee and day; otherwise the same person would count as both present and absent.' }
       ],
+      reportsIntro:
+        'Every assignment entered in Dispatch lands in a SharePoint list, one row per employee and day. The Power BI reports use it for each network’s schedule and for RACE, the team leaders’ activity report. Screens from a copy on fictitious data.',
       result: 'No more printed sheets and −40% manual reporting time. Two apps in production.',
       next: ''
     }
