@@ -292,6 +292,114 @@ export const cases = [
     }
   },
   {
+    slug: 'analyse-soldes',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
+    shots: [
+      { src: '/images/analyses-soldes/1-synthese-groupe.webp', fr: 'Nouvelle page de synthèse : les cinq périmètres face à N-1, le rythme des soldes jour après jour et la contribution de chacun à l’écart du groupe.', en: 'New summary page: the five scopes against last year, the sales rhythm day by day and each one’s contribution to the group gap.' },
+      { src: '/images/analyses-soldes/2-synthese-deux-semaines.webp', fr: 'La même page en deux clics sur les soldes d’hiver, lecture « 2 premières semaines » : titres, dates et courbes suivent.', en: 'The same page in two clicks on the winter sales, “first two weeks” reading: titles, dates and curves follow.' },
+      { src: '/images/analyses-soldes/3-confie-synthese.webp', fr: 'Synthèse des centrales clientes : indices, démarque, top et flop 5, évolution par semaine.', en: 'Retail accounts summary: indices, markdown, top and bottom 5, weekly trend.' },
+      { src: '/images/analyses-soldes/4-confie-detail.webp', fr: 'Détail par centrale et rayon, global et comparable, avec la période comparée rédigée automatiquement.', en: 'Detail by account and department, total and like-for-like, with the compared period written automatically.' },
+      { src: '/images/analyses-soldes/5-client-principal.webp', fr: 'Focus sur le premier client : rayons par pays, PVM et quantités.', en: 'Focus on the largest account: departments by country, average price and units.' },
+      { src: '/images/analyses-soldes/6-enseigne-synthese.webp', fr: 'Synthèse d’une enseigne du groupe, aux couleurs de l’enseigne.', en: 'Summary for one of the group’s banners, in the banner’s colour.' },
+      { src: '/images/analyses-soldes/7-enseigne-magasins.webp', fr: 'Détail par magasin, avec totaux global et comparable.', en: 'Store detail, with total and like-for-like subtotals.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'Distribution retail, 2026',
+      title: 'Bilan des soldes, du premier jour à la fin de période',
+      summary:
+        'Le rapport qui mesure chaque saison de soldes face à N-1, pour les centrales clientes et les quatre enseignes du groupe. Quatre lectures par saison, deux saisons par an : refondu pour que chaque lecture prenne deux clics.',
+      role: 'Reprise du rapport, audit et refonte, nouvelle page de synthèse groupe',
+      period: '2026',
+      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
+      context:
+        "Le rapport sert deux fois par an, pour les soldes d'hiver et d'été, et quatre fois par saison : le premier jour, à une semaine, à deux semaines et en fin de période. Il couvre cinq périmètres : les centrales clientes de l'activité Confié et les quatre enseignes en propre du groupe, chacune avec sa synthèse et ses tableaux par magasin.",
+      challenge:
+        "Chaque lecture demandait de modifier les dates dans Power Query, le filtre de dates du rapport, une douzaine de titres et les phrases de commentaire, et même de retaper à la main des pourcentages posés par-dessus les tableaux. Rien ne donnait non plus une vue d'ensemble des cinq périmètres.",
+      built: [
+        'Un calendrier des soldes : une ligne par saison, avec ses dates officielles. Chaque date porte son rang de jour de soldes, en N comme en N-1.',
+        'Deux sélecteurs synchronisés sur toutes les pages : la saison et la lecture (1er jour, 1re semaine, 2 premières semaines, toute la période).',
+        'Des titres, des périodes comparées et des phrases d’indice calculés, à la place des textes saisis à chaque lecture.',
+        'Une nouvelle page de synthèse groupe : les cinq périmètres côte à côte, le rythme des soldes jour après jour, la contribution de chacun à l’écart.',
+        'Un thème commun, une couleur par périmètre et des boutons de navigation vers chaque partie.',
+        'Le nettoyage du rapport : pages mortes retirées, filtres codés en dur supprimés, démarque recalculée en nombre.'
+      ],
+      decisions: [
+        {
+          title: 'Filtrer par rang de jour de soldes plutôt que par dates',
+          text: "Les mesures de base ne gardent que les jours 1 à n de la saison. Le N-1 est décalé de 364 jours : le premier mercredi des soldes se compare au premier mercredi de l'an dernier, et la même règle vaut pour les quatre lectures."
+        },
+        {
+          title: 'Un rythme cumulé, jour après jour',
+          text: "La courbe de la synthèse montre l'évolution comparable cumulée depuis le premier jour. On voit si un périmètre a raté son démarrage puis rattrapé, ce qu'un chiffre de fin de période cache."
+        },
+        {
+          title: 'Une démarque en nombre, pas en texte',
+          text: "La démarque était renvoyée par FORMAT(), donc en texte : pas de total, pas de tri, et des pourcentages retapés à la main par-dessus un tableau. Elle est maintenant un nombre, avec son format."
+        },
+        {
+          title: 'Paginer par rang, pas par seuil de CA',
+          text: "Un tableau de magasins était coupé en deux pages avec un seuil de CA écrit en dur, faux dès qu'on change de lecture. Il est maintenant coupé selon le rang du magasin."
+        },
+        {
+          title: 'Des sélecteurs masqués et synchronisés',
+          text: "La saison et la lecture se choisissent une fois, sur la synthèse. Une copie masquée de chaque sélecteur sur les autres pages applique ce choix partout, sans encombrer des pages faites pour être imprimées."
+        }
+      ],
+      result:
+        'Passer d’une lecture à l’autre ne demande plus aucune modification du rapport : on choisit la saison et la lecture, et les seize pages suivent. La direction dispose en plus d’une page qui compare les cinq périmètres en un coup d’œil.',
+      next: 'Reporter la refonte dans le rapport de production, ajouter les saisons passées au calendrier des soldes pour comparer plusieurs années, et sortir la liste des centrales du périmètre dans un référentiel.'
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'Retail distribution, 2026',
+      title: 'Sales season review, from day one to the end',
+      summary:
+        'The report that measures each sales season against last year, for the retail accounts and the group’s four banners. Four readings per season, two seasons a year: rebuilt so each reading takes two clicks.',
+      role: 'Took over the report: audit, redesign and a new group summary page',
+      period: '2026',
+      caption: 'Screenshots of the Power BI report, running on fictional data.',
+      context:
+        'The report is used twice a year, for the winter and summer sales, and four times per season: on day one, after one week, after two weeks and at the end. It covers five scopes: the retail accounts of the consignment business and the group’s four own banners, each with its summary and store tables.',
+      challenge:
+        'Each reading meant editing the dates in Power Query, the report date filter, a dozen titles and the commentary sentences, and even retyping percentages placed over the tables by hand. Nothing gave an overview of the five scopes either.',
+      built: [
+        'A sales calendar: one row per season with its official dates. Every date carries its sales-day rank, this year and last year.',
+        'Two selectors synced across every page: the season and the reading (day one, first week, first two weeks, whole period).',
+        'Computed titles, compared periods and index sentences, replacing the text typed in at every reading.',
+        'A new group summary page: the five scopes side by side, the sales rhythm day by day, each one’s contribution to the gap.',
+        'A shared theme, one colour per scope and navigation buttons to each part.',
+        'A clean-up: dead pages removed, hard-coded filters dropped, markdown recomputed as a number.'
+      ],
+      decisions: [
+        {
+          title: 'Filter by sales-day rank, not by dates',
+          text: 'The base measures only keep days 1 to n of the season. Last year is shifted by 364 days: the first Wednesday of the sales is compared with last year’s first Wednesday, and the same rule works for all four readings.'
+        },
+        {
+          title: 'A cumulative rhythm, day by day',
+          text: 'The summary curve shows the cumulative like-for-like change since day one. You see whether a scope missed its start and then caught up, which an end-of-period figure hides.'
+        },
+        {
+          title: 'Markdown as a number, not text',
+          text: 'Markdown came out of FORMAT(), so as text: no total, no sorting, and percentages retyped by hand over a table. It is now a number with a format string.'
+        },
+        {
+          title: 'Paginate by rank, not by a sales threshold',
+          text: 'A store table was split over two pages with a hard-coded sales threshold, wrong as soon as the reading changed. It is now split by store rank.'
+        },
+        {
+          title: 'Hidden, synced selectors',
+          text: 'Season and reading are chosen once, on the summary. A hidden copy of each selector on the other pages applies the choice everywhere, without cluttering pages designed for printing.'
+        }
+      ],
+      result:
+        'Moving from one reading to the next no longer requires any change to the report: pick the season and the reading, and all sixteen pages follow. Management also gets a page that compares the five scopes at a glance.',
+      next: 'Carry the redesign into the production report, add past seasons to the sales calendar to compare several years, and move the list of in-scope accounts into a reference table.'
+    }
+  },
+  {
     slug: 'pipeline-donnees-ventes',
     visual: 'pipeline',
     stack: ['Python', 'Polars', 'Parquet', 'Power BI', 'DAX', 'SAP Analytics Cloud'],
