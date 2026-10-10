@@ -666,27 +666,27 @@ export const cases = [
     fr: {
       kind: 'Power Apps et Power Automate',
       sector: 'SNCF, 2024–2025',
-      title: 'Affectation des agents en gare, sans papier',
+      title: 'Affectation des agents en gare et astreintes, sans papier',
       summary:
-        'Deux applications en production : l’affectation des agents sur tablette et la déclaration des astreintes avec validation RH, appuyées sur 7 flux automatisés.',
+        'Deux applications mobiles en production : l’affectation des agents en gare (45 écrans) et la déclaration des astreintes avec un circuit de validation à quatre niveaux (24 écrans, 8 flux). Plus un bot qui prévient des fins de contrat à temps partiel.',
       role: 'Conception et développement, en alternance',
       period: 'Septembre 2024 à décembre 2025',
       caption: 'Écrans des applications en production.',
       context:
-        "À la SNCF, l'affectation des agents en gare et la déclaration des astreintes reposaient sur des processus papier.",
+        "À la SNCF, l'affectation des agents en gare et la déclaration des astreintes reposaient sur des feuilles papier et des relances par e-mail.",
       challenge:
-        'Des managers sur le terrain, sur tablette, parfois sans réseau en sous-sol ou sur les quais, et une validation RH à plusieurs niveaux avec gestion des refus.',
+        'Des managers sur le terrain, sur téléphone, deux périmètres de gares (EOLE et ESCALE), et une astreinte qui passe par quatre personnes avant d’être payée, avec des refus à gérer à chaque étape.',
       built: [
-        'Une application tablette d’affectation, sur un modèle Dataverse à plusieurs entités : agents, gares, secteurs.',
-        'Une application de déclaration d’astreintes avec validation RH multi-niveaux.',
-        '7 flux Power Automate : approbations, refus, e-mails avec lien direct vers le bon écran.',
-        'Un mode hors ligne : données en local et synchronisation au retour du réseau.',
-        'Un bot quotidien qui prévient les gestionnaires des contrats à temps partiel à renouveler.'
+        'Dispatch : les équipes, l’affectation des agents par date, horaire et gare, un circuit dédié aux congés et maladies, un récapitulatif avant validation. 13 tables Dataverse et une liste SharePoint.',
+        'Astreintes : l’agent déclare son astreinte et ses sorties, le responsable valide ou refuse avec un motif, puis le DUO, puis le GU met en paiement.',
+        '8 flux Power Automate : soumission, validations, refus et mise en paiement, chacun avec un e-mail qui ouvre directement le bon écran.',
+        'Un bot RH : quand le fichier de suivi des temps partiels est mis à jour, il prévient l’agent et son manager des contrats arrivés à échéance, avec un message différent en cas de tacite reconduction.',
+        'Un mode opératoire interactif pour habiliter un nouvel utilisateur, afin qu’un remplaçant puisse le faire sans moi.'
       ],
       decisions: [
-        { title: 'Dataverse plutôt que des listes SharePoint', text: 'Des relations entre agents, gares et secteurs, et une sécurité par rôle.' },
-        { title: 'Le hors ligne dès la conception', text: 'Les agents travaillent là où le réseau ne passe pas : l’application devait fonctionner sans.' },
-        { title: 'Des solutions gérées', text: 'Un passage propre de l’environnement de test à la production.' }
+        { title: 'Un écran par rôle, ouvert depuis l’e-mail', text: 'Le lien de chaque e-mail porte la page à ouvrir : le responsable, le DUO ou le GU arrive directement sur l’astreinte à traiter.' },
+        { title: 'Les droits dans une table d’accès', text: 'Au démarrage, l’application lit le matricule de l’utilisateur et en déduit son secteur : chacun ne voit que ses gares et ses équipes.' },
+        { title: 'Une seule relance par contrat', text: 'Avant d’envoyer, le bot vérifie dans un historique que le matricule n’a pas déjà été prévenu, puis enregistre l’envoi. Pas de doublons dans les boîtes mail.' }
       ],
       result: 'Fin des impressions papier et −40 % de temps de reporting manuel. Deux applications en production.',
       next: ''
@@ -694,25 +694,25 @@ export const cases = [
     en: {
       kind: 'Power Apps and Power Automate',
       sector: 'SNCF, 2024–2025',
-      title: 'Paperless staff dispatch in train stations',
+      title: 'Paperless station staff dispatch and on-call duty',
       summary:
-        'Two apps in production: tablet staff dispatch and on-call declarations with HR approval, backed by 7 automated flows.',
+        'Two mobile apps in production: station staff dispatch (45 screens) and on-call declarations with a four-level approval chain (24 screens, 8 flows). Plus a bot that flags part-time contracts reaching their end date.',
       role: 'Design and build, work-study',
       period: 'September 2024 to December 2025',
       caption: 'Screens from the production apps.',
-      context: 'At SNCF, assigning station staff and declaring on-call duty relied on paper processes.',
-      challenge: 'Field managers on tablets, sometimes without network underground or on platforms, and multi-level HR approval with rejections.',
+      context: 'At SNCF, assigning station staff and declaring on-call duty relied on paper sheets and email reminders.',
+      challenge: 'Field managers on phones, two station networks (EOLE and ESCALE), and an on-call claim that goes through four people before it is paid, with rejections possible at every step.',
       built: [
-        'A tablet dispatch app on a multi-entity Dataverse model: staff, stations, sectors.',
-        'An on-call declaration app with multi-level HR approval.',
-        '7 Power Automate flows: approvals, rejections, emails with deep links to the right screen.',
-        'Offline mode: local data and sync when the network returns.',
-        'A daily bot that alerts HR about part-time contracts due for renewal.'
+        'Dispatch: teams, staff assignment by date, shift and station, a dedicated flow for leave and sick days, a summary before saving. 13 Dataverse tables and one SharePoint list.',
+        'On-call: the employee declares the duty and call-outs, the manager approves or rejects with a reason, then the DUO, then the GU releases payment.',
+        '8 Power Automate flows: submission, approvals, rejections and payment, each with an email that opens the right screen.',
+        'An HR bot: when the part-time tracking file is updated, it emails the employee and their manager about contracts reaching their end date, with a different message for automatic renewals.',
+        'An interactive runbook for granting access to a new user, so a stand-in can do it without me.'
       ],
       decisions: [
-        { title: 'Dataverse instead of SharePoint lists', text: 'Relationships between staff, stations and sectors, and role-based security.' },
-        { title: 'Offline from day one', text: 'Staff work where there is no signal: the app had to work without it.' },
-        { title: 'Managed solutions', text: 'A clean path from test to production.' }
+        { title: 'One screen per role, opened from the email', text: 'Each email link carries the page to open: the manager, DUO or GU lands straight on the claim to handle.' },
+        { title: 'Access rights in a table', text: 'On launch, the app reads the user’s staff ID and derives their sector: everyone only sees their own stations and teams.' },
+        { title: 'One reminder per contract', text: 'Before sending, the bot checks a history list that the employee has not been notified yet, then logs the email. No duplicates in inboxes.' }
       ],
       result: 'No more printed sheets and −40% manual reporting time. Two apps in production.',
       next: ''
