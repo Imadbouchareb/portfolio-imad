@@ -329,4 +329,114 @@ export const ShotsVisual = ({ lang, shots = [] }) => {
   );
 };
 
-export const VISUALS = { shots: ShotsVisual,  alerts: AlertsVisual, pipeline: PipelineVisual, test: TestVisual, mcp: McpVisual, llm: LlmVisual, sncf: SncfVisual };
+
+/* ---------------- Étude SNCF : schémas ---------------- */
+
+const Arrow = ({ dir = 'right' }) => (
+  dir === 'down' ? (
+    <span aria-hidden="true" className="relative mx-auto block h-4 w-px bg-ink/40">
+      <span className="absolute -bottom-0.5 -left-[3px] h-0 w-0 border-x-[3.5px] border-t-[5px] border-x-transparent border-t-ink/40" />
+    </span>
+  ) : (
+    <span aria-hidden="true" className="relative block h-px w-full bg-ink/40">
+      <span className="absolute -right-0.5 -top-[3px] h-0 w-0 border-y-[3.5px] border-l-[5px] border-y-transparent border-l-ink/40" />
+    </span>
+  )
+);
+
+export const AstreinteFlow = ({ lang }) => {
+  const fr = lang === 'fr';
+  const steps = fr
+    ? [
+        { r: 'Agent', a: [['Déclare l’astreinte et ses sorties', 'ok']], m: 'E-mail au responsable, accusé de réception à l’agent' },
+        { r: 'Responsable', a: [['Valide', 'ok'], ['Refuse, avec un motif', 'no'], ['Transmet au DUO, avec un motif', 'up']], m: 'E-mail au GU ou au DUO' },
+        { r: 'DUO', opt: 'si transmis', a: [['Valide', 'ok'], ['Refuse', 'no']], m: 'E-mail au GU' },
+        { r: 'GU', a: [['Met en paiement', 'ok'], ['Rejette', 'no']], m: 'E-mail final à l’agent' }
+      ]
+    : [
+        { r: 'Employee', a: [['Declares the on-call duty and call-outs', 'ok']], m: 'Email to the manager, receipt to the employee' },
+        { r: 'Manager', a: [['Approves', 'ok'], ['Rejects, with a reason', 'no'], ['Escalates to the DUO, with a reason', 'up']], m: 'Email to the GU or the DUO' },
+        { r: 'DUO', opt: 'if escalated', a: [['Approves', 'ok'], ['Rejects', 'no']], m: 'Email to the GU' },
+        { r: 'GU', a: [['Releases payment', 'ok'], ['Rejects', 'no']], m: 'Final email to the employee' }
+      ];
+  const dot = { ok: 'bg-accent', no: 'bg-alert', up: 'bg-warn' };
+  return (
+    <div className="p-5 sm:p-6">
+      <ol className="grid gap-2 sm:grid-cols-4 sm:gap-0">
+        {steps.map((s, i) => (
+          <li key={s.r} className="relative flex flex-col sm:block">
+            <div className={`rounded-lg border bg-paper p-3 sm:mr-6 ${s.opt ? 'border-dashed border-line' : 'border-line'}`}>
+              <p className="text-[11px] text-muted">{i + 1}{s.opt ? ` · ${s.opt}` : ''}</p>
+              <p className="mt-0.5 font-semibold text-ink">{s.r}</p>
+              <ul className="mt-2 space-y-1.5">
+                {s.a.map(([t, k]) => (
+                  <li key={t} className="flex items-start gap-2 text-xs leading-snug text-ink">
+                    <span className={`mt-1 h-1.5 w-1.5 flex-none rounded-full ${dot[k]}`} />{t}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 border-t border-line pt-2 text-[11px] leading-snug text-muted">{s.m}</p>
+            </div>
+            {i < steps.length - 1 && (
+              <>
+                <span className="absolute right-0 top-8 hidden w-6 sm:block"><Arrow /></span>
+                <span className="py-1 sm:hidden"><Arrow dir="down" /></span>
+              </>
+            )}
+          </li>
+        ))}
+      </ol>
+      <div className="mt-4 grid gap-2 text-xs leading-relaxed text-muted sm:grid-cols-2">
+        <p className="rounded-lg border border-dashed border-line p-3">
+          <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-alert align-middle" />
+          {fr ? 'Chaque refus revient à l’agent par e-mail, avec le motif. L’agent corrige et soumet à nouveau.' : 'Every rejection goes back to the employee by email, with the reason. They fix it and submit again.'}
+        </p>
+        <p className="rounded-lg border border-dashed border-line p-3">
+          {fr ? 'Chaque e-mail porte un lien qui ouvre l’application directement sur l’écran du rôle suivant.' : 'Each email carries a link that opens the app straight on the next role’s screen.'}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export const BotFlow = ({ lang }) => {
+  const fr = lang === 'fr';
+  const steps = fr
+    ? [
+        { t: 'Le fichier de suivi est mis à jour', d: 'Dossier SharePoint de la DRH' },
+        { t: 'Contrat arrivé à échéance ?', d: 'Sinon, rien à faire', q: true },
+        { t: 'Matricule déjà prévenu ?', d: 'Vérifié dans l’historique des envois. Si oui, rien à faire', q: true },
+        { t: 'E-mail à l’agent et à son manager', d: 'Deux messages selon que le contrat est en tacite reconduction ou non' },
+        { t: 'Envoi enregistré dans l’historique', d: 'Le prochain passage ne relancera pas', end: true }
+      ]
+    : [
+        { t: 'The tracking file is updated', d: 'HR SharePoint folder' },
+        { t: 'Contract reached its end date?', d: 'Otherwise, nothing to do', q: true },
+        { t: 'Employee already notified?', d: 'Checked against the email history. If yes, nothing to do', q: true },
+        { t: 'Email to the employee and their manager', d: 'Two templates, depending on automatic renewal' },
+        { t: 'Email logged in the history', d: 'The next run will not send it again', end: true }
+      ];
+  return (
+    <div className="p-5 sm:p-6">
+      <ol className="grid gap-2 sm:grid-cols-5 sm:gap-0">
+        {steps.map((s, i) => (
+          <li key={s.t} className="relative flex flex-col sm:block">
+            <div className={`h-full rounded-lg border bg-paper p-3 sm:mr-5 ${s.end ? 'border-accent' : 'border-line'}`}>
+              <p className="text-[11px] text-muted">{i + 1}{s.q ? (fr ? ' · test' : ' · check') : ''}</p>
+              <p className="mt-0.5 text-sm font-semibold leading-snug text-ink">{s.t}</p>
+              <p className="mt-1.5 text-xs leading-relaxed text-muted">{s.d}</p>
+            </div>
+            {i < steps.length - 1 && (
+              <>
+                <span className="absolute right-0 top-8 hidden w-5 sm:block"><Arrow /></span>
+                <span className="py-1 sm:hidden"><Arrow dir="down" /></span>
+              </>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+};
+
+export const VISUALS = { shots: ShotsVisual,  alerts: AlertsVisual, pipeline: PipelineVisual, test: TestVisual, mcp: McpVisual, llm: LlmVisual, sncf: SncfVisual, astreinteFlow: AstreinteFlow, botFlow: BotFlow };

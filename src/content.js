@@ -66,6 +66,7 @@ export const content = {
     labels: {
       read: "Lire l'étude de cas",
       pages: 'Les autres pages du rapport',
+      flows: 'Les circuits',
       back: 'Toutes les études de cas',
       role: 'Mon rôle',
       period: 'Période',
@@ -214,6 +215,7 @@ export const content = {
     labels: {
       read: 'Read the case study',
       pages: 'Other report pages',
+      flows: 'How it flows',
       back: 'All case studies',
       role: 'My role',
       period: 'Period',

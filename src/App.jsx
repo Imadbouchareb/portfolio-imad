@@ -349,6 +349,22 @@ const CasePage = ({ t, lang, slug }) => {
             ))}
           </dl>
         </Block>
+        {c.figures && (
+          <section className="border-t border-line py-10">
+            <h2 className="text-sm font-semibold text-ink">{L.flows}</h2>
+            <div className="mt-6 space-y-6">
+              {c.figures.map((f) => {
+                const F = VISUALS[f.v];
+                return (
+                  <figure key={f.v} className="overflow-hidden rounded-xl border border-line bg-surface">
+                    <F lang={lang} />
+                    <figcaption className="border-t border-line/70 px-4 py-3 text-xs leading-relaxed text-muted">{f[lang]}</figcaption>
+                  </figure>
+                );
+              })}
+            </div>
+          </section>
+        )}
         {c.shots && c.shots.length > 1 && (
           <section className="border-t border-line py-10">
             <h2 className="text-sm font-semibold text-ink">{L.pages}</h2>

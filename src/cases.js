@@ -663,22 +663,26 @@ export const cases = [
     slug: 'affectation-agents-sncf',
     visual: 'sncf',
     stack: ['Power Apps', 'Dataverse', 'Power Automate', 'SharePoint'],
+    figures: [
+      { v: 'astreinteFlow', fr: 'Le circuit d’une astreinte, de la déclaration à la mise en paiement : 8 flux Power Automate, un écran par rôle.', en: 'An on-call claim from declaration to payment: 8 Power Automate flows, one screen per role.' },
+      { v: 'botFlow', fr: 'Le bot temps partiel : deux tests avant chaque envoi, dont l’historique qui évite les relances en double.', en: 'The part-time contract bot: two checks before each email, including the history that prevents duplicate reminders.' }
+    ],
     fr: {
       kind: 'Power Apps et Power Automate',
       sector: 'SNCF, 2024–2025',
       title: 'Affectation des agents en gare et astreintes, sans papier',
       summary:
-        'Deux applications mobiles en production : l’affectation des agents en gare (45 écrans) et la déclaration des astreintes avec un circuit de validation à quatre niveaux (24 écrans, 8 flux). Plus un bot qui prévient des fins de contrat à temps partiel.',
+        'Deux applications mobiles en production : l’affectation des agents en gare (45 écrans) et la déclaration des astreintes avec un circuit de validation jusqu’à quatre rôles (24 écrans, 8 flux). Plus un bot qui prévient des fins de contrat à temps partiel.',
       role: 'Conception et développement, en alternance',
       period: 'Septembre 2024 à décembre 2025',
       caption: 'Écrans des applications en production.',
       context:
         "À la SNCF, l'affectation des agents en gare et la déclaration des astreintes reposaient sur des feuilles papier et des relances par e-mail.",
       challenge:
-        'Des managers sur le terrain, sur téléphone, deux périmètres de gares (EOLE et ESCALE), et une astreinte qui passe par quatre personnes avant d’être payée, avec des refus à gérer à chaque étape.',
+        'Des managers sur le terrain, sur téléphone, deux périmètres de gares (EOLE et ESCALE), et une astreinte qui passe par trois ou quatre personnes avant d’être payée, avec des refus à gérer à chaque étape.',
       built: [
         'Dispatch : les équipes, l’affectation des agents par date, horaire et gare, un circuit dédié aux congés et maladies, un récapitulatif avant validation. 13 tables Dataverse et une liste SharePoint.',
-        'Astreintes : l’agent déclare son astreinte et ses sorties, le responsable valide ou refuse avec un motif, puis le DUO, puis le GU met en paiement.',
+        'Astreintes : l’agent déclare son astreinte et ses sorties ; le responsable valide, refuse avec un motif ou transmet au DUO ; le GU met en paiement ou rejette.',
         '8 flux Power Automate : soumission, validations, refus et mise en paiement, chacun avec un e-mail qui ouvre directement le bon écran.',
         'Un bot RH : quand le fichier de suivi des temps partiels est mis à jour, il prévient l’agent et son manager des contrats arrivés à échéance, avec un message différent en cas de tacite reconduction.',
         'Un mode opératoire interactif pour habiliter un nouvel utilisateur, afin qu’un remplaçant puisse le faire sans moi.'
@@ -696,15 +700,15 @@ export const cases = [
       sector: 'SNCF, 2024–2025',
       title: 'Paperless station staff dispatch and on-call duty',
       summary:
-        'Two mobile apps in production: station staff dispatch (45 screens) and on-call declarations with a four-level approval chain (24 screens, 8 flows). Plus a bot that flags part-time contracts reaching their end date.',
+        'Two mobile apps in production: station staff dispatch (45 screens) and on-call declarations with an approval chain of up to four roles (24 screens, 8 flows). Plus a bot that flags part-time contracts reaching their end date.',
       role: 'Design and build, work-study',
       period: 'September 2024 to December 2025',
       caption: 'Screens from the production apps.',
       context: 'At SNCF, assigning station staff and declaring on-call duty relied on paper sheets and email reminders.',
-      challenge: 'Field managers on phones, two station networks (EOLE and ESCALE), and an on-call claim that goes through four people before it is paid, with rejections possible at every step.',
+      challenge: 'Field managers on phones, two station networks (EOLE and ESCALE), and an on-call claim that goes through three or four people before it is paid, with rejections possible at every step.',
       built: [
         'Dispatch: teams, staff assignment by date, shift and station, a dedicated flow for leave and sick days, a summary before saving. 13 Dataverse tables and one SharePoint list.',
-        'On-call: the employee declares the duty and call-outs, the manager approves or rejects with a reason, then the DUO, then the GU releases payment.',
+        'On-call: the employee declares the duty and call-outs; the manager approves, rejects with a reason or escalates to the DUO; the GU releases payment or rejects.',
         '8 Power Automate flows: submission, approvals, rejections and payment, each with an email that opens the right screen.',
         'An HR bot: when the part-time tracking file is updated, it emails the employee and their manager about contracts reaching their end date, with a different message for automatic renewals.',
         'An interactive runbook for granting access to a new user, so a stand-in can do it without me.'
