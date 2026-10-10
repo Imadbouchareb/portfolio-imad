@@ -193,7 +193,7 @@ export const cases = [
         'Une page Synthèse CODIR calculée à partir des données de détail : charges externes, masse salariale, effectif disponible et intérim, chacun avec le réalisé à date, l’écart au budget et l’atterrissage de fin d’année.',
         'Une phrase de synthèse écrite en DAX, qui se met à jour avec le dernier mois clos : ce que le CODIR lit en premier.',
         'Les écarts par métier et par nœud comptable, avec une seule convention : un dépassement est positif, et rouge.',
-        '31 mesures ajoutées, documentées et rangées dans un même dossier, et la moyenne annuelle des effectifs corrigée.',
+        '33 mesures ajoutées, documentées et rangées dans un même dossier, et la moyenne annuelle des effectifs corrigée.',
         'Les pages d’origine gardées et rebranchées sur des données fictives, les pages nominatives retirées, une page de définitions ajoutée.'
       ],
       decisions: [
@@ -235,7 +235,7 @@ export const cases = [
         'A management summary page computed from the detail data: external costs, payroll, available headcount and temp staff, each with actual to date, variance to budget and year-end landing.',
         'A summary sentence written in DAX that updates with the last closed month: what the committee reads first.',
         'Variances by business line and accounting node, with one convention: an overspend is positive, and red.',
-        '31 new measures, documented and grouped in one folder, and the yearly average headcount fixed.',
+        '33 new measures, documented and grouped in one folder, and the yearly average headcount fixed.',
         'The original pages kept and rewired to fictitious data, the pages with names removed, a definitions page added.'
       ],
       decisions: [
