@@ -251,6 +251,91 @@ export const cases = [
   },
 
   {
+    slug: 'absenteisme-temps-partiel-sncf',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint', 'Power Automate'],
+    shots: [
+      { src: '/images/absenteisme-sncf/0-origine-revue-perf.webp', fr: 'L’écran d’origine de la revue de performance EST PSL : jours d’absence par agent cumulés depuis janvier, par classe d’arrêt et par regroupement, 2025 face à 2024. Gardé tel quel, rebranché sur le modèle commun.', en: 'The original performance-review screen for EST PSL: absence days per employee since January, by length of leave and by group, 2025 against 2024. Kept as is, rewired to the shared model.' },
+      { src: '/images/absenteisme-sncf/1-vue-ensemble.webp', fr: 'La vue d’ensemble ajoutée : les six entités, le cumul depuis janvier face à l’objectif à date et à l’an dernier, les secteurs triés par écart.', en: 'The new overview: all six units, the year-to-date figure against the pro-rated target and last year, sectors ranked by gap.' },
+      { src: '/images/absenteisme-sncf/2-temps-partiels.webp', fr: 'Les temps partiels : la vraie date d’échéance, les contrats échus, les ETP perdus par entité, et l’ancien statut affiché à côté du nouveau.', en: 'Part-time contracts: the actual due date, expired contracts, FTEs lost by unit, and the old status shown next to the new one.' },
+      { src: '/images/absenteisme-sncf/3-global-origine.webp', fr: 'Une page d’origine : la répartition des absences par motif, en jours et en agents, et la part de l’effectif absent au moins un jour.', en: 'An original page: absences by reason, in days and in employees, and the share of staff absent at least one day.' },
+      { src: '/images/absenteisme-sncf/4-tp-origine.webp', fr: 'Le suivi des contrats d’origine : un contrat terminé le 24 septembre y apparaît « dans les délais », avec 296 jours restants.', en: 'The original contract tracker: a contract that ended on 24 September shows as “on time”, with 296 days left.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2025',
+      title: 'Absentéisme et temps partiels\u00a0: six rapports RH réunis en un',
+      summary:
+        'Le suivi de l’absentéisme des six entités de l’établissement Transilien L, A et J et des contrats à temps partiel, pour la DRH : jours d’arrêt par agent face à l’objectif, accidents du travail, congés longs, et les contrats qui arrivent à échéance.',
+      role: 'Conception des rapports en alternance pour la DRH, puis audit et refonte pour le portfolio',
+      period: '2025',
+      caption: 'Captures du rapport refondu, alimenté par des données entièrement fictives.',
+      context:
+        "La DRH de l'établissement suit l'absentéisme de chacune de ses entités à partir d'extractions RH mensuelles déposées sur SharePoint, et les contrats à temps partiel à partir d'un fichier de suivi : le même que lit le bot Power Automate qui prévient les agents et leurs managers. Chaque entité avait son rapport, présenté en revue de performance.",
+      challenge:
+        "Six rapports d'absentéisme, un par entité, construits sur le même principe mais chacun avec ses tables, ses noms et ses mesures : de 6 à 31 mesures selon le rapport. Dans les six, le calendrier n'était relié à aucune table : ses filtres d'année et de mois ne filtraient pas les absences. L'objectif annuel était comparé au cumul à date sans être ramené aux mois écoulés. Côté temps partiels, l'échéance comptait les mois à 30 jours, ignorait l'année et la date de fin, et se calculait à la date du jour : un contrat terminé depuis un mois pouvait s'afficher « dans les délais ».",
+      built: [
+        'Un seul modèle pour les six entités : une table d’absences, un référentiel de secteurs et d’UO qui porte l’entité, et un calendrier enfin relié aux données.',
+        'Les pages du rapport le plus complet (EST PSL) et du suivi des temps partiels gardées et rebranchées : revue de performance, objectifs, accidents du travail, détail par motif, par secteur et par agent.',
+        'Une vue d’ensemble ajoutée : le cumul depuis janvier face à l’objectif à date et à l’an dernier, par entité et par secteur, avec une phrase de synthèse.',
+        'Une page temps partiels ajoutée : la vraie date d’échéance, les contrats échus, les ETP perdus par entité, et l’ancien statut à côté du nouveau.',
+        'Les mesures d’origine corrigées et documentées, les tables de dates automatiques remplacées par un seul calendrier, une page de définitions.'
+      ],
+      decisions: [
+        {
+          title: 'Un modèle, six entités',
+          text: "Les six rapports faisaient le même calcul avec des noms différents. Avec une seule table d'absences et l'entité en colonne, une correction se fait une fois, et un filtre suffit pour lire une entité ou les comparer."
+        },
+        {
+          title: 'Lire les cumuls un mois à la fois',
+          text: "Les extractions RH donnent des cumuls depuis janvier : additionner deux mois double les jours. Les nouvelles mesures prennent le dernier mois du contexte, borné au dernier mois chargé."
+        },
+        {
+          title: 'Un objectif à date',
+          text: "Comparer dix mois d'absences à un objectif de douze mois donne une bonne nouvelle tous les mois d'octobre. L'objectif est ramené aux mois écoulés."
+        },
+        {
+          title: 'Une échéance qui est une date',
+          text: "L'échéance est la date de fin, ou le prochain anniversaire si le contrat est reconduit, calculée à la date du fichier et non à l'ouverture du rapport. L'ancien statut reste affiché à côté, pour voir ce qui change."
+        }
+      ],
+      result:
+        "La DRH lit les six entités sur une page, avec la même règle partout : jours d'arrêt par agent depuis janvier, écart à l'objectif à date et à l'an dernier, secteurs à regarder en premier. Les contrats à temps partiel à traiter sont listés avec leur vraie échéance, y compris ceux déjà échus que l'ancienne règle ne voyait pas.",
+      next: "Ajouter une sécurité par ligne pour que chaque responsable ne voie que son entité, et reprendre dans le modèle les suivis propres à certaines entités : les grèves et les congés pour COT, l'effectif disponible par fonction pour ETP."
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2025',
+      title: 'Absence and part-time work: six HR reports merged into one',
+      summary:
+        'Absence tracking for the six units of the Transilien L, A and J network and part-time contract follow-up, for HR: sick-leave days per employee against target, workplace accidents, long leave, and contracts coming due.',
+      role: 'Built the reports for HR during my work-study, then audited and rebuilt them for this portfolio',
+      period: '2025',
+      caption: 'Screens of the rebuilt report, fed with entirely fictitious data.',
+      context:
+        'HR tracks absence for each of its units from monthly HR extracts dropped on SharePoint, and part-time contracts from a tracking file: the same one the Power Automate bot reads to notify employees and their managers. Each unit had its own report, presented in performance reviews.',
+      challenge:
+        'Six absence reports, one per unit, built on the same idea but each with its own tables, names and measures: from 6 to 31 measures depending on the report. In all six, the calendar was linked to no table, so its year and month filters did not filter absences. The yearly target was compared with the year-to-date figure without being pro-rated. On the part-time side, the due date counted months as 30 days, ignored the year and the end date, and was computed on today’s date: a contract that ended a month ago could show as “on time”.',
+      built: [
+        'One model for all six units: one absence table, a sector and team reference that carries the unit, and a calendar finally linked to the data.',
+        'The pages of the most complete report (EST PSL) and of the part-time tracker kept and rewired: performance review, targets, workplace accidents, detail by reason, sector and employee.',
+        'A new overview: year to date against the pro-rated target and last year, by unit and by sector, with a summary sentence.',
+        'A new part-time page: the actual due date, expired contracts, FTEs lost by unit, and the old status next to the new one.',
+        'The original measures fixed and documented, auto-generated date tables replaced by one calendar, a definitions page.'
+      ],
+      decisions: [
+        { title: 'One model, six units', text: 'The six reports ran the same calculation under different names. With one absence table and the unit as a column, a fix is made once, and one filter is enough to read a unit or compare them.' },
+        { title: 'Read the cumulative extracts one month at a time', text: 'HR extracts give totals since January: adding two months doubles the days. The new measures take the last month in context, capped at the last month loaded.' },
+        { title: 'A pro-rated target', text: 'Comparing ten months of absence with a twelve-month target looks like good news every October. The target is pro-rated to the months elapsed.' },
+        { title: 'A due date that is a date', text: 'The due date is the end date, or the next anniversary if the contract renews, computed at the file date rather than when the report is opened. The old status stays next to it, to show what changes.' }
+      ],
+      result:
+        'HR reads all six units on one page, with the same rule everywhere: sick-leave days per employee since January, gap to the pro-rated target and to last year, and the sectors to look at first. Part-time contracts to handle are listed with their actual due date, including expired ones the old rule did not catch.',
+      next: 'Add row-level security so each manager sees only their unit, and bring unit-specific tracking into the model: strikes and leave for COT, available staff by role for ETP.'
+    }
+  },
+
+  {
     slug: 'alertes-ventes-comparables',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
