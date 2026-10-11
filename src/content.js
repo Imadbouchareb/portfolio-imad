@@ -3,7 +3,7 @@
 export const SITE = {
   url: 'https://portfolio-imad-theta.vercel.app',
   email: 'imad.bouchareb08@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/imadbouchareb/',
+  linkedin: 'https://www.linkedin.com/in/imad-bouchareb/',
   github: 'https://github.com/Imadbouchareb',
   cv: { fr: '/CV_Imad_BOUCHAREB.pdf', en: '/CV_Imad_BOUCHAREB.pdf' },
   photo: '/photo.webp'
