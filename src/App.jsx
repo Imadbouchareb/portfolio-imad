@@ -367,7 +367,7 @@ const CasePage = ({ t, lang, slug }) => {
         )}
         {c.reports && (
           <section className="border-t border-line py-10">
-            <h2 className="text-sm font-semibold text-ink">{L.reports}</h2>
+            <h2 className="text-sm font-semibold text-ink">{d.reportsTitle || L.reports}</h2>
             {d.reportsIntro && <p className="mt-3 max-w-3xl leading-relaxed text-muted">{d.reportsIntro}</p>}
             <div className="mt-6 grid gap-6 md:grid-cols-2">
               {c.reports.map((s, i) => (

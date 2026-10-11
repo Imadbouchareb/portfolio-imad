@@ -858,7 +858,7 @@ export const cases = [
   {
     slug: 'analyse-messages-service-client',
     visual: 'shots',
-    stack: ['Python', 'Streamlit', 'pandas', 'Altair', 'Plotly', 'Mistral AI', 'LangChain'],
+    stack: ['Python', 'Streamlit', 'Power BI', 'DAX', 'Power Query', 'pandas', 'Mistral AI'],
     link: 'https://github.com/Imadbouchareb/LLMAnalyzer-SAV-Tweets',
     shots: [
       { src: '/images/sav-llm/0-file-attente.webp', fr: 'L’écran Agent SAV : la file d’attente, avec les tickets ouverts, les urgents et un menu par tâche (urgences, thèmes, affectations, exports, journal).', en: 'The support agent screen: the queue, with open and urgent tickets and a menu per task (urgent cases, topics, assignments, exports, log).' },
@@ -867,6 +867,15 @@ export const cases = [
       { src: '/images/sav-llm/3-analyste-priorite.webp', fr: 'L’écran Analyste : les messages au-dessus du seuil de priorité, avec leur score, leur statut et leur thème.', en: 'The analyst screen: messages above the priority threshold, with their score, status and topic.' },
       { src: '/images/sav-llm/4-priorite-temps.webp', fr: 'Le score de priorité de chaque message dans le temps, coloré par sentiment.', en: 'Each message’s priority score over time, coloured by sentiment.' },
       { src: '/images/sav-llm/5-manager-operations.webp', fr: 'L’écran Manager, onglet Opérations : statuts des tickets, volume par jour et par heure, courbe horaire.', en: 'The manager screen, Operations tab: ticket statuses, volume by day and hour, hourly curve.' }
+    ],
+    reports: [
+      { src: '/images/sav-llm-pbi/0-vue-ensemble.webp', fr: 'La page d’origine, rebranchée sur les messages fictifs : publications collectées, messages clients, sentiment moyen, part d’urgents, volume par mois, thèmes et équipes.', en: 'The original page, rewired to the fictional messages: posts collected, customer messages, average sentiment, share of urgent messages, monthly volume, topics and teams.' },
+      { src: '/images/sav-llm-pbi/1-temporel.webp', fr: 'Quand les clients écrivent : chaleur jour × heure, sentiment par jour de la semaine, courbe horaire et cumul.', en: 'When customers write: day × hour heatmap, sentiment by weekday, hourly curve and running total.' },
+      { src: '/images/sav-llm-pbi/2-urgence.webp', fr: 'Les messages urgents un par un avec la raison détectée, le délai cible, la gravité et l’urgence par équipe.', en: 'Urgent messages one by one with the detected reason, target response time, severity and urgency by team.' },
+      { src: '/images/sav-llm-pbi/3-sentiment.webp', fr: 'Le sentiment : jauges, évolution mensuelle et nuage des mots-clés des messages négatifs (visuel Python).', en: 'Sentiment: gauges, monthly trend and a word cloud of keywords from negative messages (Python visual).' },
+      { src: '/images/sav-llm-pbi/4-incidents.webp', fr: 'Les journées de pic, les villes citées dans les messages et les intentions détectées par le LLM, croisées avec la gravité.', en: 'Peak days, cities mentioned in messages and the intents detected by the LLM, crossed with severity.' },
+      { src: '/images/sav-llm-pbi/5-priorite.webp', fr: 'Page ajoutée : le score de priorité de l’application SAV repris dans le rapport, par équipe, par mois et par thème, avec la liste des messages à traiter en premier.', en: 'Added page: the support app’s priority score brought into the report, by team, month and topic, with the list of messages to handle first.' },
+      { src: '/images/sav-llm-pbi/6-qualite.webp', fr: 'Page ajoutée : du flux collecté aux messages clients, et les deux définitions de l’urgence (règle de mots-clés et note du LLM) croisées.', en: 'Added page: from collected posts to customer messages, and the two definitions of urgency (keyword rule and LLM score) side by side.' }
     ],
     figures: [
       { v: 'savFlow', fr: 'Du message brut à l’écran de l’agent : le pipeline LLM de l’équipe en amont, l’application SAV que j’ai créée en aval.', en: 'From raw message to the agent’s screen: the team’s LLM pipeline upstream, the support app I built downstream.' }
@@ -878,8 +887,8 @@ export const cases = [
       sector: "Projet de fin d'études HETIC, 2025",
       title: 'L’application SAV qui traite les messages clients analysés par un LLM',
       summary:
-        'Un pipeline LLM lit les tweets adressés au service client et note chaque message : thème, sentiment, urgence, gravité, résumé, réponse proposée. J’ai créé l’application qui en fait un outil de travail : un écran pour l’analyste, un pour le manager, une file d’attente priorisée pour l’agent SAV.',
-      role: 'Création et conception de l’application SAV, score de priorité, nettoyage des données du pipeline local. Projet à trois en méthode Scrum.',
+        'Un pipeline LLM lit les tweets adressés au service client et note chaque message : thème, sentiment, urgence, gravité, résumé, réponse proposée. J’ai créé l’application qui en fait un outil de travail : un écran pour l’analyste, un pour le manager, une file d’attente priorisée pour l’agent SAV. Et le rapport Power BI de pilotage sur la même sortie.',
+      role: 'Création et conception de l’application SAV, score de priorité, rapport Power BI, nettoyage des données du pipeline local. Projet à trois en méthode Scrum.',
       period: 'Juillet à novembre 2025',
       caption: 'L’application relancée pour le portfolio sur 1 075 messages fictifs : aucun tweet réel, auteurs anonymisés.',
       context:
@@ -891,17 +900,21 @@ export const cases = [
         'L’écran Analyste : filtres par seuil de priorité, thème, sentiment et période, résultats détaillés, priorité dans le temps, réseau de thèmes, comparaisons, alertes automatiques et exports.',
         'L’écran Manager : volume, part de messages urgents et négatifs, auteurs uniques, urgence moyenne, tickets ouverts ; statuts, chaleur jour × heure, courbe horaire, export des tickets ouverts en CSV ou JSON.',
         'L’écran Agent SAV : la file d’attente, le résumé et la réponse proposés par le LLM pour le ticket choisi, et trois actions rapides (réaffecter, clore, mettre en attente client).',
-        'Le chargement qui normalise la sortie du pipeline (dates, thèmes, sentiment, urgence, gravité), et le nettoyage des messages pour la version locale du pipeline.'
+        'Le chargement qui normalise la sortie du pipeline (dates, thèmes, sentiment, urgence, gravité), et le nettoyage des messages pour la version locale du pipeline.',
+        'Le rapport Power BI de pilotage branché sur la même sortie : cinq pages (vue d’ensemble, heures et jours, urgence, sentiment, incidents), avec un calendrier, une quarantaine de mesures DAX et un nuage de mots en Python.'
       ],
       decisions: [
         { title: 'Un écran par métier', text: 'L’analyste cherche des tendances, le manager surveille la charge, l’agent traite un ticket après l’autre. Un seul tableau de bord pour les trois aurait été trop chargé pour chacun.' },
         { title: 'Un score de priorité qu’on peut expliquer', text: '45 % urgence, 40 % gravité, 15 % sentiment négatif, de 0 à 1. Un responsable support comprend pourquoi un message passe devant un autre, et règle le seuil lui-même.' },
         { title: 'Le travail des agents stocké à part', text: 'Statuts, affectations et réponses vont dans un fichier séparé, appliqué au chargement. On réimporte une nouvelle analyse sans perdre ce qui a été traité.' },
+        { title: 'Une seule définition de l’urgence', text: 'En relisant le rapport, j’ai trouvé deux définitions qui cohabitaient : la carte comptait les messages repérés par la règle de mots-clés (33,7 % des messages), les graphiques la note du LLM (82 %). La page « Qualité des données » les croise ; la suite est d’en garder une.' },
         { title: 'Le LLM propose, l’agent décide', text: 'La réponse suggérée s’affiche à côté du message d’origine. L’agent l’accepte ou écrit la sienne, et le statut garde la trace des deux cas.' }
       ],
       result:
         'Trois applications livrées par l’équipe : le pipeline, l’application SAV et le chatbot. Sur le jeu de l’école, 6 310 tweets passés dans le pipeline, 2 989 messages clients retenus après filtrage et dédoublonnage, dont 33,7 % détectés comme urgents.',
-      next: 'Brancher l’application directement sur la sortie du pipeline plutôt que sur un import de fichier, et mesurer avec une équipe support le temps de traitement avant et après.'
+      next: 'Brancher l’application directement sur la sortie du pipeline plutôt que sur un import de fichier, retenir une seule définition de l’urgence dans l’application et le rapport, et mesurer avec une équipe support le temps de traitement avant et après.',
+      reportsTitle: 'Le rapport Power BI sur la sortie du pipeline',
+      reportsIntro: 'J’ai aussi construit le rapport Power BI de pilotage branché sur la même sortie. Pour le portfolio, je l’ai rebranché sur les messages fictifs, sans toucher aux pages d’origine, puis j’ai ajouté deux pages : la priorité de traitement et la qualité des données.'
     },
     en: {
       kind: 'LLM and app',
@@ -910,8 +923,8 @@ export const cases = [
       sector: 'HETIC final project, 2025',
       title: 'The support app that handles customer messages analysed by an LLM',
       summary:
-        'An LLM pipeline reads the tweets sent to customer service and scores each message: topic, sentiment, urgency, severity, summary, suggested reply. I built the app that turns this into a working tool: one screen for the analyst, one for the manager, and a prioritised queue for the support agent.',
-      role: 'Created and designed the support app, the priority score and the data cleaning for the local pipeline. Team of three, Scrum.',
+        'An LLM pipeline reads the tweets sent to customer service and scores each message: topic, sentiment, urgency, severity, summary, suggested reply. I built the app that turns this into a working tool: one screen for the analyst, one for the manager, and a prioritised queue for the support agent. Plus the Power BI monitoring report on the same output.',
+      role: 'Created and designed the support app, the priority score, the Power BI report and the data cleaning for the local pipeline. Team of three, Scrum.',
       period: 'July to November 2025',
       caption: 'The app relaunched for this portfolio on 1,075 fictional messages: no real tweets, anonymised authors.',
       context:
@@ -923,17 +936,21 @@ export const cases = [
         'The analyst screen: filters by priority threshold, topic, sentiment and period, detailed results, priority over time, topic network, comparisons, automatic alerts and exports.',
         'The manager screen: volume, share of urgent and negative messages, unique authors, average urgency, open tickets; statuses, day × hour heatmap, hourly curve, export of open tickets as CSV or JSON.',
         'The support agent screen: the queue, the LLM’s summary and suggested reply for the selected ticket, and three quick actions (reassign, close, wait for customer).',
-        'The loader that normalises the pipeline output (dates, topics, sentiment, urgency, severity), and message cleaning for the local version of the pipeline.'
+        'The loader that normalises the pipeline output (dates, topics, sentiment, urgency, severity), and message cleaning for the local version of the pipeline.',
+        'The Power BI monitoring report on the same output: five pages (overview, hours and days, urgency, sentiment, incidents), with a calendar, about forty DAX measures and a Python word cloud.'
       ],
       decisions: [
         { title: 'One screen per job', text: 'The analyst looks for trends, the manager watches the workload, the agent handles one ticket after another. A single dashboard for all three would have been too crowded for each.' },
         { title: 'A priority score you can explain', text: '45% urgency, 40% severity, 15% negative sentiment, from 0 to 1. A support lead sees why one message comes before another, and sets the threshold themselves.' },
         { title: 'Agents’ work stored separately', text: 'Statuses, assignments and replies go to a separate file applied on load. A new analysis can be imported without losing what has been handled.' },
+        { title: 'One definition of urgency', text: 'Reviewing the report, I found two definitions side by side: the card counted messages flagged by the keyword rule (33.7% of messages), the charts used the LLM score (82%). The “Data quality” page sets them against each other; the next step is to keep one.' },
         { title: 'The LLM suggests, the agent decides', text: 'The suggested reply sits next to the original message. The agent accepts it or writes their own, and the status records which.' }
       ],
       result:
         'Three apps delivered by the team: the pipeline, the support app and the chatbot. On the school dataset, 6,310 tweets went through the pipeline, 2,989 customer messages were kept after filtering and de-duplication, and 33.7% were flagged as urgent.',
-      next: 'Connect the app directly to the pipeline output instead of a file import, and measure handling time before and after with a support team.'
+      next: 'Connect the app directly to the pipeline output instead of a file import, keep a single definition of urgency in the app and the report, and measure handling time before and after with a support team.',
+      reportsTitle: 'The Power BI report on the pipeline output',
+      reportsIntro: 'I also built the Power BI monitoring report on the same output. For this portfolio I rewired it to the fictional messages, leaving the original pages as they were, and added two pages: handling priority and data quality.'
     }
   },
 
