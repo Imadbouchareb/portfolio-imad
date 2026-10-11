@@ -135,8 +135,8 @@ const Home = ({ t, lang }) => {
           </p>
           <div className="mt-5 flex items-center gap-5">
             {SITE.photo && (
-              <img src={SITE.photo} alt={t.hero.photoAlt} width="112" height="140"
-                className="h-28 w-[5.6rem] flex-none rounded-lg object-cover sm:h-36 sm:w-28" />
+              <img src={SITE.photo} alt={t.hero.photoAlt} width="176" height="220"
+                className="h-36 w-[7.2rem] flex-none rounded-2xl object-cover object-top shadow-sm ring-1 ring-line sm:h-[13.75rem] sm:w-44" />
             )}
             <h1 className="display text-5xl leading-[0.95] sm:text-7xl">{t.hero.name}</h1>
           </div>
