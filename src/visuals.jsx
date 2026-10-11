@@ -399,6 +399,51 @@ export const AstreinteFlow = ({ lang }) => {
   );
 };
 
+export const SavFlow = ({ lang }) => {
+  const fr = lang === 'fr';
+  const steps = fr
+    ? [
+        { r: 'Pipeline LLM', who: 'mes coéquipiers', team: true, a: ['Nettoyage et dédoublonnage', 'Contexte RAG : 4 755 réponses types', 'Thème, sentiment, urgence et gravité de 0 à 3, résumé, réponse proposée'], m: 'Un fichier de 16 colonnes par message' },
+        { r: 'Import', who: 'ma partie', a: ['Colonnes normalisées : dates, thèmes, sentiment, notes', 'Statuts, affectations et réponses lus dans un fichier à part'], m: 'Une nouvelle analyse n’efface pas le travail des agents' },
+        { r: 'Score de priorité', who: 'ma partie', a: ['0,45 × urgence', '0,40 × gravité', '0,15 × sentiment négatif'], m: 'De 0 à 1, seuil réglable par l’analyste' },
+        { r: 'Trois écrans', who: 'ma partie', a: ['Analyste : tendances, thèmes, exports', 'Manager : charge, urgences, équipes', 'Agent SAV : file d’attente et réponse'], m: 'Chaque action de l’agent est enregistrée' }
+      ]
+    : [
+        { r: 'LLM pipeline', who: 'my teammates', team: true, a: ['Cleaning and de-duplication', 'RAG context: 4,755 reply templates', 'Topic, sentiment, urgency and severity from 0 to 3, summary, suggested reply'], m: 'A 16-column file, one row per message' },
+        { r: 'Import', who: 'my part', a: ['Normalised columns: dates, topics, sentiment, scores', 'Statuses, assignments and replies read from a separate file'], m: 'A new analysis does not wipe the agents’ work' },
+        { r: 'Priority score', who: 'my part', a: ['0.45 × urgency', '0.40 × severity', '0.15 × negative sentiment'], m: 'From 0 to 1, threshold set by the analyst' },
+        { r: 'Three screens', who: 'my part', a: ['Analyst: trends, topics, exports', 'Manager: workload, urgent cases, teams', 'Support agent: queue and reply'], m: 'Every agent action is saved' }
+      ];
+  return (
+    <div className="p-5 sm:p-6">
+      <ol className="grid gap-2 sm:grid-cols-4 sm:gap-0">
+        {steps.map((s, i) => (
+          <li key={s.r} className="relative flex flex-col sm:block">
+            <div className={`h-full rounded-lg border bg-paper p-3 sm:mr-6 ${s.team ? 'border-dashed border-line' : 'border-accent/60'}`}>
+              <p className="text-[11px] text-muted">{i + 1} · {s.who}</p>
+              <p className="mt-0.5 font-semibold text-ink">{s.r}</p>
+              <ul className="mt-2 space-y-1.5">
+                {s.a.map((t) => (
+                  <li key={t} className="flex items-start gap-2 text-xs leading-snug text-ink">
+                    <span className={`mt-1 h-1.5 w-1.5 flex-none rounded-full ${s.team ? 'bg-ink/40' : 'bg-accent'}`} />{t}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 border-t border-line pt-2 text-[11px] leading-snug text-muted">{s.m}</p>
+            </div>
+            {i < steps.length - 1 && (
+              <>
+                <span className="absolute right-0 top-8 hidden w-6 sm:block"><Arrow /></span>
+                <span className="py-1 sm:hidden"><Arrow dir="down" /></span>
+              </>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+};
+
 export const BotFlow = ({ lang }) => {
   const fr = lang === 'fr';
   const steps = fr
@@ -439,4 +484,4 @@ export const BotFlow = ({ lang }) => {
   );
 };
 
-export const VISUALS = { shots: ShotsVisual,  alerts: AlertsVisual, pipeline: PipelineVisual, test: TestVisual, mcp: McpVisual, llm: LlmVisual, sncf: SncfVisual, astreinteFlow: AstreinteFlow, botFlow: BotFlow };
+export const VISUALS = { shots: ShotsVisual,  alerts: AlertsVisual, pipeline: PipelineVisual, test: TestVisual, mcp: McpVisual, llm: LlmVisual, sncf: SncfVisual, astreinteFlow: AstreinteFlow, botFlow: BotFlow, savFlow: SavFlow };

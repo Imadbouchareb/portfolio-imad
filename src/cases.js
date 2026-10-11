@@ -857,60 +857,83 @@ export const cases = [
 
   {
     slug: 'analyse-messages-service-client',
-    visual: 'llm',
-    stack: ['Python', 'LangChain', 'ChromaDB', 'Mistral AI', 'Streamlit'],
-    link: '',
+    visual: 'shots',
+    stack: ['Python', 'Streamlit', 'pandas', 'Altair', 'Plotly', 'Mistral AI', 'LangChain'],
+    link: 'https://github.com/Imadbouchareb/LLMAnalyzer-SAV-Tweets',
+    shots: [
+      { src: '/images/sav-llm/0-file-attente.webp', fr: 'L’écran Agent SAV : la file d’attente, avec les tickets ouverts, les urgents et un menu par tâche (urgences, thèmes, affectations, exports, journal).', en: 'The support agent screen: the queue, with open and urgent tickets and a menu per task (urgent cases, topics, assignments, exports, log).' },
+      { src: '/images/sav-llm/1-accueil-roles.webp', fr: 'L’accueil : on importe le fichier produit par le pipeline, puis chacun ouvre l’écran de son rôle.', en: 'The landing page: import the file produced by the pipeline, then each person opens the screen for their role.' },
+      { src: '/images/sav-llm/2-ticket-suggestion.webp', fr: 'Un ticket ouvert : le résumé et la réponse proposés par le LLM à côté du message d’origine. L’agent accepte la suggestion ou écrit sa réponse.', en: 'An open ticket: the summary and reply suggested by the LLM next to the original message. The agent accepts the suggestion or writes their own.' },
+      { src: '/images/sav-llm/3-analyste-priorite.webp', fr: 'L’écran Analyste : les messages au-dessus du seuil de priorité, avec leur score, leur statut et leur thème.', en: 'The analyst screen: messages above the priority threshold, with their score, status and topic.' },
+      { src: '/images/sav-llm/4-priorite-temps.webp', fr: 'Le score de priorité de chaque message dans le temps, coloré par sentiment.', en: 'Each message’s priority score over time, coloured by sentiment.' },
+      { src: '/images/sav-llm/5-manager-operations.webp', fr: 'L’écran Manager, onglet Opérations : statuts des tickets, volume par jour et par heure, courbe horaire.', en: 'The manager screen, Operations tab: ticket statuses, volume by day and hour, hourly curve.' }
+    ],
+    figures: [
+      { v: 'savFlow', fr: 'Du message brut à l’écran de l’agent : le pipeline LLM de l’équipe en amont, l’application SAV que j’ai créée en aval.', en: 'From raw message to the agent’s screen: the team’s LLM pipeline upstream, the support app I built downstream.' }
+    ],
     fr: {
-      kind: 'NLP et LLM',
+      kind: 'LLM et application',
+      pagesTitle: 'Les autres écrans de l’application',
+      flowsTitle: 'Le circuit des données',
       sector: "Projet de fin d'études HETIC, 2025",
-      title: 'Analyse automatique des messages du service client',
+      title: 'L’application SAV qui traite les messages clients analysés par un LLM',
       summary:
-        'Chaque message client est classé par sentiment, urgence et gravité dès son arrivée, et un chatbot retrouve les réponses utiles dans une base vectorielle.',
-      role: "Développement en équipe, méthode Scrum",
+        'Un pipeline LLM lit les tweets adressés au service client et note chaque message : thème, sentiment, urgence, gravité, résumé, réponse proposée. J’ai créé l’application qui en fait un outil de travail : un écran pour l’analyste, un pour le manager, une file d’attente priorisée pour l’agent SAV.',
+      role: 'Création et conception de l’application SAV, score de priorité, nettoyage des données du pipeline local. Projet à trois en méthode Scrum.',
       period: 'Juillet à novembre 2025',
-      caption: "Messages d'exemple rédigés pour l'illustration.",
+      caption: 'L’application relancée pour le portfolio sur 1 075 messages fictifs : aucun tweet réel, auteurs anonymisés.',
       context:
-        "Projet de fin d'études : automatiser la lecture des tweets adressés à un service client et faire remonter les plus urgents.",
+        'Projet de fin d’études du Master Data et IA, sur un cas d’école : les tweets adressés au service client de Free Mobile. Des milliers de messages par mois, lus dans l’ordre d’arrivée. Mes deux coéquipiers ont construit le pipeline qui les analyse avec un LLM, et le chatbot. Ma partie : l’application qui permet au support de s’en servir.',
       challenge:
-        'Produire trois étiquettes fiables par message, sans exploser le budget d’appels au modèle, et rendre le résultat utilisable par une équipe support.',
+        'Une sortie de LLM n’est pas un outil. Un fichier de 16 colonnes par message ne dit ni quoi traiter en premier, ni qui s’en occupe, ni ce qui a déjà été fait. Et une nouvelle analyse devait pouvoir être rechargée sans effacer le travail des agents.',
       built: [
-        'Une classification sentiment, urgence et gravité par LLM, via Mistral AI et Ollama.',
-        'Une recherche contextuelle RAG avec embeddings BERT et ChromaDB.',
-        'Un chatbot de support (LangChain, Llama 3.3) et trois interfaces Streamlit : tableaux de bord, indicateurs en temps réel, chatbot.',
-        'Un cache SQLite devant les appels au modèle.'
+        'L’application SAV en Streamlit : un accueil qui importe le fichier du pipeline, puis un écran par rôle. Le code est découpé en une bibliothèque commune (chargement, score, état, grilles) et une page par écran.',
+        'L’écran Analyste : filtres par seuil de priorité, thème, sentiment et période, résultats détaillés, priorité dans le temps, réseau de thèmes, comparaisons, alertes automatiques et exports.',
+        'L’écran Manager : volume, part de messages urgents et négatifs, auteurs uniques, urgence moyenne, tickets ouverts ; statuts, chaleur jour × heure, courbe horaire, export des tickets ouverts en CSV ou JSON.',
+        'L’écran Agent SAV : la file d’attente, le résumé et la réponse proposés par le LLM pour le ticket choisi, et trois actions rapides (réaffecter, clore, mettre en attente client).',
+        'Le chargement qui normalise la sortie du pipeline (dates, thèmes, sentiment, urgence, gravité), et le nettoyage des messages pour la version locale du pipeline.'
       ],
       decisions: [
-        { title: 'Un cache devant le modèle', text: 'Un même message n’est jamais analysé deux fois : c’est ce qui fait baisser la facture de 70 %.' },
-        { title: 'Une base vectorielle locale', text: 'ChromaDB tourne avec l’application, sans service externe à administrer.' },
-        { title: 'Trois interfaces séparées', text: 'Le pilotage, le suivi en temps réel et le chatbot ne servent pas les mêmes personnes.' }
+        { title: 'Un écran par métier', text: 'L’analyste cherche des tendances, le manager surveille la charge, l’agent traite un ticket après l’autre. Un seul tableau de bord pour les trois aurait été trop chargé pour chacun.' },
+        { title: 'Un score de priorité qu’on peut expliquer', text: '45 % urgence, 40 % gravité, 15 % sentiment négatif, de 0 à 1. Un responsable support comprend pourquoi un message passe devant un autre, et règle le seuil lui-même.' },
+        { title: 'Le travail des agents stocké à part', text: 'Statuts, affectations et réponses vont dans un fichier séparé, appliqué au chargement. On réimporte une nouvelle analyse sans perdre ce qui a été traité.' },
+        { title: 'Le LLM propose, l’agent décide', text: 'La réponse suggérée s’affiche à côté du message d’origine. L’agent l’accepte ou écrit la sienne, et le statut garde la trace des deux cas.' }
       ],
-      result: '−70 % de coûts d’API grâce au cache, et des messages classés par urgence et gravité dès leur arrivée.',
-      next: ''
+      result:
+        'Trois applications livrées par l’équipe : le pipeline, l’application SAV et le chatbot. Sur le jeu de l’école, 6 310 tweets passés dans le pipeline, 2 989 messages clients retenus après filtrage et dédoublonnage, dont 33,7 % détectés comme urgents.',
+      next: 'Brancher l’application directement sur la sortie du pipeline plutôt que sur un import de fichier, et mesurer avec une équipe support le temps de traitement avant et après.'
     },
     en: {
-      kind: 'NLP and LLM',
+      kind: 'LLM and app',
+      pagesTitle: 'The other screens of the app',
+      flowsTitle: 'How the data flows',
       sector: 'HETIC final project, 2025',
-      title: 'Automatic analysis of customer service messages',
+      title: 'The support app that handles customer messages analysed by an LLM',
       summary:
-        'Each customer message is tagged by sentiment, urgency and severity on arrival, and a chatbot retrieves useful answers from a vector database.',
-      role: 'Team development, Scrum',
+        'An LLM pipeline reads the tweets sent to customer service and scores each message: topic, sentiment, urgency, severity, summary, suggested reply. I built the app that turns this into a working tool: one screen for the analyst, one for the manager, and a prioritised queue for the support agent.',
+      role: 'Created and designed the support app, the priority score and the data cleaning for the local pipeline. Team of three, Scrum.',
       period: 'July to November 2025',
-      caption: 'Sample messages written for illustration.',
-      context: 'Master’s final project: automate the reading of tweets sent to a customer service team and surface the most urgent ones.',
-      challenge: 'Three reliable labels per message, without blowing the model budget, in a form a support team can use.',
+      caption: 'The app relaunched for this portfolio on 1,075 fictional messages: no real tweets, anonymised authors.',
+      context:
+        'Final project of the Master in Data and AI, on a school case: tweets sent to Free Mobile’s customer service. Thousands of messages a month, read in order of arrival. My two teammates built the pipeline that analyses them with an LLM, and the chatbot. My part: the app that lets the support team use the results.',
+      challenge:
+        'LLM output is not a tool. A 16-column file per message does not say what to handle first, who owns it or what has already been done. And a new analysis had to be reloaded without wiping the agents’ work.',
       built: [
-        'LLM classification of sentiment, urgency and severity with Mistral AI and Ollama.',
-        'RAG search with BERT embeddings and ChromaDB.',
-        'A support chatbot (LangChain, Llama 3.3) and three Streamlit interfaces: dashboards, real-time KPIs, chatbot.',
-        'A SQLite cache in front of model calls.'
+        'The support app in Streamlit: a landing page that imports the pipeline file, then one screen per role. The code is split into a shared library (loading, score, state, grids) and one page per screen.',
+        'The analyst screen: filters by priority threshold, topic, sentiment and period, detailed results, priority over time, topic network, comparisons, automatic alerts and exports.',
+        'The manager screen: volume, share of urgent and negative messages, unique authors, average urgency, open tickets; statuses, day × hour heatmap, hourly curve, export of open tickets as CSV or JSON.',
+        'The support agent screen: the queue, the LLM’s summary and suggested reply for the selected ticket, and three quick actions (reassign, close, wait for customer).',
+        'The loader that normalises the pipeline output (dates, topics, sentiment, urgency, severity), and message cleaning for the local version of the pipeline.'
       ],
       decisions: [
-        { title: 'A cache in front of the model', text: 'The same message is never analysed twice: that is what cuts the bill by 70%.' },
-        { title: 'A local vector database', text: 'ChromaDB runs with the app, no external service to manage.' },
-        { title: 'Three separate interfaces', text: 'Monitoring, real-time tracking and the chatbot serve different people.' }
+        { title: 'One screen per job', text: 'The analyst looks for trends, the manager watches the workload, the agent handles one ticket after another. A single dashboard for all three would have been too crowded for each.' },
+        { title: 'A priority score you can explain', text: '45% urgency, 40% severity, 15% negative sentiment, from 0 to 1. A support lead sees why one message comes before another, and sets the threshold themselves.' },
+        { title: 'Agents’ work stored separately', text: 'Statuses, assignments and replies go to a separate file applied on load. A new analysis can be imported without losing what has been handled.' },
+        { title: 'The LLM suggests, the agent decides', text: 'The suggested reply sits next to the original message. The agent accepts it or writes their own, and the status records which.' }
       ],
-      result: '−70% API costs thanks to caching, and messages ranked by urgency and severity on arrival.',
-      next: ''
+      result:
+        'Three apps delivered by the team: the pipeline, the support app and the chatbot. On the school dataset, 6,310 tweets went through the pipeline, 2,989 customer messages were kept after filtering and de-duplication, and 33.7% were flagged as urgent.',
+      next: 'Connect the app directly to the pipeline output instead of a file import, and measure handling time before and after with a support team.'
     }
   },
 

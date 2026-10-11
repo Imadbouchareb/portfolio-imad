@@ -118,7 +118,7 @@ export const content = {
         place: 'Montreuil',
         role: "Projet de fin d'études, analyse SAV par LLM",
         date: 'Juil. à nov. 2025',
-        points: ['Pipeline NLP, RAG et chatbot, détaillés dans les études de cas.']
+        points: ['Application SAV en Streamlit au-dessus d’un pipeline LLM : trois écrans par rôle et un score de priorité, détaillés dans les études de cas.']
       }
     ],
     earlier: [
@@ -268,7 +268,7 @@ export const content = {
         place: 'Montreuil',
         role: 'Final project, LLM customer service analysis',
         date: 'July to Nov. 2025',
-        points: ['NLP pipeline, RAG and chatbot, detailed in the case studies.']
+        points: ['Streamlit support app on top of an LLM pipeline: three role-based screens and a priority score, detailed in the case studies.']
       }
     ],
     earlier: [

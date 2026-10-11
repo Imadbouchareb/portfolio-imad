@@ -351,7 +351,7 @@ const CasePage = ({ t, lang, slug }) => {
         </Block>
         {c.figures && (
           <section className="border-t border-line py-10">
-            <h2 className="text-sm font-semibold text-ink">{L.flows}</h2>
+            <h2 className="text-sm font-semibold text-ink">{d.flowsTitle || L.flows}</h2>
             <div className="mt-6 space-y-6">
               {c.figures.map((f) => {
                 const F = VISUALS[f.v];
@@ -383,7 +383,7 @@ const CasePage = ({ t, lang, slug }) => {
         )}
         {c.shots && c.shots.length > 1 && (
           <section className="border-t border-line py-10">
-            <h2 className="text-sm font-semibold text-ink">{L.pages}</h2>
+            <h2 className="text-sm font-semibold text-ink">{d.pagesTitle || L.pages}</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
               {c.shots.slice(1).map((s) => (
                 <figure key={s.src} className="overflow-hidden rounded-xl border border-line bg-surface md:[&:last-child:nth-child(odd)]:col-span-2">
