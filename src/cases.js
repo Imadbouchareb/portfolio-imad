@@ -547,6 +547,114 @@ export const cases = [
     }
   },
   {
+    slug: 'suivi-quotidien-client',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
+    shots: [
+      { src: '/images/daily-retail/1-comparable-tous-pays.webp', fr: 'Page d’origine : le CA comparable semaine par semaine, tous pays, avec le détail par pays et par rayon de la semaine en cours.', en: 'Original page: like-for-like sales week by week, all countries, with the current week broken down by country and department.' },
+      { src: '/images/daily-retail/2-jauges-jour.webp', fr: 'Page d’origine : la veille face au budget de la semaine, rayon par rayon, sur le premier marché.', en: 'Original page: yesterday against the weekly budget, department by department, on the largest market.' },
+      { src: '/images/daily-retail/3-jauges-semaine.webp', fr: 'Page d’origine : la semaine close face au budget, avec l’écart en euros.', en: 'Original page: the closed week against budget, with the gap in euros.' },
+      { src: '/images/daily-retail/4-courbe-hebdo.webp', fr: 'Page d’origine : la courbe hebdomadaire 2026, 2025 et budget. Le texte en haut à droite rappelle la mise à jour manuelle de chaque semaine.', en: 'Original page: the weekly curve for 2026, 2025 and budget. The note at the top right is the manual update needed every week.' },
+      { src: '/images/daily-retail/5-synthese.webp', fr: 'Nouvelle page de synthèse : CA, évolution comparable, atteinte du budget et atterrissage, puis la courbe de l’année et les écarts par pays et par rayon.', en: 'New summary page: sales, like-for-like change, budget achievement and landing, then the year curve and gaps by country and department.' },
+      { src: '/images/daily-retail/6-pilotage-budget.webp', fr: 'Nouvelle page budget : atteinte par pays et par rayon, CA et budget par semaine close, écarts en euros.', en: 'New budget page: achievement by country and department, sales and budget per closed week, gaps in euros.' },
+      { src: '/images/daily-retail/7-magasins.webp', fr: 'Nouvelle page magasins : les plus fortes baisses et hausses en euros, et chaque magasin placé selon sa taille et son évolution.', en: 'New store page: the largest drops and gains in euros, and every store plotted by size and change.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'Distribution retail, 2026',
+      title: 'Suivi quotidien d’un client distributeur face au budget',
+      summary:
+        'Le rapport envoyé chaque matin pour un client distributeur présent dans sept pays : la veille et la semaine face à N-1 et au budget, rayon par rayon. Repris, débarrassé de ses mises à jour manuelles et complété par trois pages d’analyse.',
+      role: 'Reprise du rapport, audit, corrections et trois nouvelles pages',
+      period: '2026',
+      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
+      context:
+        "Le groupe gère plusieurs rayons dans les magasins d'une enseigne de distribution : plus de 200 points de vente répartis sur sept pays européens. Chaque matin, le rapport donne au client et à l'équipe commerciale le CA de la veille et de la semaine en cours, face à l'an dernier et au budget, avec un focus sur le premier marché.",
+      challenge:
+        "Le rapport tenait par des gestes manuels : une formule de budget restant à modifier chaque semaine, une liste de 253 dates cochées dans un filtre de page pour borner l'an dernier, des dates d'objectif écrites dans les mesures et des historiques importés en CSV. Dix pages masquées pointaient vers des tables supprimées, et aucune page ne disait en un écran si le réseau tenait son budget.",
+      built: [
+        'Un audit du modèle : 14 pages dont 10 masquées, 67 mesures presque toutes rangées dans la table des magasins, deux mesures cassées par une table supprimée.',
+        'Une table de mesures dédiée, avec la dernière date de vente et la dernière semaine close calculées à partir des données.',
+        'Un budget comparé au CA sur le même périmètre : pays et rayons budgétés, semaines closes uniquement.',
+        'Une page de synthèse : CA, évolution comparable, atteinte du budget et atterrissage estimé, puis la courbe de l’année et les écarts par pays et par rayon.',
+        'Une page de pilotage du budget : atteinte par pays et par rayon, CA et budget par semaine, écarts en euros.',
+        'Une page magasins : les plus fortes baisses et hausses en euros, et un nuage de points magasin par magasin.'
+      ],
+      decisions: [
+        {
+          title: 'La semaine close se déduit des ventes',
+          text: "Le budget restant était corrigé à la main chaque lundi. La mesure « Dernière semaine close » part de la dernière date de vente : un dimanche clôt la semaine, sinon on s'arrête à la précédente. Plus rien à toucher le lundi matin."
+        },
+        {
+          title: 'Comparer CA et budget sur le même périmètre',
+          text: "Le budget couvre six pays et six rayons, à partir de la semaine 6. Diviser le CA total par ce budget compte un pays et un rayon non budgétés, et une semaine entamée face à un budget de semaine pleine. Le calcul garde le même périmètre des deux côtés."
+        },
+        {
+          title: 'Garder le comparable d’origine',
+          text: "Le rapport définissait déjà un comparable au bon grain : magasin × jour de la semaine × semaine, avec un N-1 décalé de 364 jours. Je l'ai gardé et réutilisé dans les nouvelles pages plutôt que d'en créer un second, qui aurait donné un autre chiffre."
+        },
+        {
+          title: 'Un atterrissage simple, écrit sur la page',
+          text: "L'atterrissage prolonge le taux d'atteinte actuel sur les semaines restantes du budget. L'hypothèse est volontairement simple et affichée à côté du chiffre, pour que le client puisse la discuter."
+        },
+        {
+          title: 'Des couleurs calculées',
+          text: "Le vert et le rouge viennent de mesures (au-dessus ou en dessous de zéro, ou de 100 % du budget) appliquées aux barres, aux cartes et aux tableaux. Le dégradé de la matrice budget est centré sur 100 % d'atteinte."
+        }
+      ],
+      result:
+        'Le rapport du matin ne demande plus de retouche hebdomadaire, et une page résume l’état du réseau face à 2025 et au budget. Sur les données fictives : +3,1 % en comparable et 97,8 % du budget atteint en semaine 41, avec un écart concentré sur le premier marché et le premier rayon.',
+      next: 'Remplacer la liste de dates du filtre de page par une borne calculée sur la dernière date de vente, charger les historiques depuis l’entrepôt plutôt que depuis des exports CSV, et signaler les magasins qui décrochent plusieurs semaines de suite.'
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'Retail distribution, 2026',
+      title: 'Daily tracking of a retail account against budget',
+      summary:
+        'The report sent every morning for a retail account present in seven countries: yesterday and the current week against last year and budget, department by department. Taken over, freed from its manual updates and extended with three analysis pages.',
+      role: 'Took over the report: audit, fixes and three new pages',
+      period: '2026',
+      caption: 'Screenshots of the Power BI report, running on fictional data.',
+      context:
+        'The group runs several departments inside the stores of a retail chain: more than 200 stores across seven European countries. Every morning, the report gives the account and the sales team yesterday’s sales and the current week, against last year and budget, with a focus on the largest market.',
+      challenge:
+        'The report relied on manual steps: a remaining-budget formula edited every week, a list of 253 dates ticked in a page filter to bound last year, target dates written into measures and history tables imported from CSV. Ten hidden pages pointed at deleted tables, and no page showed at a glance whether the network was on budget.',
+      built: [
+        'A model audit: 14 pages including 10 hidden, 67 measures almost all stored in the store table, two measures broken by a deleted table.',
+        'A dedicated measure table, with the last sales date and the last closed week computed from the data.',
+        'Budget compared with sales on the same scope: budgeted countries and departments, closed weeks only.',
+        'A summary page: sales, like-for-like change, budget achievement and estimated landing, then the year curve and gaps by country and department.',
+        'A budget page: achievement by country and department, sales and budget per week, gaps in euros.',
+        'A store page: the largest drops and gains in euros, and a scatter plot store by store.'
+      ],
+      decisions: [
+        {
+          title: 'The closed week comes from the sales',
+          text: 'The remaining budget was edited by hand every Monday. The “last closed week” measure starts from the last sales date: a Sunday closes the week, otherwise it stops at the previous one. Nothing left to edit on Monday morning.'
+        },
+        {
+          title: 'Compare sales and budget on the same scope',
+          text: 'The budget covers six countries and six departments, from week 6. Dividing total sales by that budget counts a country and a department with no budget, and a week in progress against a full-week budget. The calculation keeps the same scope on both sides.'
+        },
+        {
+          title: 'Keep the original like-for-like',
+          text: 'The report already defined like-for-like at the right grain: store × weekday × week, with last year shifted by 364 days. I kept it and reused it in the new pages rather than building a second one that would give a different figure.'
+        },
+        {
+          title: 'A simple landing, written on the page',
+          text: 'The landing extends the current achievement rate over the remaining budget weeks. The assumption is deliberately simple and shown next to the figure, so the account can challenge it.'
+        },
+        {
+          title: 'Computed colours',
+          text: 'Green and red come from measures (above or below zero, or 100% of budget) applied to bars, cards and tables. The budget matrix gradient is centred on 100% achievement.'
+        }
+      ],
+      result:
+        'The morning report no longer needs a weekly edit, and one page sums up the network against 2025 and budget. On the fictional data: +3.1% like-for-like and 97.8% of budget achieved at week 41, with the gap concentrated on the largest market and the largest department.',
+      next: 'Replace the list of dates in the page filter with a bound computed from the last sales date, load history from the warehouse instead of CSV exports, and flag stores that fall behind several weeks in a row.'
+    }
+  },
+  {
     slug: 'analyse-soldes',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
