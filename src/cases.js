@@ -81,6 +81,120 @@ export const cases = [
   },
 
   {
+    slug: 'trame-rendez-vous-clients',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA', 'PowerPoint'],
+    download: {
+      href: '/dossiers/dossier-rdv-client-a.pdf',
+      fr: { title: 'Exemple', label: 'Dossier de rendez-vous complet (PDF, données fictives)' },
+      en: { title: 'Sample', label: 'Full meeting pack (PDF, fictional data)' }
+    },
+    shots: [
+      { src: '/images/trame-rdv/1-resultats-mensuels.webp', fr: 'Page d’ouverture d’un dossier : VA et magasins face à N-1, global et comparable, mois par mois. Le titre se compose seul (client, périmètre, années, période).', en: 'Opening page of a pack: sales and stores against last year, total and like-for-like, month by month. The title builds itself (account, scope, years, period).' },
+      { src: '/images/trame-rdv/2-resultats-rayons.webp', fr: 'Résultats par rayon : mix du CA, ventes mensuelles et indices comparables par saison.', en: 'Results by department: sales mix, monthly sales and like-for-like indices by season.' },
+      { src: '/images/trame-rdv/3-palmares-magasins.webp', fr: 'Palmarès des 20 meilleurs et 20 moins bons magasins. Le classement du bas ne garde que les magasins comparables, sans liste d’exclusions à tenir.', en: 'Top and bottom 20 stores. The bottom ranking only keeps like-for-like stores, with no exclusion list to maintain.' },
+      { src: '/images/trame-rdv/4-collection-bijoux.webp', fr: 'Analyse de collection : mix de références, de ventes et de quantités par famille, prix de vente construit face au prix sorti caisse.', en: 'Collection review: mix of references, sales and units by family, planned retail price against actual selling price.' },
+      { src: '/images/trame-rdv/5-collection-lunettes.webp', fr: 'La même analyse pour un autre rayon, découpée par genre.', en: 'The same review for another department, split by gender.' },
+      { src: '/images/trame-rdv/6-dossier-usa.webp', fr: 'Version anglaise pour un client américain : montants convertis en dollars par un simple filtre.', en: 'English version for a US account: amounts converted to dollars by a single filter.' },
+      { src: '/images/trame-rdv/7-portefeuille.webp', fr: 'Nouvelle page : tous les clients côte à côte, pour préparer la semaine de rendez-vous et repérer celui qui décroche.', en: 'New page: every account side by side, to prepare the week of meetings and spot the one falling behind.' },
+      { src: '/images/trame-rdv/8-controles.webp', fr: 'Nouvelle page de contrôles avant export : part du comparable, magasins recodés, fichier par référence incomplet, mois manquant.', en: 'New pre-export checks page: like-for-like share, recoded stores, incomplete item-level file, missing month.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'Distribution retail, 2026',
+      title: 'Une trame pour préparer les rendez-vous clients',
+      summary:
+        'Le rapport Power BI d’où sortent les dossiers de rendez-vous avec les centrales clientes : résultats mensuels, rayons, palmarès magasins et analyse de collection, en français ou en anglais. Deux à sept dossiers par semaine : repris pour que chacun parte juste du premier coup.',
+      role: 'Reprise de la trame, audit, corrections et deux nouvelles pages',
+      period: '2026',
+      caption: 'Captures du rapport Power BI, alimenté par des données fictives. Les pages s’exportent telles quelles en PowerPoint.',
+      context:
+        "Le groupe gère des rayons dans les magasins de plusieurs dizaines d'enseignes clientes, en France, en Europe et en Amérique du Nord. Avant chaque rendez-vous commercial, on prépare un dossier : on choisit le client, la période et les pages, puis on exporte en PowerPoint. Il y en a deux à sept par semaine. Une trame existe par année : la 2026 pour 2026 face à 2025, la 2025 pour 2025 face à 2024.",
+      challenge:
+        "La trame était devenue le cumul de tous les dossiers passés. Plus d'un tiers des colonnes calculées et une vingtaine de mesures ne servaient qu'à un client. L'année était écrite en dur dans seize mesures. Surtout, la période des titres se tapait à la main : une trame filtrée de janvier à septembre affichait encore « de Janvier à Mai ». À ce rythme, une erreur de titre ou de périmètre finit par partir chez le client.",
+      built: [
+        'Un audit complet : 14 pages dont 11 masquées, 122 mesures, 68 colonnes calculées dont 26 propres à un client, des références vers des tables supprimées.',
+        'Des titres calculés : client, pays, rayons, années et période se lisent dans les filtres, en français comme en anglais.',
+        'Le recodage des magasins repris dans Power Query à partir du référentiel, à la place de trois SWITCH de codes écrits en dur.',
+        'Un palmarès « hors ouverture et fermeture » qui s’appuie sur la table de comparabilité, et non sur une liste de magasins exclus à la main.',
+        'Une page portefeuille : tous les clients face à N-1, indice comparable mois par mois et écart en euros.',
+        'Une page de contrôles à regarder avant chaque export : part du comparable, magasins recodés, écart entre le fichier par référence et les ventes, mois incomplets.'
+      ],
+      decisions: [
+        {
+          title: 'Un titre qui ne peut plus mentir',
+          text: "La période vient des mois qui ont vraiment des ventes dans le filtre, le client et le périmètre des sélections. Changer un filtre suffit : il n'y a plus de texte à retaper avant l'export, ni de dossier qui annonce mai quand il montre septembre."
+        },
+        {
+          title: 'Le référentiel plutôt que des codes en dur',
+          text: "Quand un magasin change de code, ses ventes de l'an dernier arrivent sous l'ancien. La trame les rattachait avec trois SWITCH de codes écrits dans le modèle. La colonne « ancien code » du référentiel fait maintenant la correspondance dans Power Query : un nouveau recodage ne demande plus de toucher au rapport."
+        },
+        {
+          title: 'Garder ce qui est commun, sortir ce qui est propre à un client',
+          text: "Les classements, taux de change et regroupements de rayons d'un seul client restent dans le dossier de ce client. La trame ne garde que les mesures communes à tous les rendez-vous, ce qui la rend lisible pour la personne qui prépare le dossier suivant."
+        },
+        {
+          title: 'Contrôler avant d’envoyer',
+          text: "Chaque contrôle répond à une erreur déjà vue : un fichier de ventes mensuel arrivé incomplet, un fichier par référence qui ne couvre pas tout le rayon, une part comparable trop faible pour que l'indice global veuille dire quelque chose. La page les met en rouge avant l'export, pas pendant le rendez-vous."
+        },
+        {
+          title: 'Une vue portefeuille pour préparer la semaine',
+          text: "Avec plusieurs rendez-vous par semaine, une page compare tous les clients sur le même périmètre comparable. On voit d'un coup d'œil quel client décroche et sur quels mois, avant d'ouvrir son dossier."
+        }
+      ],
+      result:
+        'Un dossier se prépare en choisissant le client et la période, sans retoucher de texte ni de liste. Les contrôles s’affichent avant l’export, et la direction dispose d’une vue de tous les clients avant la semaine de rendez-vous.',
+      next: 'Fusionner les trames annuelles en une seule, avec une année de référence choisie dans un segment, et remplacer les taux de change fixes par une table de taux mensuels.'
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'Retail distribution, 2026',
+      title: 'A template for client meeting packs',
+      summary:
+        'The Power BI report that produces the packs for meetings with retail accounts: monthly results, departments, store rankings and collection reviews, in French or English. Two to seven packs a week: reworked so each one is right the first time.',
+      role: 'Took over the template: audit, fixes and two new pages',
+      period: '2026',
+      caption: 'Screenshots of the Power BI report, running on fictional data. Pages export to PowerPoint as they are.',
+      context:
+        'The group runs departments inside the stores of several dozen retail accounts, in France, Europe and North America. Before each sales meeting, a pack is prepared: pick the account, the period and the pages, then export to PowerPoint. There are two to seven a week. There is one template per year: 2026 for 2026 against 2025, 2025 for 2025 against 2024.',
+      challenge:
+        'The template had become the sum of every past pack. Over a third of the calculated columns and about twenty measures only served one account. The year was hard-coded in sixteen measures. Above all, the period in the titles was typed by hand: a template filtered from January to September still read “January to May”. At this pace, a wrong title or scope eventually reaches the client.',
+      built: [
+        'A full audit: 14 pages including 11 hidden, 122 measures, 68 calculated columns of which 26 serve a single account, references to deleted tables.',
+        'Computed titles: account, countries, departments, years and period are read from the filters, in French and English.',
+        'Store recoding moved into Power Query from the store reference table, replacing three SWITCH statements with hard-coded store codes.',
+        'A store ranking “excluding openings and closures” based on the comparability table, not on a hand-kept list of excluded stores.',
+        'A portfolio page: every account against last year, monthly like-for-like index and gap in euros.',
+        'A checks page to look at before each export: like-for-like share, recoded stores, gap between the item-level file and sales, incomplete months.'
+      ],
+      decisions: [
+        {
+          title: 'A title that can no longer lie',
+          text: 'The period comes from the months that actually have sales in the filter, the account and scope from the selections. Changing a filter is enough: no text to retype before export, and no pack announcing May while showing September.'
+        },
+        {
+          title: 'The reference table instead of hard-coded codes',
+          text: 'When a store changes code, last year’s sales arrive under the old one. The template linked them with three SWITCH statements written into the model. The “former code” column of the store reference now does the mapping in Power Query: a new recoding no longer requires touching the report.'
+        },
+        {
+          title: 'Keep what is shared, move out what belongs to one account',
+          text: 'Rankings, exchange rates and department groupings used by a single account stay in that account’s pack. The template only keeps measures shared by every meeting, which keeps it readable for whoever prepares the next pack.'
+        },
+        {
+          title: 'Check before sending',
+          text: 'Each check answers a mistake already seen: a monthly sales file that arrived incomplete, an item-level file that does not cover the whole department, a like-for-like share too low for the total index to mean anything. The page flags them in red before export, not during the meeting.'
+        },
+        {
+          title: 'A portfolio view to prepare the week',
+          text: 'With several meetings a week, one page compares every account on the same like-for-like scope. You see at a glance which account is falling behind and in which months, before opening its pack.'
+        }
+      ],
+      result:
+        'A pack is prepared by picking the account and the period, without retyping text or lists. Checks show up before export, and management gets a view of every account before the week of meetings.',
+      next: 'Merge the yearly templates into one, with the reference year picked in a slicer, and replace fixed exchange rates with a monthly rate table.'
+    }
+  },
+  {
     slug: 'couverture-conduite-sncf',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint'],

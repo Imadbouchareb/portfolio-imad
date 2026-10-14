@@ -400,6 +400,13 @@ const CasePage = ({ t, lang, slug }) => {
           <p className="border-l-2 border-accent pl-4 text-lg leading-relaxed text-ink">{d.result}</p>
         </Block>
         {d.next && <Block title={L.next}><p className="leading-relaxed text-muted">{d.next}</p></Block>}
+        {c.download && (
+          <Block title={c.download[lang].title}>
+            <a href={c.download.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-accent hover:underline">
+              {c.download[lang].label} <ArrowUpRight size={15} />
+            </a>
+          </Block>
+        )}
         {c.link && (
           <Block title="Code">
             <a href={c.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-accent hover:underline">
