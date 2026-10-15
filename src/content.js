@@ -56,7 +56,7 @@ export const content = {
     sections: {
       projects: 'Études de cas',
       projectsLead:
-        'Douze projets livrés, chacun avec son contexte, mes choix techniques et ce que ça a changé. Les données affichées sont fictives.',
+        'Quatorze projets livrés, chacun avec son contexte, mes choix techniques et ce que ça a changé. Les données affichées sont fictives.',
       path: 'Parcours',
       skills: 'Compétences',
       skillsLead: "Classées par endroit où je m'en sers, pas par liste de mots-clés.",
@@ -151,7 +151,7 @@ export const content = {
     degrees: [
       { title: 'Master Data et IA', school: 'HETIC, Montreuil', year: '2025' },
       { title: 'Master 1 Ingénierie mathématique et data science', school: 'Université de Haute-Alsace, Mulhouse', year: '2024' },
-      { title: 'Master Recherche opérationnelle et gestion des risques', school: 'USTHB, Alger', year: '2022' }
+      { title: 'Master Recherche opérationnelle, management du risque et négociation', school: 'USTHB, Alger', year: '2022' }
     ],
     languages: 'Langues : français (C2), anglais professionnel.',
     contact: {
@@ -206,7 +206,7 @@ export const content = {
     ],
     sections: {
       projects: 'Case studies',
-      projectsLead: 'Twelve delivered projects, each with its context, my technical choices and what changed. All figures shown are fictional.',
+      projectsLead: 'Fourteen delivered projects, each with its context, my technical choices and what changed. All figures shown are fictional.',
       path: 'Experience',
       skills: 'Skills',
       skillsLead: 'Grouped by where I actually use them.',
@@ -301,7 +301,7 @@ export const content = {
     degrees: [
       { title: 'MSc Data and AI', school: 'HETIC, Montreuil', year: '2025' },
       { title: 'MSc (year 1) Applied Mathematics and Data Science', school: 'Université de Haute-Alsace, Mulhouse', year: '2024' },
-      { title: 'MSc Operations Research and Risk Management', school: 'USTHB, Algiers', year: '2022' }
+      { title: 'MSc Operations Research, Risk Management and Negotiation', school: 'USTHB, Algiers', year: '2022' }
     ],
     languages: 'Languages: French (C2), professional English.',
     contact: {
