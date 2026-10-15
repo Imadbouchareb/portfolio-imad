@@ -3,7 +3,8 @@
 
 export const cases = [
   {
-    slug: 'dossier-rendez-vous-client',
+    slug: 'bilan-performance-enseigne',
+    group: 'rand',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'Excel'],
     shots: [
@@ -17,14 +18,14 @@ export const cases = [
     fr: {
       kind: 'Power BI',
       sector: 'Distribution retail, 2026',
-      title: 'Dossier d’analyse pour un rendez-vous client',
+      title: 'Bilan de performance d’une enseigne du groupe',
       summary:
-        'Un rapport Power BI qui prépare un rendez-vous de la direction avec une enseigne cliente : ventes comparables, marges au prix de revient, démarque, budget, tickets et rendement de la place en rayon.',
+        'Une analyse Power BI interne sur l’une des enseignes du groupe : ventes comparables, marges au prix de revient, démarque, budget, tickets et rendement de la place en rayon.',
       role: 'Modèle et rapport, préparés en binôme',
       period: 'Octobre 2026',
       caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
       context:
-        'La direction rencontre une enseigne cliente pour faire le point sur l’année : performance des magasins, rentabilité par rayon, effet d’une opération commerciale. Il fallait un dossier unique, lisible en réunion, avec des chiffres comparables d’une année sur l’autre.',
+        'La direction fait le point sur l’année d’une enseigne du groupe, en affiliation et en succursale : performance des magasins, rentabilité par rayon, effet d’une opération commerciale. Il fallait un dossier unique, lisible en réunion, avec des chiffres comparables d’une année sur l’autre.',
       challenge:
         'Comparer ce qui est comparable sur neuf mois et sur deux types de magasins, affiliés et succursales. Calculer des marges à partir d’un prix de revient tenu dans un fichier à part. Isoler l’effet d’une opération répartie sur quatre mois.',
       built: [
@@ -43,20 +44,20 @@ export const cases = [
         { title: 'Une mesure de contrôle', text: 'Une mesure compare les ventes des deux tables de faits, tickets et ventes agrégées. L’écart doit rester nul avant chaque export.' }
       ],
       result:
-        'Un dossier unique pour le rendez-vous, où chaque chiffre repose sur le même périmètre comparable, et une structure qui sert de base aux prochains dossiers clients.',
+        'Un dossier unique pour la direction, où chaque chiffre repose sur le même périmètre comparable, et une structure qui sert de base aux prochaines analyses. L’analyse est encore en cours d’enrichissement.',
       next: 'Brancher les relevés réels de picots et rendre les périodes paramétrables dans le référentiel plutôt que dans le modèle.'
     },
     en: {
       kind: 'Power BI',
       sector: 'Retail distribution, 2026',
-      title: 'Analysis pack for a client meeting',
+      title: 'Performance review of one of the group’s banners',
       summary:
-        'A Power BI report preparing a leadership meeting with a retail client: like-for-like sales, margins at cost price, markdown, budget, tickets and shelf-space productivity.',
+        'An internal Power BI analysis of one of the group’s retail banners: like-for-like sales, margins at cost price, markdown, budget, tickets and shelf-space productivity.',
       role: 'Model and report, built as a pair',
       period: 'October 2026',
       caption: 'Screenshots of the Power BI report, running on fictional data.',
       context:
-        'Leadership meets a retail client to review the year: store performance, profitability by department, effect of a promotion. They needed a single pack, readable in the meeting, with figures comparable year on year.',
+        'Leadership reviews the year of one of the group’s banners, across affiliate and company-owned stores: store performance, profitability by department, effect of a promotion. They needed a single pack, readable in the meeting, with figures comparable year on year.',
       challenge:
         'Compare like with like over nine months and two store types, affiliates and company-owned. Compute margins from a cost price kept in a separate file. Isolate the effect of a promotion spread over four months.',
       built: [
@@ -75,13 +76,14 @@ export const cases = [
         { title: 'A control measure', text: 'A measure compares sales across the two fact tables, tickets and aggregated sales. The gap must stay at zero before every export.' }
       ],
       result:
-        'A single pack for the meeting, where every figure rests on the same comparable scope, and a structure that serves as the base for the next client packs.',
+        'A single pack for leadership, where every figure rests on the same comparable scope, and a structure that serves as the base for the next analyses. The analysis is still being extended.',
       next: 'Connect the real display hook counts and make periods configurable in the reference workbook rather than in the model.'
     }
   },
 
   {
     slug: 'trame-rendez-vous-clients',
+    group: 'rand',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA', 'Excel', 'PowerPoint'],
     download: {
@@ -198,6 +200,7 @@ export const cases = [
   },
   {
     slug: 'couverture-conduite-sncf',
+    group: 'sncf',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint'],
     shots: [
@@ -283,6 +286,7 @@ export const cases = [
 
   {
     slug: 'pilotage-budgetaire-sncf',
+    group: 'sncf',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'Excel'],
     shots: [
@@ -368,6 +372,7 @@ export const cases = [
 
   {
     slug: 'absenteisme-temps-partiel-sncf',
+    group: 'sncf',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint', 'Power Automate'],
     shots: [
@@ -453,6 +458,7 @@ export const cases = [
 
   {
     slug: 'alertes-ventes-comparables',
+    group: 'rand',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
     shots: [
@@ -559,6 +565,7 @@ export const cases = [
   },
   {
     slug: 'pilotage-magasins-retail',
+    group: 'rand',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server'],
     shots: [
@@ -664,6 +671,7 @@ export const cases = [
   },
   {
     slug: 'suivi-quotidien-client',
+    group: 'rand',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
     shots: [
@@ -772,6 +780,7 @@ export const cases = [
   },
   {
     slug: 'analyse-soldes',
+    group: 'rand',
     visual: 'shots',
     stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
     shots: [
@@ -880,6 +889,7 @@ export const cases = [
   },
   {
     slug: 'pipeline-donnees-ventes',
+    group: 'rand',
     visual: 'pipeline',
     stack: ['Python', 'Polars', 'Parquet', 'Power BI', 'DAX', 'SAP Analytics Cloud'],
     fr: {
@@ -958,6 +968,7 @@ export const cases = [
 
   {
     slug: 'test-mobilier-magasin',
+    group: 'rand',
     visual: 'test',
     stack: ['Excel', 'SAP Analytics Cloud', 'Analyse test-contrôle'],
     fr: {
@@ -1024,6 +1035,7 @@ export const cases = [
 
   {
     slug: 'assistant-ia-donnees-ventes',
+    group: 'rand',
     visual: 'mcp',
     stack: ['Python', 'MCP', 'SAP HANA', 'LLM'],
     fr: {
@@ -1081,6 +1093,7 @@ export const cases = [
 
   {
     slug: 'analyse-messages-service-client',
+    group: 'hetic',
     visual: 'shots',
     stack: ['Python', 'Streamlit', 'Power BI', 'DAX', 'Power Query', 'pandas', 'Mistral AI'],
     link: 'https://github.com/Imadbouchareb/LLMAnalyzer-SAV-Tweets',
@@ -1180,6 +1193,7 @@ export const cases = [
 
   {
     slug: 'affectation-agents-sncf',
+    group: 'sncf',
     visual: 'sncf',
     stack: ['Power Apps', 'Dataverse', 'Power Automate', 'SharePoint', 'Power BI'],
     reports: [
@@ -1256,6 +1270,12 @@ export const cases = [
       next: ''
     }
   }
+];
+
+export const CASE_GROUPS = [
+  { id: 'rand', fr: 'Groupe Rand', en: 'Groupe Rand' },
+  { id: 'sncf', fr: 'SNCF', en: 'SNCF' },
+  { id: 'hetic', fr: 'HETIC', en: 'HETIC' }
 ];
 
 export const caseBySlug = Object.fromEntries(cases.map((c) => [c.slug, c]));

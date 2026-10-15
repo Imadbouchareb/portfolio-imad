@@ -32,7 +32,7 @@ export const content = {
       name: 'Imad Bouchareb',
       role: 'Data Analyst, Power BI et performance retail',
       pitch:
-        "Je construis le pilotage commercial de 35 à 40 enseignes retail, de la chaîne de données jusqu'à l'alerte que la direction lit le matin.",
+        "Je suis les ventes de 35 à 40 enseignes retail, des données SAP jusqu'aux rapports de la direction et aux dossiers que les commerciaux présentent en rendez-vous.",
       status: 'À l’écoute d’un CDI en data, à Paris',
       ctaProjects: 'Voir les études de cas',
       ctaContact: 'Me contacter',
@@ -48,7 +48,7 @@ export const content = {
       weeks: 'Semaines 27 à 40'
     },
     proof: [
-      { value: '35–40', label: 'enseignes retail suivies chaque jour', source: 'Groupe Rand' },
+      { value: '35–40', label: 'enseignes retail suivies chaque semaine', source: 'Groupe Rand' },
       { value: '5 Go', label: "d'historique de ventes repris dans un pipeline Python", source: 'Groupe Rand' },
       { value: '−40 %', label: 'de temps de reporting manuel', source: 'SNCF' },
       { value: 'PL-300', label: 'Microsoft Power BI Data Analyst', source: 'Certifié en 2025' }
@@ -65,6 +65,10 @@ export const content = {
     },
     labels: {
       read: "Lire l'étude de cas",
+      filterAll: 'Toutes',
+      filterLabel: 'Filtrer les études de cas',
+      showMore: (n) => `Voir les ${n} autres études de cas`,
+      showLess: 'Afficher moins',
       pages: 'Les autres pages du rapport',
       flows: 'Les circuits',
       reports: 'Les rapports alimentés par l’application',
@@ -183,7 +187,7 @@ export const content = {
       name: 'Imad Bouchareb',
       role: 'Data Analyst, Power BI and retail performance',
       pitch:
-        'I build sales performance tracking for 35 to 40 retail chains, from the data pipeline to the alert leadership reads every morning.',
+        'I track sales for 35 to 40 retail chains, from SAP data to leadership reports and the packs sales teams present in client meetings.',
       status: 'Open to a permanent data role in Paris',
       ctaProjects: 'See case studies',
       ctaContact: 'Get in touch',
@@ -199,7 +203,7 @@ export const content = {
       weeks: 'Weeks 27 to 40'
     },
     proof: [
-      { value: '35–40', label: 'retail chains tracked daily', source: 'Groupe Rand' },
+      { value: '35–40', label: 'retail chains tracked weekly', source: 'Groupe Rand' },
       { value: '5 GB', label: 'of sales history moved to a Python pipeline', source: 'Groupe Rand' },
       { value: '−40%', label: 'manual reporting time', source: 'SNCF' },
       { value: 'PL-300', label: 'Microsoft Power BI Data Analyst', source: 'Certified 2025' }
@@ -215,6 +219,10 @@ export const content = {
     },
     labels: {
       read: 'Read the case study',
+      filterAll: 'All',
+      filterLabel: 'Filter case studies',
+      showMore: (n) => `See the other ${n} case studies`,
+      showLess: 'Show less',
       pages: 'Other report pages',
       flows: 'How it flows',
       reports: 'The reports fed by the app',

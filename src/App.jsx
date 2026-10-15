@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, Download, Github, Linkedin, Mail, Menu, Moon, Sun, X } from 'lucide-react';
 import { content, SITE } from './content';
-import { cases, caseBySlug } from './cases';
+import { cases, caseBySlug, CASE_GROUPS } from './cases';
 import { SalesChart, VISUALS } from './visuals';
 import { casePath, headFor, homePath, parseRoute, switchPath } from './routes';
 
@@ -119,6 +119,44 @@ const CaseCard = ({ c, lang, t }) => {
   );
 };
 
+const FIRST_CASES = 6;
+
+const CaseList = ({ t, lang }) => {
+  const [group, setGroup] = useState('all');
+  const [expanded, setExpanded] = useState(false);
+  const filtered = group === 'all' ? cases : cases.filter((c) => c.group === group);
+  const shown = group === 'all' && !expanded ? filtered.slice(0, FIRST_CASES) : filtered;
+  const hidden = filtered.length - shown.length;
+  const chips = [{ id: 'all', label: t.labels.filterAll, n: cases.length },
+    ...CASE_GROUPS.map((g) => ({ id: g.id, label: g[lang], n: cases.filter((c) => c.group === g.id).length }))];
+  return (
+    <>
+      <div role="group" aria-label={t.labels.filterLabel} className="mb-8 flex flex-wrap gap-2">
+        {chips.map((ch) => {
+          const on = group === ch.id;
+          return (
+            <button key={ch.id} type="button" aria-pressed={on} onClick={() => { setGroup(ch.id); setExpanded(false); }}
+              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${on ? 'border-ink bg-ink text-paper' : 'border-line text-ink hover:border-ink/40'}`}>
+              {ch.label} <span className={on ? 'text-paper/70' : 'text-muted'}>{ch.n}</span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="grid gap-6 md:grid-cols-2">
+        {shown.map((c) => <CaseCard key={c.slug} c={c} lang={lang} t={t} />)}
+      </div>
+      {group === 'all' && filtered.length > FIRST_CASES && (
+        <div className="mt-10 flex justify-center">
+          <button type="button" aria-expanded={expanded} onClick={() => { if (expanded) document.getElementById('projets')?.scrollIntoView({ behavior: 'smooth' }); setExpanded((v) => !v); }}
+            className="rounded-full border border-line px-6 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/40 hover:text-accent">
+            {expanded ? t.labels.showLess : t.labels.showMore(hidden)}
+          </button>
+        </div>
+      )}
+    </>
+  );
+};
+
 const Home = ({ t, lang }) => {
   const [copied, setCopied] = useState(false);
   const copyEmail = async () => {
@@ -166,9 +204,7 @@ const Home = ({ t, lang }) => {
       {/* Études de cas */}
       <section id="projets" aria-labelledby="projets-title" className="scroll-mt-20 py-20 sm:py-24">
         <SectionTitle id="projets-title" title={t.sections.projects} lead={t.sections.projectsLead} />
-        <div className="grid gap-6 md:grid-cols-2">
-          {cases.map((c) => <CaseCard key={c.slug} c={c} lang={lang} t={t} />)}
-        </div>
+        <CaseList t={t} lang={lang} />
       </section>
 
       {/* Parcours */}
