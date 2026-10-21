@@ -6,78 +6,90 @@ export const cases = [
     slug: 'bilan-performance-enseigne',
     group: 'rand',
     visual: 'shots',
-    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'Excel'],
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'Excel', 'PowerPoint'],
+    download: {
+      href: '/dossiers/bilan-enseigne-a.pdf',
+      fr: { title: 'Exemple', label: 'Le dossier complet (PDF, données fictives)' },
+      en: { title: 'Sample', label: 'The full pack (PDF, fictional data)' }
+    },
     shots: [
-      { src: '/images/dossier-client/1-synthese.webp', fr: 'Synthèse : ventes comparables, marges, démarque et écart au budget, sur la période 1 et la période d’opération.', en: 'Summary: like-for-like sales, margins, markdown and gap to budget, for period 1 and the promotion period.' },
-      { src: '/images/dossier-client/3-kpi-magasins.webp', fr: 'KPI par type de magasin, face à N-1 et au budget : indice de vente, prix moyen, panier moyen, tickets en opération.', en: 'KPIs by store type against last year and budget: items per ticket, average price, average basket, promotion tickets.' },
-      { src: '/images/dossier-client/2-courbe-mensuelle.webp', fr: 'Ventes comparables mois par mois face à 2025, les mois de l’opération en jaune.', en: 'Like-for-like sales month by month against 2025, promotion months in yellow.' },
-      { src: '/images/dossier-client/5-mix-picots.webp', fr: 'Mix des rayons et indice de rendement : ce que chaque rayon vend rapporté à la place qu’il occupe.', en: 'Department mix and space productivity: what each department sells against the space it takes.' },
-      { src: '/images/dossier-client/6-best-worst.webp', fr: 'Meilleurs et moins bons magasins, positionnés face à N-1 et au budget.', en: 'Best and worst stores, positioned against last year and budget.' },
-      { src: '/images/dossier-client/4-tranches-prix.webp', fr: 'Ventes par tranche de prix pour un rayon, affiliés et succursales, période 1 et période d’opération.', en: 'Sales by price band for one department, affiliates and company-owned stores, period 1 and promotion period.' }
+      { src: '/images/bilan-enseigne/1-synthese.webp', fr: 'Synthèse : magasins, VA, marge nette, démarque et écart au budget, sur l’année (P1) et sur les mois d’opération (P2).', en: 'Summary: stores, sales, net margin, markdown and gap to budget, for the year (P1) and the promotion months (P2).' },
+      { src: '/images/bilan-enseigne/2-courbe-mensuelle.webp', fr: 'VA comparable mois par mois face à 2025, les mois de l’opération en jaune.', en: 'Like-for-like sales month by month against 2025, promotion months in yellow.' },
+      { src: '/images/bilan-enseigne/3-constats-leviers.webp', fr: 'Constats et leviers pour la direction, avec le levier principal chiffré en deux hypothèses.', en: 'Findings and levers for leadership, with the main lever costed under two assumptions.' },
+      { src: '/images/bilan-enseigne/4-rayons-mois.webp', fr: 'Évolution face à N-1 par rayon et par mois : l’Acier et le Piercing portent la croissance.', en: 'Change against last year by department and month: Steel and Piercing drive growth.' },
+      { src: '/images/bilan-enseigne/5-tranches-prix.webp', fr: 'Ventes par tranche de prix du rayon Bijoux, affiliés et succursales : en période d’opération, les petits prix portent la remise.', en: 'Jewellery sales by price band, affiliates and company-owned stores: during the promotion, low prices carry the discount.' },
+      { src: '/images/bilan-enseigne/6-affilies-succursales.webp', fr: 'KPI des affiliés face aux succursales, et poids des tickets par type : OP+, OP simple, hors opération.', en: 'Affiliates against company-owned stores, and ticket share by type: OP+, simple OP, outside the promotion.' },
+      { src: '/images/bilan-enseigne/7-mix-rayons-tickets.webp', fr: 'Mix des rayons et des types de ticket, en VA et en quantités. Des barres empilées remplacent les seize camemberts d’origine.', en: 'Department and ticket-type mix, in sales and units. Stacked bars replace the original sixteen pie charts.' },
+      { src: '/images/bilan-enseigne/8-best-hors-best.webp', fr: 'Magasins Best (plus de +8 % face à N-1) et Hors Best, avec chaque magasin placé selon son évolution et son écart au budget.', en: 'Best stores (over +8% against last year) and the rest, with each store plotted by growth and gap to budget.' },
+      { src: '/images/bilan-enseigne/9-bilan-test.webp', fr: 'Le bilan du test de 2025 sur 8 magasins, face au réseau, avant la généralisation de l’opération.', en: 'The 2025 test on 8 stores, against the network, before the promotion was rolled out.' }
     ],
     fr: {
       kind: 'Power BI',
       sector: 'Distribution retail, 2026',
       title: 'Bilan de performance d’une enseigne du groupe',
       summary:
-        'Une analyse Power BI interne sur l’une des enseignes du groupe : ventes comparables, marges au prix de revient, démarque, budget, tickets et rendement de la place en rayon.',
-      role: 'Modèle et rapport, préparés en binôme',
+        'L’analyse interne d’une enseigne du groupe, une trentaine de magasins en France et en Belgique : ventes comparables, marge au prix de revient, démarque, effet d’une opération commerciale testée en 2025 puis généralisée, et des leviers chiffrés pour la direction.',
+      role: 'Modèle, analyses et synthèse, en binôme',
       period: 'Octobre 2026',
-      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
+      pagesTitle: 'Les autres pages du dossier',
+      caption: 'Pages au format du dossier remis à la direction, refaites avec des données fictives (enseigne, magasins et montants inventés).',
       context:
-        'La direction fait le point sur l’année d’une enseigne du groupe, en affiliation et en succursale : performance des magasins, rentabilité par rayon, effet d’une opération commerciale. Il fallait un dossier unique, lisible en réunion, avec des chiffres comparables d’une année sur l’autre.',
+        'La direction fait le point sur l’année d’une des enseignes du groupe, en affiliation et en succursale. Une opération commerciale, des articles offerts à partir d’un certain nombre d’achats, a été testée en 2025 sur huit magasins, puis étendue à tout le réseau sur quatre mois de 2026. Les questions étaient simples : l’année est-elle bonne, que coûte l’opération en marge, et que faire ensuite ?',
       challenge:
-        'Comparer ce qui est comparable sur neuf mois et sur deux types de magasins, affiliés et succursales. Calculer des marges à partir d’un prix de revient tenu dans un fichier à part. Isoler l’effet d’une opération répartie sur quatre mois.',
+        'Comparer des périmètres qui ne bougent pas, sur neuf mois et deux types de magasins. Calculer des marges à partir d’un prix de revient tenu dans un fichier à part, avec la TVA de chaque pays. Lire l’effet d’une opération étalée sur quatre mois non consécutifs. Et mesurer un test lancé à des dates différentes selon les magasins.',
       built: [
-        'Une base comparable magasin × mois appliquée à toutes les mesures : ventes, budget, tickets et coûts partagent exactement le même périmètre.',
-        'Les marges brute et nette par rayon, valorisées au prix de revient, et la démarque accordée par tranche de prix.',
-        'Des tableaux de KPI par type de magasin, face à N-1 et au budget.',
-        'Un classement des meilleurs et moins bons magasins au sein de chaque statut, avec un nuage de positionnement.',
-        'Un indice de rendement des rayons : leur part dans les ventes rapportée à leur part des picots en magasin.',
-        'Un référentiel Excel (tranches de prix, rayons, budget, prix de revient) modifiable sans toucher au rapport.'
+        'Une base comparable magasin × mois, appliquée à toutes les mesures : ventes, budget, tickets et coûts partagent exactement le même périmètre.',
+        'Deux périodes lues côte à côte sur chaque page : l’année (P1) et les mois d’opération (P2).',
+        'La marge nette par rayon au prix de revient, la démarque accordée, et les ventes par tranche de prix, en affiliés et en succursales.',
+        'Les KPI par type de magasin et par niveau de performance (Best au-delà de +8 %), le top 15 des magasins, le poids des tickets en opération.',
+        'Le bilan du test de 2025 face au réseau, semaine par semaine et magasin par magasin.',
+        'Une page de constats et de leviers chiffrés pour la direction, et une mesure de contrôle entre les deux tables de ventes avant chaque export.'
       ],
       decisions: [
-        { title: 'Comparabilité au mois et au magasin', text: 'Un couple magasin × mois n’entre dans les calculs que s’il a vendu en 2025 et en 2026. Un magasin fermé un mois ne perd que ce mois-là, pas toute l’année.' },
-        { title: 'TREATAS plutôt que des relations supplémentaires', text: 'La table des couples comparables filtre ventes, budget, tickets et coûts par TREATAS : un seul périmètre pour tout le dossier, sans alourdir le modèle.' },
-        { title: 'Un classement qui ne dépend pas du rayon', text: 'Le rang Best / Worst est calculé hors filtre rayon, avec une table déconnectée pour comparer les deux groupes : on peut ventiler par rayon sans changer qui est en tête.' },
-        { title: 'Des tableaux plutôt que des cartes', text: 'Sur la page KPI, deux tableaux remplacent 24 cartes : affiliés et succursales, N et N-1, se comparent d’un seul regard.' },
-        { title: 'Une mesure de contrôle', text: 'Une mesure compare les ventes des deux tables de faits, tickets et ventes agrégées. L’écart doit rester nul avant chaque export.' }
+        { title: 'Comparer au mois et au magasin', text: 'Un couple magasin × mois n’entre dans les calculs que s’il a vendu les deux années. Un magasin fermé un mois ne perd que ce mois-là. La table des couples comparables filtre toutes les mesures par TREATAS : un seul périmètre pour tout le dossier, sans relation de plus.' },
+        { title: 'L’opération se lit sur ses mois', text: 'Sur l’année, quatre mois d’opération se noient dans les soldes et les mois creux. Chaque page affiche donc les mois d’opération à part, en jaune. La démarque passe de 38,8 % sur l’année à 24,2 % sur ces mois, et la marge nette monte à 79 %.' },
+        { title: 'Un test daté magasin par magasin', text: 'Les huit magasins test n’ont pas démarré le même jour. Le comparable part de la date de début de chacun, et un magasin sorti du test pendant 12 jours est exclu sur ces jours-là. Les magasins test font +27 % quand le réseau fait +5 %.' },
+        { title: 'Chiffrer le levier, avec deux hypothèses', text: 'Sur les mois d’opération, un ticket en opération fait 38 € contre 17,7 € hors opération. Passer de 58 % à 65 % de tickets en opération rapporterait 1 à 2 points de croissance sur l’année. L’hypothèse haute suppose que le client converti dépense comme les clients déjà en opération. L’hypothèse prudente n’en garde que la moitié, parce que ce sont les plus gros acheteurs qui adhèrent les premiers.' },
+        { title: 'Lire la démarque par tranche de prix', text: 'L’article offert est le moins cher du ticket. Les Bijoux à moins de 6 € font 24 % des quantités et portent 63 % de remise sur les mois d’opération. D’où le levier sur la grille de prix, en sachant que la valeur offerte montera avec le panier.' },
+        { title: 'Des barres empilées plutôt que seize camemberts', text: 'Le mix par rayon et par type de ticket se comparait sur seize camemberts. Quatre graphiques en barres empilées montrent les mêmes parts, et les quatre groupes, affiliés et succursales sur les deux périodes, se lisent d’un seul regard.' }
       ],
       result:
-        'Un dossier unique pour la direction, où chaque chiffre repose sur le même périmètre comparable, et une structure qui sert de base aux prochaines analyses. L’analyse est encore en cours d’enrichissement.',
-      next: 'Brancher les relevés réels de picots et rendre les périodes paramétrables dans le référentiel plutôt que dans le modèle.'
+        'Un dossier où l’année, les mois d’opération et le test se lisent sur le même périmètre comparable, et qui se termine par des leviers chiffrés. Sur l’exemple fictif : +4,8 % sur l’année mais −10 % face au budget, une opération qui touche 58 % des tickets sur ses mois, et des magasins Best qui en font passer 66 %.',
+      next: 'Suivre la part de tickets en opération magasin par magasin pendant la prochaine vague, et mesurer l’effet réel face au réseau plutôt que l’hypothèse.'
     },
     en: {
       kind: 'Power BI',
       sector: 'Retail distribution, 2026',
       title: 'Performance review of one of the group’s banners',
       summary:
-        'An internal Power BI analysis of one of the group’s retail banners: like-for-like sales, margins at cost price, markdown, budget, tickets and shelf-space productivity.',
-      role: 'Model and report, built as a pair',
+        'An internal review of one of the group’s banners, about thirty stores in France and Belgium: like-for-like sales, margin at cost price, markdown, the effect of a promotion tested in 2025 then rolled out, and costed levers for leadership.',
+      role: 'Model, analysis and summary, built as a pair',
       period: 'October 2026',
-      caption: 'Screenshots of the Power BI report, running on fictional data.',
+      pagesTitle: 'The other pages of the pack',
+      caption: 'Pages in the format of the pack given to leadership, rebuilt with fictional data (banner, stores and amounts made up).',
       context:
-        'Leadership reviews the year of one of the group’s banners, across affiliate and company-owned stores: store performance, profitability by department, effect of a promotion. They needed a single pack, readable in the meeting, with figures comparable year on year.',
+        'Leadership reviews the year of one of the group’s banners, across affiliate and company-owned stores. A promotion, free items above a number of purchases, was tested in 2025 in eight stores, then extended to the whole network over four months of 2026. The questions were simple: is the year good, what does the promotion cost in margin, and what next?',
       challenge:
-        'Compare like with like over nine months and two store types, affiliates and company-owned. Compute margins from a cost price kept in a separate file. Isolate the effect of a promotion spread over four months.',
+        'Compare stable scopes over nine months and two store types. Compute margins from a cost price kept in a separate file, with each country’s VAT. Read the effect of a promotion spread over four non-consecutive months. And measure a test that started on different dates in different stores.',
       built: [
         'A store × month comparable base applied to every measure: sales, budget, tickets and costs share exactly the same scope.',
-        'Gross and net margins by department at cost price, and markdown by price band.',
-        'KPI tables by store type, against last year and budget.',
-        'A best and worst store ranking within each store type, with a positioning scatter.',
-        'A space productivity index: each department’s share of sales against its share of display hooks.',
-        'An Excel reference workbook (price bands, departments, budget, cost prices) editable without touching the report.'
+        'Two periods side by side on every page: the year (P1) and the promotion months (P2).',
+        'Net margin by department at cost price, markdown, and sales by price band, for affiliates and company-owned stores.',
+        'KPIs by store type and performance level (Best above +8%), the top 15 stores, the share of promotion tickets.',
+        'The 2025 test against the network, week by week and store by store.',
+        'A findings and costed levers page for leadership, and a control measure between the two sales tables before every export.'
       ],
       decisions: [
-        { title: 'Comparability by month and store', text: 'A store × month pair only counts if it sold in both 2025 and 2026. A store closed for a month loses that month only, not the whole year.' },
-        { title: 'TREATAS instead of extra relationships', text: 'The comparable pairs table filters sales, budget, tickets and costs through TREATAS: one scope for the whole pack, without weighing down the model.' },
-        { title: 'A ranking independent of department', text: 'The Best / Worst rank ignores the department filter and uses a disconnected table to compare groups: you can split by department without changing who leads.' },
-        { title: 'Tables instead of cards', text: 'On the KPI page, two tables replace 24 cards: affiliates and company-owned stores, this year and last, compared at a glance.' },
-        { title: 'A control measure', text: 'A measure compares sales across the two fact tables, tickets and aggregated sales. The gap must stay at zero before every export.' }
+        { title: 'Comparable by month and store', text: 'A store × month pair only counts if it sold in both years. A store closed for a month loses that month only. The comparable pairs table filters every measure through TREATAS: one scope for the whole pack, with no extra relationship.' },
+        { title: 'The promotion is read on its own months', text: 'Over the year, four promotion months get lost among sales periods and quiet months. Every page shows them separately, in yellow. Markdown goes from 38.8% over the year to 24.2% on those months, and net margin rises to 79%.' },
+        { title: 'A test dated store by store', text: 'The eight test stores did not start on the same day. The comparison starts from each store’s own start date, and a store taken out of the test for 12 days is excluded on those days. Test stores grow 27% while the network grows 5%.' },
+        { title: 'Cost the lever, under two assumptions', text: 'During the promotion months, a promotion ticket averages €38 against €17.70 outside it. Going from 58% to 65% of tickets in the promotion would add 1 to 2 points of growth over the year. The high case assumes converted customers spend like those already in the promotion. The cautious case keeps half of that, because the biggest buyers join first.' },
+        { title: 'Read markdown by price band', text: 'The free item is the cheapest one in the basket. Jewellery under €6 makes 24% of units and carries a 63% discount during the promotion. Hence the price-grid lever, knowing that the value given away rises with the basket.' },
+        { title: 'Stacked bars instead of sixteen pies', text: 'Department and ticket-type mix used to be compared across sixteen pie charts. Four stacked bar charts show the same shares, and the four groups, affiliates and company-owned stores over both periods, read at a glance.' }
       ],
       result:
-        'A single pack for leadership, where every figure rests on the same comparable scope, and a structure that serves as the base for the next analyses. The analysis is still being extended.',
-      next: 'Connect the real display hook counts and make periods configurable in the reference workbook rather than in the model.'
+        'A pack where the year, the promotion months and the test rest on the same comparable scope, ending with costed levers. On the fictional example: +4.8% over the year but −10% against budget, a promotion reaching 58% of tickets on its months, and Best stores reaching 66%.',
+      next: 'Track the share of promotion tickets store by store during the next wave, and measure the real effect against the network rather than the assumption.'
     }
   },
 
