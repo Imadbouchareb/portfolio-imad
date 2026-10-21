@@ -198,77 +198,6 @@ export const PipelineVisual = ({ lang, compact }) => {
   );
 };
 
-/* ---------------- Étude 3 : test-contrôle ---------------- */
-
-export const TestVisual = ({ lang }) => {
-  const fr = lang === 'fr';
-  const groups = fr
-    ? [{ l: '20 magasins test', v: 131, c: 'accent' }, { l: 'Magasins de contrôle', v: 104, c: 'prior' }, { l: 'Réseau complet', v: 102, c: 'prior' }]
-    : [{ l: '20 test stores', v: 131, c: 'accent' }, { l: 'Control stores', v: 104, c: 'prior' }, { l: 'Whole network', v: 102, c: 'prior' }];
-  const max = 140;
-  return (
-    <div className="p-5 sm:p-6">
-      <p className="font-semibold text-ink">{fr ? 'Indice des ventes du rayon face à N-1' : 'Department sales index vs last year'}</p>
-      <div className="mt-4 space-y-3">
-        {groups.map((g) => (
-          <div key={g.l} className="grid grid-cols-[7.5rem_1fr_2.5rem] items-center gap-3 text-sm sm:grid-cols-[9.5rem_1fr_2.5rem]">
-            <span className="text-ink">{g.l}</span>
-            <div className="relative h-6 rounded bg-paper">
-              <div className="absolute inset-y-0 left-0 rounded" style={{ width: `${(g.v / max) * 100}%`, background: `rgb(var(--${g.c}))` }} />
-              <div className="absolute -inset-y-1 w-px bg-ink/60" style={{ left: `${(100 / max) * 100}%` }} />
-            </div>
-            <span className="display text-right text-lg text-ink">{g.v}</span>
-          </div>
-        ))}
-        <p className="text-[11px] text-muted sm:pl-[10.25rem]">{fr ? 'Trait vertical : base 100, même niveau que l’an dernier' : 'Vertical line: base 100, same as last year'}</p>
-      </div>
-      <div className="mt-5 rounded-lg bg-paper p-4">
-        <p className="text-sm text-ink">{fr ? 'D’où vient le chiffre du nouveau présentoir ?' : 'Where do the new display’s sales come from?'}</p>
-        <div className="mt-3 flex h-7 overflow-hidden rounded text-xs font-semibold">
-          <div className="flex items-center bg-accent pl-2 text-paper" style={{ width: '76%' }}>{fr ? 'Additionnel 76 %' : 'Incremental 76%'}</div>
-          <div className="flex flex-1 items-center bg-prior pl-2 text-ink">{fr ? 'Déplacé 24 %' : 'Shifted 24%'}</div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-/* ---------------- Étude 4 : assistant MCP ---------------- */
-
-export const McpVisual = ({ lang }) => {
-  const fr = lang === 'fr';
-  return (
-    <div className="space-y-3 p-5 text-sm sm:p-6">
-      <div className="ml-auto max-w-[85%] rounded-lg rounded-br-sm bg-ink px-3.5 py-2.5 text-paper">
-        {fr ? 'Quels magasins faut-il réassortir en priorité cette semaine en bijoux ?' : 'Which stores need jewellery restocking first this week?'}
-      </div>
-      <div className="max-w-[85%] rounded-lg border border-dashed border-line px-3.5 py-2 font-mono text-xs text-muted">
-        get_reassort_urgent(rayon="BIJOUX", semaine=40)
-      </div>
-      <div className="max-w-[90%] rounded-lg rounded-bl-sm border border-line bg-paper px-3.5 py-3 text-ink">
-        <p>{fr ? 'Trois magasins passent sous 2 semaines de couverture :' : 'Three stores drop below 2 weeks of cover:'}</p>
-        <table className="mt-2 w-full text-xs tabular-nums">
-          <tbody>
-            {[['Magasin 0412', '1,2'], ['Magasin 0587', '1,5'], ['Magasin 0233', '1,8']].map(([m, c]) => (
-              <tr key={m} className="border-t border-line">
-                <td className="py-1.5">{fr ? m : m.replace('Magasin', 'Store')}</td>
-                <td className="py-1.5 text-right text-muted">{fr ? `${c} sem. de couverture` : `${c.replace(',', '.')} wks of cover`}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="flex flex-wrap items-center gap-2 pt-1 text-xs text-muted">
-        <span className="rounded border border-line px-2 py-0.5">{fr ? 'Assistant IA' : 'AI assistant'}</span>
-        <span aria-hidden="true">→</span>
-        <span className="rounded border border-accent px-2 py-0.5 text-accent">{fr ? 'Serveur MCP, 5 outils' : 'MCP server, 5 tools'}</span>
-        <span aria-hidden="true">→</span>
-        <span className="rounded border border-line px-2 py-0.5">SAP HANA</span>
-      </p>
-    </div>
-  );
-};
-
 /* ---------------- Étude 5 : messages SAV ---------------- */
 
 export const LlmVisual = ({ lang }) => {
@@ -484,4 +413,4 @@ export const BotFlow = ({ lang }) => {
   );
 };
 
-export const VISUALS = { shots: ShotsVisual,  alerts: AlertsVisual, pipeline: PipelineVisual, test: TestVisual, mcp: McpVisual, llm: LlmVisual, sncf: SncfVisual, astreinteFlow: AstreinteFlow, botFlow: BotFlow, savFlow: SavFlow };
+export const VISUALS = { shots: ShotsVisual,  alerts: AlertsVisual, pipeline: PipelineVisual, llm: LlmVisual, sncf: SncfVisual, astreinteFlow: AstreinteFlow, botFlow: BotFlow, savFlow: SavFlow };

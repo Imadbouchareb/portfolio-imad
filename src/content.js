@@ -56,7 +56,7 @@ export const content = {
     sections: {
       projects: 'Études de cas',
       projectsLead:
-        'Quatorze projets livrés, chacun avec son contexte, mes choix techniques et ce que ça a changé. Les données affichées sont fictives.',
+        'Douze projets livrés, chacun avec son contexte, mes choix techniques et ce que ça a changé. Les données affichées sont fictives.',
       path: 'Parcours',
       skills: 'Compétences',
       skillsLead: "Classées par endroit où je m'en sers, pas par liste de mots-clés.",
@@ -133,7 +133,7 @@ export const content = {
       { title: 'Business Intelligence', items: 'Power BI (PL-300), DAX, Power Query (M), SAP Analytics Cloud, Excel', proof: 'Tous les jours chez Groupe Rand : modèles, mesures, rapports de direction.' },
       { title: 'Préparation des données', items: 'Python, Polars, Parquet, SQL, SAP HANA, SQL Server', proof: 'Pipeline de ventes et connexion aux données SAP chez Groupe Rand.' },
       { title: 'Power Platform', items: 'Power Apps (Canvas, Power Fx), Power Automate, Dataverse, SharePoint', proof: 'Deux applications en production à la SNCF.' },
-      { title: 'IA appliquée', items: 'LLM, RAG, ChromaDB, LangChain, serveurs MCP, Streamlit', proof: 'Projet SAV à HETIC, prototype d’assistant sur données de vente.' }
+      { title: 'IA appliquée', items: 'LLM, RAG, ChromaDB, LangChain, Streamlit', proof: 'Projet SAV à HETIC : pipeline LLM, application Streamlit et rapport Power BI.' }
     ],
     cert: {
       name: 'Microsoft Certified: Power BI Data Analyst Associate',
@@ -210,7 +210,7 @@ export const content = {
     ],
     sections: {
       projects: 'Case studies',
-      projectsLead: 'Fourteen delivered projects, each with its context, my technical choices and what changed. All figures shown are fictional.',
+      projectsLead: 'Twelve delivered projects, each with its context, my technical choices and what changed. All figures shown are fictional.',
       path: 'Experience',
       skills: 'Skills',
       skillsLead: 'Grouped by where I actually use them.',
@@ -287,7 +287,7 @@ export const content = {
       { title: 'Business Intelligence', items: 'Power BI (PL-300), DAX, Power Query (M), SAP Analytics Cloud, Excel', proof: 'Daily at Groupe Rand: models, measures, leadership reports.' },
       { title: 'Data preparation', items: 'Python, Polars, Parquet, SQL, SAP HANA, SQL Server', proof: 'Sales pipeline and SAP data connections at Groupe Rand.' },
       { title: 'Power Platform', items: 'Power Apps (Canvas, Power Fx), Power Automate, Dataverse, SharePoint', proof: 'Two apps in production at SNCF.' },
-      { title: 'Applied AI', items: 'LLM, RAG, ChromaDB, LangChain, MCP servers, Streamlit', proof: 'Customer service project at HETIC, sales data assistant prototype.' }
+      { title: 'Applied AI', items: 'LLM, RAG, ChromaDB, LangChain, Streamlit', proof: 'Customer service project at HETIC: LLM pipeline, Streamlit app and Power BI report.' }
     ],
     cert: {
       name: 'Microsoft Certified: Power BI Data Analyst Associate',
