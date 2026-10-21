@@ -402,83 +402,86 @@ export const cases = [
     }
   },
   {
-    slug: 'pipeline-donnees-ventes',
+    slug: 'suivi-hebdo-automatise',
     group: 'rand',
-    visual: 'pipeline',
-    stack: ['Python', 'Polars', 'Parquet', 'Power BI', 'DAX', 'SAP Analytics Cloud'],
+    visual: 'shots',
+    stack: ['Python', 'openpyxl', 'Excel', 'SAP Analytics Cloud', 'Batch Windows'],
+    shots: [
+      { src: '/images/recap-hebdo/1-recap-test.webp', fr: 'La page de synthèse ajoutée en tête de la diffusion, sur un client en test : réel face à l’objectif par rayon, trois dernières semaines, avancement du test et rappels du suivi.', en: 'The summary page added at the front of the weekly file, for a client in test: actual against target by department, last three weeks, test progress and tracking notes.' },
+      { src: '/images/recap-hebdo/2-avant-apres.webp', fr: 'Avant, des copies onglet par onglet pour chaque client. Après, un fichier déposé dans une fenêtre.', en: 'Before, tab-by-tab copies for every client. After, one file dropped into a window.' },
+      { src: '/images/recap-hebdo/3-console.webp', fr: 'Deux fichiers déposés d’un coup : pour chacun, la semaine retenue, les contrôles, le tri et les onglets retirés, en clair.', en: 'Two files dropped at once: for each, the week used, the checks, the sorting and the tabs removed, in plain words.' },
+      { src: '/images/recap-hebdo/4-recap-dollars.webp', fr: 'Le même outil sur un client américain sans objectif : montants en dollars, poids des rayons et répartition par centrale.', en: 'The same tool on a US client without targets: amounts in dollars, department share and split by distribution centre.' }
+    ],
     fr: {
-      kind: 'Python et Power BI',
+      kind: 'Python',
       sector: 'Distribution retail, 2026',
-      title: 'Refonte de la chaîne de données des rapports de ventes',
+      title: 'Le suivi CA hebdo des clients, généré en un glisser-déposer',
       summary:
-        "Une préparation Power Query lente et fragile remplacée par un pipeline Python qui produit un fichier Parquet prêt pour Power BI, à partir des exports SAP Analytics Cloud.",
-      role: 'Conception et développement',
-      period: '2026',
-      caption: 'Schéma de l’architecture mise en place.',
+        'Un outil Python qui transforme le fichier de travail de chaque client en diffusion de la semaine : onglets figés et triés par rang, et une page de synthèse qui s’adapte au fichier. Utilisé chaque semaine par l’équipe, sur six clients.',
+      role: 'Conception, développement et mise à disposition de l’équipe',
+      period: 'Septembre 2026',
+      pagesTitle: 'Le reste de l’outil',
+      caption: 'Diffusions produites par l’outil sur deux fichiers fictifs (clients, magasins et montants inventés).',
       context:
-        "Les rapports de ventes quittaient l'ancien entrepôt SQL Server pour des fichiers CSV produits par SAP Analytics Cloud. L'historique pesait environ 5 Go, et les règles d'affectation des rayons étaient codées dans de longues cascades de conditions en M.",
+        'Chaque semaine, le contrôle de gestion diffuse le suivi du chiffre d’affaires des magasins de plusieurs clients : des tests avec objectifs, des clients installés, en euros, en dollars ou en francs suisses. Le fichier de travail est alimenté par l’export SAP Analytics Cloud au moyen de formules SUMIFS. Pour diffuser, on copiait chaque onglet dans un nouveau classeur, on collait en valeurs, puis on triait les magasins par rang, client par client.',
       challenge:
-        'Les fichiers SAP sont cumulatifs : ce sont des mouvements qui s’additionnent, pas des photos. Plusieurs devises coexistent. Et les rapports devaient continuer à tourner pendant la migration.',
+        'Aucun fichier n’a la même forme : un ou plusieurs rayons, un objectif ou non, une colonne centrale ou non, des devises différentes, des tests qui débordent sur l’année suivante. L’outil devait marcher sur tous sans réglage, être lancé par des collègues qui n’ouvrent jamais Python, et ne jamais abîmer le fichier de travail, qui porte la connexion SAC.',
       built: [
-        'Deux scripts Python et Polars : construction initiale depuis l’historique, puis intégration quotidienne des nouveaux fichiers avec archivage.',
-        'Un fichier Parquet unique lu par Power BI, à la place de trois requêtes Power Query.',
-        'Les règles de mapping des rayons sorties du code, dans des tables Excel modifiables par le métier.',
-        'Les taux de change récupérés par API et les prix de vente par devise, pour les calculs multi-devises.',
-        'En parallèle, l’audit d’un modèle sémantique existant : 114 mesures rangées en 8 dossiers, années codées en dur remplacées par du DAX dynamique, 10 mesures cassées détectées.'
+        'Un lanceur Windows : on glisse un ou plusieurs fichiers, ou un dossier, dans la fenêtre. Il trouve Python et installe la seule librairie nécessaire si elle manque.',
+        'Une détection de la structure : onglets de suivi, lignes Total Réel et Total Objectif, rayons, centrales, devise, année et première semaine.',
+        'La diffusion : onglets figés en valeurs, magasins triés par rang avec leur mise en forme, onglets sources et complément SAC retirés, fichier nommé « Diffusion SXX ».',
+        'Une page de synthèse, qui n’existait pas avant : réel face à l’objectif par rayon ou poids des rayons, trois dernières semaines, répartition par centrale, rappels du suivi, avancement du test et graphique.',
+        'Des contrôles avant diffusion : Total Réel comparé jour par jour à l’export SAC, calcul manuel signalé, ventes sans onglet rayon reprises dans une ligne « Autres rayons ».',
+        'Un journal de chaque exécution et des messages en clair dans la fenêtre.'
       ],
       decisions: [
-        {
-          title: 'Polars plutôt que Power Query pour préparer',
-          text: 'Traitement en colonnes, rapide sur plusieurs gigaoctets, versionnable et testable en dehors de Power BI.'
-        },
-        {
-          title: 'Parquet comme format d’échange',
-          text: 'Compressé, typé, lu nativement par Power BI : le rapport ne fait plus que charger des données propres.'
-        },
-        {
-          title: 'Des tables de correspondance plutôt que du code',
-          text: 'Quand une enseigne réorganise ses rayons, le métier modifie une ligne de tableau, pas une requête.'
-        },
-        {
-          title: 'Rafraîchissement incrémentiel',
-          text: 'Seules les nouvelles périodes sont retraitées chaque jour, l’historique reste figé.'
-        }
+        { title: 'Détecter plutôt que paramétrer', text: 'Un fichier de réglages par client aurait dû être tenu à jour à chaque nouveau test. Le script lit la structure dans le classeur lui-même : l’en-tête des magasins, les lignes de total, le titre de chaque onglet pour le rayon, le format des cellules pour la devise. Un nouveau client se traite sans toucher au code.' },
+        { title: 'Figer les onglets, garder la synthèse vivante', text: 'Les onglets de suivi partent en valeurs, sans lien vers SAC. La page de synthèse reste en formules, pilotées par une seule cellule : on change la semaine, tout le tableau suit.' },
+        { title: 'Définir la dernière semaine complète', text: 'Une semaine est retenue si elle se termine par au plus un jour sans vente : un dimanche fermé ne la fait pas reculer, une semaine en cours si. Au démarrage d’un test, la synthèse n’affiche que les semaines qui existent, puis la fenêtre se complète semaine après semaine.' },
+        { title: 'Ne jamais toucher au fichier de travail', text: 'Le classeur source est lu sans être modifié et le résultat part dans un fichier neuf. Le complément SAP, la connexion au cube et les onglets d’export restent dans le fichier de travail.' },
+        { title: 'Contrôler ce qu’on fige', text: 'Figer reprend la dernière valeur calculée par Excel. Avant d’écrire, l’outil compare le Total Réel à l’export SAC jour par jour et signale un classeur enregistré en calcul manuel : une diffusion périmée ne part pas sans alerte.' },
+        { title: 'Corriger à partir du journal', text: 'Chaque exécution est journalisée. Le journal a montré deux erreurs qui revenaient : une diffusion déjà ouverte par un collègue et un fichier déposé deux fois. La version suivante les traite, et charge un fichier de 33 Mo en quelques secondes au lieu de deux minutes et demie, en vidant les onglets lourds inutiles avant lecture.' }
       ],
       result:
-        'La préparation des données vit en dehors de Power BI, dans du code lisible et versionné. Les règles métier sont dans des tables que leurs propriétaires peuvent modifier, et le modèle est rangé et débarrassé de ses mesures cassées.',
-      next: 'Planifier l’exécution quotidienne du script et ajouter des contrôles automatiques de cohérence avant chaque chargement.'
+        '65 exécutions en cinq semaines par deux personnes de l’équipe, sur six clients, dont 61 sans erreur. La diffusion de la semaine se fait en un glisser-déposer, avec une page de synthèse qui n’existait pas avant.',
+      next: 'Un jeu de fichiers fictifs couvrant tous les cas (avec ou sans objectif, plusieurs rayons, centrales, devises, test à cheval sur deux années), relancé à chaque nouvelle version pour vérifier les sorties.'
     },
     en: {
-      kind: 'Python and Power BI',
+      kind: 'Python',
       sector: 'Retail distribution, 2026',
-      title: 'Rebuilding the data pipeline behind sales reports',
+      title: 'Weekly client sales tracking, built with one drag and drop',
       summary:
-        'A slow, fragile Power Query preparation replaced by a Python pipeline that turns SAP Analytics Cloud exports into a Parquet file ready for Power BI.',
-      role: 'Design and build',
-      period: '2026',
-      caption: 'Diagram of the architecture put in place.',
+        'A Python tool that turns each client’s working file into the weekly file to send: frozen tabs sorted by rank, plus a summary page that adapts to the file. Used every week by the team, across six clients.',
+      role: 'Design, development and rollout to the team',
+      period: 'September 2026',
+      pagesTitle: 'The rest of the tool',
+      caption: 'Weekly files produced by the tool from two fictional working files (clients, stores and amounts made up).',
       context:
-        'Sales reports were moving off the old SQL Server warehouse onto CSV files produced by SAP Analytics Cloud. History weighed about 5 GB, and department mapping rules were buried in long chains of conditions in M.',
+        'Every week, the controlling team sends out store sales tracking for several clients: tests with targets, established clients, in euros, dollars or Swiss francs. The working file is fed by the SAP Analytics Cloud export through SUMIFS formulas. To send it, each tab was copied into a new workbook, pasted as values, then stores were sorted by rank, client by client.',
       challenge:
-        'SAP files are cumulative: additive movements, not snapshots. Several currencies coexist. And reports had to keep running during the migration.',
+        'No two files share the same shape: one or several departments, a target or not, a distribution centre column or not, different currencies, tests running into the next year. The tool had to work on all of them with no settings, be launched by colleagues who never open Python, and never damage the working file, which holds the SAC connection.',
       built: [
-        'Two Python and Polars scripts: an initial build from history, then daily integration of new files with archiving.',
-        'A single Parquet file read by Power BI, replacing three Power Query queries.',
-        'Department mapping rules moved out of code into Excel tables the business can edit.',
-        'Exchange rates fetched by API and retail prices per currency for multi-currency calculations.',
-        'In parallel, an audit of an existing semantic model: 114 measures sorted into 8 folders, hard-coded years replaced with dynamic DAX, 10 broken measures found.'
+        'A Windows launcher: drop one or several files, or a folder, into the window. It finds Python and installs the one library it needs if missing.',
+        'Structure detection: tracking tabs, Actual and Target total rows, departments, distribution centres, currency, year and first week.',
+        'The weekly file: tabs frozen as values, stores sorted by rank with their formatting, source tabs and SAC add-in removed, file named “Diffusion SXX”.',
+        'A summary page that did not exist before: actual against target by department or department share, last three weeks, split by distribution centre, tracking notes, test progress and a chart.',
+        'Checks before sending: Actual total compared day by day with the SAC export, manual calculation flagged, sales with no department tab shown on an “Other departments” line.',
+        'A log of every run and plain-language messages in the window.'
       ],
       decisions: [
-        { title: 'Polars instead of Power Query for preparation', text: 'Columnar processing, fast on several gigabytes, versioned and testable outside Power BI.' },
-        { title: 'Parquet as the hand-off format', text: 'Compressed, typed, read natively by Power BI: the report only loads clean data.' },
-        { title: 'Mapping tables instead of code', text: 'When a retailer reorganises its departments, the business edits a table row, not a query.' },
-        { title: 'Incremental refresh', text: 'Only new periods are reprocessed each day; history stays frozen.' }
+        { title: 'Detect rather than configure', text: 'A settings file per client would have needed updating for every new test. The script reads the structure from the workbook itself: the store header, the total rows, each tab’s title for the department, cell formats for the currency. A new client works without touching the code.' },
+        { title: 'Freeze the tabs, keep the summary live', text: 'Tracking tabs go out as values, with no link to SAC. The summary page stays as formulas driven by a single cell: change the week and the whole table follows.' },
+        { title: 'Define the last complete week', text: 'A week counts if it ends with at most one day without sales: a closed Sunday does not push it back, a week in progress does. When a test starts, the summary only shows the weeks that exist, then the window fills week after week.' },
+        { title: 'Never touch the working file', text: 'The source workbook is read without being modified and the result goes into a new file. The SAP add-in, the cube connection and the export tabs stay in the working file.' },
+        { title: 'Check what gets frozen', text: 'Freezing keeps the last value Excel calculated. Before writing, the tool compares the Actual total with the SAC export day by day and flags a workbook saved in manual calculation mode: an outdated file never goes out without a warning.' },
+        { title: 'Fix from the log', text: 'Every run is logged. The log showed two recurring errors: a weekly file already open on a colleague’s machine, and a file dropped twice. The next version handles both, and loads a 33 MB file in a few seconds instead of two and a half minutes by emptying heavy unused tabs before reading.' }
       ],
       result:
-        'Data preparation now lives outside Power BI, in readable, versioned code. Business rules sit in tables their owners can edit, and the model is organised and free of broken measures.',
-      next: 'Schedule the daily run and add automatic consistency checks before each load.'
+        '65 runs in five weeks by two people on the team, across six clients, 61 of them without error. The weekly file takes one drag and drop, with a summary page that did not exist before.',
+      next: 'A set of fictional files covering every case (with or without targets, several departments, distribution centres, currencies, a test spanning two years), rerun with every new version to check the outputs.'
     }
   },
+
   {
     slug: 'affectation-agents-sncf',
     group: 'sncf',
@@ -556,6 +559,84 @@ export const cases = [
         'Every assignment entered in Dispatch lands in a SharePoint list, one row per employee and day. The Power BI reports use it for each network’s schedule and for RACE, the team leaders’ activity report. Screens from a copy on fictitious data.',
       result: 'No more printed sheets and −40% manual reporting time. Two apps in production.',
       next: ''
+    }
+  },
+  {
+    slug: 'pipeline-donnees-ventes',
+    group: 'rand',
+    visual: 'pipeline',
+    stack: ['Python', 'Polars', 'Parquet', 'Power BI', 'DAX', 'SAP Analytics Cloud'],
+    fr: {
+      kind: 'Python et Power BI',
+      sector: 'Distribution retail, 2026',
+      title: 'Refonte de la chaîne de données des rapports de ventes',
+      summary:
+        "Une préparation Power Query lente et fragile remplacée par un pipeline Python qui produit un fichier Parquet prêt pour Power BI, à partir des exports SAP Analytics Cloud.",
+      role: 'Conception et développement',
+      period: '2026',
+      caption: 'Schéma de l’architecture mise en place.',
+      context:
+        "Les rapports de ventes quittaient l'ancien entrepôt SQL Server pour des fichiers CSV produits par SAP Analytics Cloud. L'historique pesait environ 5 Go, et les règles d'affectation des rayons étaient codées dans de longues cascades de conditions en M.",
+      challenge:
+        'Les fichiers SAP sont cumulatifs : ce sont des mouvements qui s’additionnent, pas des photos. Plusieurs devises coexistent. Et les rapports devaient continuer à tourner pendant la migration.',
+      built: [
+        'Deux scripts Python et Polars : construction initiale depuis l’historique, puis intégration quotidienne des nouveaux fichiers avec archivage.',
+        'Un fichier Parquet unique lu par Power BI, à la place de trois requêtes Power Query.',
+        'Les règles de mapping des rayons sorties du code, dans des tables Excel modifiables par le métier.',
+        'Les taux de change récupérés par API et les prix de vente par devise, pour les calculs multi-devises.',
+        'En parallèle, l’audit d’un modèle sémantique existant : 114 mesures rangées en 8 dossiers, années codées en dur remplacées par du DAX dynamique, 10 mesures cassées détectées.'
+      ],
+      decisions: [
+        {
+          title: 'Polars plutôt que Power Query pour préparer',
+          text: 'Traitement en colonnes, rapide sur plusieurs gigaoctets, versionnable et testable en dehors de Power BI.'
+        },
+        {
+          title: 'Parquet comme format d’échange',
+          text: 'Compressé, typé, lu nativement par Power BI : le rapport ne fait plus que charger des données propres.'
+        },
+        {
+          title: 'Des tables de correspondance plutôt que du code',
+          text: 'Quand une enseigne réorganise ses rayons, le métier modifie une ligne de tableau, pas une requête.'
+        },
+        {
+          title: 'Rafraîchissement incrémentiel',
+          text: 'Seules les nouvelles périodes sont retraitées chaque jour, l’historique reste figé.'
+        }
+      ],
+      result:
+        'La préparation des données vit en dehors de Power BI, dans du code lisible et versionné. Les règles métier sont dans des tables que leurs propriétaires peuvent modifier, et le modèle est rangé et débarrassé de ses mesures cassées.',
+      next: 'Planifier l’exécution quotidienne du script et ajouter des contrôles automatiques de cohérence avant chaque chargement.'
+    },
+    en: {
+      kind: 'Python and Power BI',
+      sector: 'Retail distribution, 2026',
+      title: 'Rebuilding the data pipeline behind sales reports',
+      summary:
+        'A slow, fragile Power Query preparation replaced by a Python pipeline that turns SAP Analytics Cloud exports into a Parquet file ready for Power BI.',
+      role: 'Design and build',
+      period: '2026',
+      caption: 'Diagram of the architecture put in place.',
+      context:
+        'Sales reports were moving off the old SQL Server warehouse onto CSV files produced by SAP Analytics Cloud. History weighed about 5 GB, and department mapping rules were buried in long chains of conditions in M.',
+      challenge:
+        'SAP files are cumulative: additive movements, not snapshots. Several currencies coexist. And reports had to keep running during the migration.',
+      built: [
+        'Two Python and Polars scripts: an initial build from history, then daily integration of new files with archiving.',
+        'A single Parquet file read by Power BI, replacing three Power Query queries.',
+        'Department mapping rules moved out of code into Excel tables the business can edit.',
+        'Exchange rates fetched by API and retail prices per currency for multi-currency calculations.',
+        'In parallel, an audit of an existing semantic model: 114 measures sorted into 8 folders, hard-coded years replaced with dynamic DAX, 10 broken measures found.'
+      ],
+      decisions: [
+        { title: 'Polars instead of Power Query for preparation', text: 'Columnar processing, fast on several gigabytes, versioned and testable outside Power BI.' },
+        { title: 'Parquet as the hand-off format', text: 'Compressed, typed, read natively by Power BI: the report only loads clean data.' },
+        { title: 'Mapping tables instead of code', text: 'When a retailer reorganises its departments, the business edits a table row, not a query.' },
+        { title: 'Incremental refresh', text: 'Only new periods are reprocessed each day; history stays frozen.' }
+      ],
+      result:
+        'Data preparation now lives outside Power BI, in readable, versioned code. Business rules sit in tables their owners can edit, and the model is organised and free of broken measures.',
+      next: 'Schedule the daily run and add automatic consistency checks before each load.'
     }
   },
   {
