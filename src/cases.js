@@ -408,9 +408,9 @@ export const cases = [
     stack: ['Python', 'pandas', 'Streamlit', 'pytest', 'SAP Analytics Cloud', 'Power BI', 'Microsoft Graph'],
     shots: [
       { src: '/images/reconciliation-bi/1-resultats.webp', fr: 'Le contrôle d’un reporting avec ses objectifs : huit tests en quelques secondes, puis un onglet par test, les anomalies d’abord. Ici, un objectif mensuel qui ne correspond pas au fichier PREV.', en: 'Checking one reporting and its targets: eight tests in a few seconds, then one tab per test, anomalies first. Here, a monthly target that does not match the PREV file.' },
-      { src: '/images/reconciliation-bi/2-absent-du-bi.webp', fr: 'Une centrale oubliée par l’export Power BI des semaines : elle apparaît en « Absent du BI » au lieu de disparaître du contrôle.', en: 'A distribution centre missing from the weekly Power BI export: it shows as “Missing from BI” instead of silently dropping out of the check.' },
-      { src: '/images/reconciliation-bi/3-regles.webp', fr: 'Les règles métier dans un fichier Excel : remaniement des rayons, pays de chaque reporting, exceptions, conversions, alias. On les change sans toucher au code.', en: 'Business rules in an Excel file: department remapping, countries per reporting, exceptions, currency rates, aliases. They change without touching the code.' },
-      { src: '/images/reconciliation-bi/4-v1-v2.webp', fr: 'La v2 rejouée contre la v1 sur les mêmes fichiers : mêmes chiffres sur 42 tests, et les 6 écarts expliqués.', en: 'Version 2 replayed against version 1 on the same files: same figures on 42 tests, and the 6 differences explained.' },
+      { src: '/images/reconciliation-bi/2-avant-apres.webp', fr: 'Avant, une comparaison à la main entre le classeur Excel connecté à SAC et chaque reporting. Après, des fichiers déposés et huit contrôles en quelques secondes.', en: 'Before, a manual comparison between the SAC-connected Excel workbook and each reporting. After, files dropped in and eight checks in a few seconds.' },
+      { src: '/images/reconciliation-bi/3-absent-du-bi.webp', fr: 'Une centrale oubliée par l’export Power BI des semaines : elle apparaît en « Absent du BI » au lieu de disparaître du contrôle.', en: 'A distribution centre missing from the weekly Power BI export: it shows as “Missing from BI” instead of silently dropping out of the check.' },
+      { src: '/images/reconciliation-bi/4-regles.webp', fr: 'Les règles métier dans un fichier Excel : remaniement des rayons, pays de chaque reporting, exceptions, conversions, alias. On les change sans toucher au code.', en: 'Business rules in an Excel file: department remapping, countries per reporting, exceptions, currency rates, aliases. They change without touching the code.' },
       { src: '/images/reconciliation-bi/5-cles-partagees.webp', fr: 'Deux enseignes regroupées sous le même code de jointure : l’application le signale et indique quoi ajouter au fichier de règles.', en: 'Two retailers grouped under the same join code: the app flags it and says what to add to the rules file.' }
     ],
     fr: {
@@ -418,13 +418,13 @@ export const cases = [
       sector: 'Distribution retail, 2026',
       title: 'Le contrôle des reportings Power BI face à SAC, en quelques secondes',
       summary:
-        'Une application Streamlit qui vérifie chaque reporting pays, hebdomadaire et mensuel, contre les données SAC et les objectifs PREV, centrale par centrale et rayon par rayon. La version 2 compare dans les deux sens, lit la période dans l’export et sort les règles métier dans un fichier Excel.',
-      role: 'Conception et développement, de la v1 à la v2',
+        'Une application Streamlit qui remplace un contrôle fait à la main pendant des heures : chaque reporting pays, hebdomadaire et mensuel, est vérifié contre les données SAC et les objectifs PREV, centrale par centrale et rayon par rayon, en quelques secondes.',
+      role: 'Conception et développement de l’outil',
       period: '2026',
       pagesTitle: 'Le reste de l’application',
       caption: 'Démo de l’application sur des fichiers fictifs (enseignes, règles et montants inventés).',
       context:
-        'Les reportings pays envoyés chaque semaine sont encore construits sur l’ancienne base BI, alors que la référence est devenue SAP Analytics Cloud. Il faut donc vérifier, pour chacun des sept reportings, que les chiffres remontés correspondent à SAC, centrale par centrale et rayon par rayon, et chaque mois que les objectifs viennent bien du fichier PREV. À la main, c’était long et répété chaque semaine.',
+        'Les reportings pays envoyés chaque semaine sont encore construits sur l’ancienne base BI, alors que la référence est devenue SAP Analytics Cloud. Il faut donc vérifier, pour chacun des sept reportings, que les chiffres remontés correspondent à SAC, centrale par centrale et rayon par rayon, et chaque mois que les objectifs viennent bien du fichier PREV. Avant l’outil, ce contrôle se faisait à la main : le classeur Excel connecté à SAC d’un côté, le reporting Power BI de l’autre, en refaisant de tête les regroupements de rayons. Des heures chaque semaine.',
       challenge:
         'Les deux bases ne découpent pas les données de la même façon. Selon le reporting et l’enseigne, des rayons SAC sont regroupés sous un autre rayon, des enseignes sont gardées hors de leur pays ou dans un seul, certains pays sont en devise locale, et une même centrale ne porte pas le même nom des deux côtés. Il fallait comprendre ces règles, les appliquer sans erreur, et comparer exactement la même période des deux côtés.',
       built: [
@@ -436,14 +436,14 @@ export const cases = [
         'Des tests automatiques qui fabriquent des fichiers au format réel et y injectent une erreur à la fois.'
       ],
       decisions: [
-        { title: 'Comparer dans les deux sens', text: 'La v1 partait des lignes du reporting : une centrale oubliée par Power BI sortait du contrôle sans bruit. La v2 fait une jointure complète, et une ligne présente d’un seul côté apparaît en « Absent du BI » ou « Absent de SAC ».' },
+        { title: 'Comparer dans les deux sens', text: 'Partir des lignes du reporting ne montre pas ce qui y manque : une centrale oubliée par Power BI sortirait du contrôle sans bruit. La comparaison est une jointure complète, et une ligne présente d’un seul côté apparaît en « Absent du BI » ou « Absent de SAC ».' },
         { title: 'Lire la période dans l’export, pas la deviner', text: 'Le mois et les semaines sont lus dans le titre de l’export Power BI (« Données au 30/09 », « Semaines 40 et 41 »). Si SAC n’a pas encore la semaine demandée, le test est ignoré avec « SAC à jour ? » plutôt que de comparer deux semaines différentes. Une semaine à cheval sur deux mois est additionnée.' },
-        { title: 'Sortir les règles du code', text: 'Les règles étaient écrites dans chaque page, en double. Elles sont maintenant dans un fichier Excel que l’équipe peut lire et modifier, et les années sont lues dans les onglets SAC : plus rien à changer en janvier.' },
-        { title: 'Reconnaître des mots, pas des morceaux', text: 'Une recherche par morceaux faisait entrer les Canaries dans le reporting Canada et confondait deux enseignes au nom proche. Enseignes et pays sont comparés en mots entiers, et deux libellés regroupés sous le même code de jointure sont signalés.' },
-        { title: 'Prouver la v2 contre la v1', text: 'Les deux versions ont été rejouées sur les mêmes fichiers, construits avec les règles réelles : mêmes chiffres sur 42 tests sur 48. Les 6 autres venaient du mois contrôlé, que la v1 devinait différemment sur ses deux pages. 43 tests automatiques couvrent ensuite chaque cas.' }
+        { title: 'Sortir les règles du code', text: 'Les règles bougent : un nouveau regroupement de rayons, une enseigne ajoutée, un taux de change. Elles sont dans un fichier Excel que l’équipe peut lire et modifier sans toucher au code, et les années sont lues dans les onglets SAC : rien à changer en janvier.' },
+        { title: 'Reconnaître des mots, pas des morceaux', text: 'Chercher « CAN » comme un morceau de texte ferait entrer les Canaries dans le reporting Canada, et « GL » attraperait une autre enseigne. Enseignes et pays sont comparés en mots entiers, et deux libellés regroupés sous le même code de jointure sont signalés.' },
+        { title: 'Une deuxième version, vérifiée', text: 'Après plusieurs mois d’usage, l’outil a été repris : un seul moteur pour les deux pages, les règles sorties du code, la période lue dans l’export. Avant sa mise en service, la nouvelle version a été comparée à la première sur les mêmes fichiers, et 43 tests automatiques injectent une erreur à la fois pour vérifier qu’elle est trouvée.' }
       ],
       result:
-        'Chaque reporting hebdomadaire et mensuel est contrôlé en quelques secondes au lieu d’une vérification manuelle, avec un rapport Excel qui garde la trace du contrôle. La v2 retrouve les résultats de la v1 et ferme ses angles morts : centrale oubliée, mois mal choisi, noms proches.',
+        'Chaque reporting hebdomadaire et mensuel est contrôlé en quelques secondes au lieu de plusieurs heures à la main, avec un rapport Excel qui garde la trace du contrôle. Ce qu’un œil fatigué laisse passer est signalé : une centrale absente d’un côté, un mois décalé, deux enseignes au nom proche.',
       next: 'Charger les fichiers depuis OneDrive chaque lundi et archiver le rapport de la semaine, puis garder l’outil comme contrôle de non-régression quand les reportings passeront sur SAC.'
     },
     en: {
@@ -451,13 +451,13 @@ export const cases = [
       sector: 'Retail distribution, 2026',
       title: 'Checking Power BI reportings against SAC in a few seconds',
       summary:
-        'A Streamlit app that checks every country reporting, weekly and monthly, against SAC data and PREV targets, distribution centre by distribution centre and department by department. Version 2 compares both ways, reads the period from the export and moves business rules into an Excel file.',
-      role: 'Design and development, from version 1 to version 2',
+        'A Streamlit app that replaces a check done by hand for hours: every country reporting, weekly and monthly, is checked against SAC data and PREV targets, distribution centre by distribution centre and department by department, in a few seconds.',
+      role: 'Design and development of the tool',
       period: '2026',
       pagesTitle: 'The rest of the app',
       caption: 'Demo of the app on fictional files (retailers, rules and amounts made up).',
       context:
-        'The country reportings sent every week are still built on the old BI database, while SAP Analytics Cloud has become the reference. For each of the seven reportings, the figures have to match SAC, distribution centre by distribution centre and department by department, and every month the targets have to come from the PREV file. By hand, it was slow and repeated every week.',
+        'The country reportings sent every week are still built on the old BI database, while SAP Analytics Cloud has become the reference. For each of the seven reportings, the figures have to match SAC, distribution centre by distribution centre and department by department, and every month the targets have to come from the PREV file. Before the tool, this was done by hand: the SAC-connected Excel workbook on one side, the Power BI reporting on the other, redoing the department groupings mentally. Hours every week.',
       challenge:
         'The two databases do not split the data the same way. Depending on the reporting and the retailer, SAC departments are grouped under another department, retailers are kept outside their country or in one country only, some countries are in local currency, and the same distribution centre is not named the same on both sides. These rules had to be understood, applied without error, and both sides compared on exactly the same period.',
       built: [
@@ -469,14 +469,14 @@ export const cases = [
         'Automated tests that build files in the real format and inject one error at a time.'
       ],
       decisions: [
-        { title: 'Compare both ways', text: 'Version 1 started from the reporting’s rows: a distribution centre missing from Power BI silently left the check. Version 2 uses a full join, and a row present on one side only shows as “Missing from BI” or “Missing from SAC”.' },
+        { title: 'Compare both ways', text: 'Starting from the reporting’s rows cannot show what is missing from it: a distribution centre dropped by Power BI would silently leave the check. The comparison is a full join, and a row present on one side only shows as “Missing from BI” or “Missing from SAC”.' },
         { title: 'Read the period from the export, do not guess it', text: 'The month and weeks are read from the Power BI export title (“Data to 30/09”, “Weeks 40 and 41”). If SAC does not have the requested week yet, the test is skipped with “Is SAC up to date?” rather than comparing two different weeks. A week spanning two months is added up.' },
-        { title: 'Take the rules out of the code', text: 'The rules were written into each page, twice. They now live in an Excel file the team can read and edit, and years are read from the SAC tab names: nothing to change in January.' },
-        { title: 'Match words, not fragments', text: 'Fragment matching pulled the Canary Islands into the Canada reporting and mixed up two retailers with similar names. Retailers and countries are now matched as whole words, and two labels grouped under the same join code are flagged.' },
-        { title: 'Prove version 2 against version 1', text: 'Both versions were replayed on the same files, built with the real rules: same figures on 42 tests out of 48. The other 6 came from the month being checked, which version 1 guessed differently on its two pages. 43 automated tests then cover each case.' }
+        { title: 'Take the rules out of the code', text: 'Rules change: a new department grouping, a new retailer, an exchange rate. They live in an Excel file the team can read and edit without touching the code, and years are read from the SAC tab names: nothing to change in January.' },
+        { title: 'Match words, not fragments', text: 'Searching for “CAN” as a text fragment would pull the Canary Islands into the Canada reporting, and “GL” would catch another retailer. Retailers and countries are matched as whole words, and two labels grouped under the same join code are flagged.' },
+        { title: 'A second version, verified', text: 'After several months of use, the tool was reworked: one engine for both pages, rules taken out of the code, the period read from the export. Before going live, the new version was compared with the first one on the same files, and 43 automated tests inject one error at a time to check it is caught.' }
       ],
       result:
-        'Every weekly and monthly reporting is checked in a few seconds instead of by hand, with an Excel report that keeps a record of the check. Version 2 matches version 1’s results and closes its blind spots: a missing centre, the wrong month, similar names.',
+        'Every weekly and monthly reporting is checked in a few seconds instead of several hours by hand, with an Excel report that keeps a record of the check. What tired eyes miss gets flagged: a centre missing on one side, a shifted month, two retailers with similar names.',
       next: 'Load the files from OneDrive every Monday and archive the weekly report, then keep the tool as a regression check once the reportings move to SAC.'
     }
   },
