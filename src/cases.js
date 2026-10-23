@@ -644,80 +644,85 @@ export const cases = [
     slug: 'pipeline-donnees-ventes',
     group: 'rand',
     visual: 'pipeline',
-    stack: ['Python', 'Polars', 'Parquet', 'Power BI', 'DAX', 'SAP Analytics Cloud'],
+    stack: ['Python', 'DuckDB', 'Parquet', 'Power Query (M)', 'Power BI', 'SAP Analytics Cloud', 'SAP HANA', 'Batch Windows'],
+    reports: [
+      { src: '/images/pipeline-ventes/1-avant-apres.webp', fr: 'Avant, chaque rapport refaisait son travail à chaque actualisation. Après, le travail lourd est fait une fois, en amont, et aucun nom ne change dans les modèles.', en: 'Before, every report redid its work at each refresh. After, the heavy lifting happens once, upstream, and no name changes in the models.' },
+      { src: '/images/pipeline-ventes/2-actualisation.webp', fr: 'Les durées d’actualisation mesurées face aux limites de Power BI Pro, et ce qui a ramené le reporting hebdo de 2 h 08 à 8 minutes.', en: 'Measured refresh times against the Power BI Pro limits, and what brought the weekly reporting down from 2 h 08 to 8 minutes.' },
+      { src: '/images/pipeline-ventes/3-kit.webp', fr: 'La mise à jour du matin, reconstituée sur des données fictives : vert, on actualise ; jaune, un fichier déposé deux fois est refusé ; rouge, un fichier tronqué arrête tout.', en: 'The morning update, recreated on fictional data: green, refresh; amber, a file dropped twice is rejected; red, a truncated file stops everything.' },
+      { src: '/images/pipeline-ventes/4-pieges.webp', fr: 'Les cas pièges rejoués sur un faux dossier de l’informatique avant la mise en service, puis les seuils de comparaison avec les anciens rapports.', en: 'The trap cases replayed on a fake IT folder before go-live, then the comparison thresholds against the old reports.' }
+    ],
     fr: {
       kind: 'Python et Power BI',
       sector: 'Distribution retail, 2026',
       title: 'Refonte de la chaîne de données des rapports de ventes',
       summary:
-        "Une préparation Power Query lente et fragile remplacée par un pipeline Python qui produit un fichier Parquet prêt pour Power BI, à partir des exports SAP Analytics Cloud.",
-      role: 'Conception et développement',
+        'Cinq rapports Power BI passés de l’ancienne base SQL aux exports SAP Analytics Cloud, sans renommer une seule mesure. Un pipeline Python et DuckDB convertit 5 Go d’historique en fichiers Parquet, chaque rapport lit un jeu réduit à son besoin, et la mise à jour du matin tient en un double-clic.',
+      role: 'Conception, développement et documentation',
       period: '2026',
-      caption: 'Schéma de l’architecture mise en place.',
+      caption: 'Le circuit des données après la refonte.',
+      reportsTitle: 'Le dispositif en images',
+      reportsIntro: 'Images reconstituées pour le portfolio : aucun nom de client, de serveur ni de dossier réel. Les durées et les volumes sont ceux du projet.',
       context:
-        "Les rapports de ventes quittaient l'ancien entrepôt SQL Server pour des fichiers CSV produits par SAP Analytics Cloud. L'historique pesait environ 5 Go, et les règles d'affectation des rayons étaient codées dans de longues cascades de conditions en M.",
+        'Les chiffres de référence de l’entreprise viennent désormais de SAP Analytics Cloud. L’informatique dépose chaque jour des fichiers CSV sur le réseau : un historique d’environ 5 Go, puis un fichier par jour qui n’apporte que les nouveautés, rattrapages compris. Cinq rapports Power BI lisaient encore l’ancien entrepôt SQL Server, un cube sémantique ou d’anciens fichiers : le suivi quotidien d’un client, le reporting hebdomadaire par pays, la trame des rendez-vous commerciaux, le tableau de bord des centrales et celui des magasins en propre. Il fallait les rebrancher sur SAC.',
       challenge:
-        'Les fichiers SAP sont cumulatifs : ce sont des mouvements qui s’additionnent, pas des photos. Plusieurs devises coexistent. Et les rapports devaient continuer à tourner pendant la migration.',
+        'La licence Power BI Pro limite un modèle à 1 Go et une actualisation à 2 heures : lire 5 Go de CSV dans Power Query était hors de portée. Les rapports par pays posés sur le modèle hebdo appellent ses tables et ses mesures par leur nom, si bien qu’un seul renommage les casse sans que rien ne le signale. La direction voulait retrouver les chiffres de SAC, convertis au taux du jour. Et la mise à jour quotidienne devait pouvoir être lancée par une collègue sans notions de Python, sur un poste où Python n’est pas installé.',
       built: [
-        'Deux scripts Python et Polars : construction initiale depuis l’historique, puis intégration quotidienne des nouveaux fichiers avec archivage.',
-        'Un fichier Parquet unique lu par Power BI, à la place de trois requêtes Power Query.',
-        'Les règles de mapping des rayons sorties du code, dans des tables Excel modifiables par le métier.',
-        'Les taux de change récupérés par API et les prix de vente par devise, pour les calculs multi-devises.',
-        'En parallèle, l’audit d’un modèle sémantique existant : 114 mesures rangées en 8 dossiers, années codées en dur remplacées par du DAX dynamique, 10 mesures cassées détectées.'
+        'Un pipeline Python et DuckDB : l’historique converti une seule fois, puis chaque fichier du jour. Les ventes sont agrégées au grain jour × magasin × article, les tickets comptés à part, et chaque mois devient un fichier Parquet, écrit en temporaire puis remplacé.',
+        'Un script d’agrégat par rapport, qui réduit environ 58 millions de lignes au grain dont le rapport a besoin et refuse d’écrire si quantités et montants ne retombent pas sur le socle commun.',
+        'Dans chacun des cinq modèles, seules les requêtes de chargement réécrites : lecture des mois de la fenêtre glissante et conversion en euros au dernier taux SAC. Tables, relations et quelque 460 mesures sont inchangées.',
+        'Un kit d’exploitation : trois boutons, une fenêtre verte, jaune ou rouge qui dit quels rapports actualiser, un journal par lancement, un verrou contre les doubles lancements et un Python portable, sans rien à installer sur les postes.',
+        'Des scripts de validation qui comparent chaque rapport à l’ancien, par mois et par rayon, avec des seuils : 0,5 % sur le chiffre d’affaires, 0,2 % sur les quantités, tickets exacts.',
+        'Une documentation par rapport (avant, après, choix, contrôles), un guide d’exploitation et un mode d’emploi d’une page pour la personne qui lance la mise à jour.'
       ],
       decisions: [
-        {
-          title: 'Polars plutôt que Power Query pour préparer',
-          text: 'Traitement en colonnes, rapide sur plusieurs gigaoctets, versionnable et testable en dehors de Power BI.'
-        },
-        {
-          title: 'Parquet comme format d’échange',
-          text: 'Compressé, typé, lu nativement par Power BI : le rapport ne fait plus que charger des données propres.'
-        },
-        {
-          title: 'Des tables de correspondance plutôt que du code',
-          text: 'Quand une enseigne réorganise ses rayons, le métier modifie une ligne de tableau, pas une requête.'
-        },
-        {
-          title: 'Rafraîchissement incrémentiel',
-          text: 'Seules les nouvelles périodes sont retraitées chaque jour, l’historique reste figé.'
-        }
+        { title: 'Changer la source, pas le modèle', text: 'Aucune table, colonne, mesure ni relation n’est renommée : les colonnes produites par Python portent déjà les noms du modèle. Les visuels et les rapports par pays posés sur le modèle hebdo continuent de fonctionner sans retouche.' },
+        { title: 'Faire le travail lourd une fois, avant Power BI', text: 'Power Query ne sait ni déléguer ni paralléliser la lecture d’un CSV : il redécoderait et réagrégerait 5 Go à chaque actualisation. DuckDB, un moteur SQL qui tourne dans le script sans serveur, le fait une fois ; Power Query ne fait plus que lire des fichiers propres.' },
+        { title: 'Des fichiers mensuels plutôt que l’actualisation incrémentale', text: 'Sur des fichiers, chaque partition incrémentale relirait tout. Un Parquet par mois et une fenêtre glissante (année en cours et précédente) donnent le même gain sans cette fragilité, et le modèle cesse de grossir d’une année sur l’autre.' },
+        { title: 'Calculer par clé, pas par ligne', text: 'La première version du reporting hebdo mettait 2 h 08 à s’actualiser, au-dessus de la limite : elle relisait les gros fichiers plusieurs fois et refaisait sur 11 millions de lignes des calculs de pays, de rayon et de taux qui ne dépendent que de quelques dizaines de milliers de combinaisons enseigne × magasin × rayon × devise. Faits une fois sur cette table de clés, avec l’année ISO écrite directement par Python, ils ramènent l’actualisation à 8 minutes, avec les mêmes montants à la décimale.' },
+        { title: 'Garder la devise locale, convertir à l’actualisation', text: 'Les fichiers gardent les montants en devise locale, et l’euro est calculé au dernier taux de SAC, comme le demande la direction. Le fichier de taux ne contenait pas de ligne euro vers euro : sans elle, tout le chiffre d’affaires en euros aurait disparu sans la moindre erreur. Une devise sans taux arrête désormais l’actualisation plutôt que de fausser un total.' },
+        { title: 'Refuser un doublon plutôt que compter deux fois', text: 'Les fichiers du jour contiennent aussi des corrections de jours déjà livrés. Le pipeline compare donc ticket par ticket : un contenu identique est refusé, un complément est additionné sans recompter les tickets. Tous les cas pièges ont été rejoués sur un faux dossier de l’informatique : 39 contrôles sur 39.' }
       ],
       result:
-        'La préparation des données vit en dehors de Power BI, dans du code lisible et versionné. Les règles métier sont dans des tables que leurs propriétaires peuvent modifier, et le modèle est rangé et débarrassé de ses mesures cassées.',
-      next: 'Planifier l’exécution quotidienne du script et ajouter des contrôles automatiques de cohérence avant chaque chargement.'
+        'Les cinq rapports lisent maintenant les fichiers Parquet. Mesurées dans Power BI Desktop, les actualisations prennent environ 8 minutes pour le reporting hebdo, 27 pour la trame des rendez-vous, 15 pour le tableau des centrales et une pour les magasins, toutes sous la limite de 2 heures. Aucune mesure n’a été renommée. Les contrôles ont aussi mis au jour des défauts en amont : des ventes qui perdaient leur centrale dans une jointure, des exports d’historique tronqués par Excel à 1 048 575 lignes, des taux de change arrondis à deux décimales.',
+      next: 'Terminer la validation côte à côte, rapport par rapport, puis publier sur le service avec la passerelle. Ensuite, planifier la mise à jour sur une machine de l’informatique et ne déclencher l’actualisation Power BI que si la fenêtre est verte.'
     },
     en: {
       kind: 'Python and Power BI',
       sector: 'Retail distribution, 2026',
       title: 'Rebuilding the data pipeline behind sales reports',
       summary:
-        'A slow, fragile Power Query preparation replaced by a Python pipeline that turns SAP Analytics Cloud exports into a Parquet file ready for Power BI.',
-      role: 'Design and build',
+        'Five Power BI reports moved from the old SQL database to SAP Analytics Cloud exports without renaming a single measure. A Python and DuckDB pipeline turns 5 GB of history into Parquet files, each report reads a set cut to what it needs, and the morning update takes one double-click.',
+      role: 'Design, build and documentation',
       period: '2026',
-      caption: 'Diagram of the architecture put in place.',
+      caption: 'How data flows after the rebuild.',
+      reportsTitle: 'The system in pictures',
+      reportsIntro: 'Images recreated for the portfolio: no real client, server or folder names. Durations and volumes are the project’s own.',
       context:
-        'Sales reports were moving off the old SQL Server warehouse onto CSV files produced by SAP Analytics Cloud. History weighed about 5 GB, and department mapping rules were buried in long chains of conditions in M.',
+        'The company’s reference figures now come from SAP Analytics Cloud. Every day, IT drops CSV files on the network: a history file of about 5 GB, then one file per day carrying only what is new, late corrections included. Five Power BI reports still read the old SQL Server warehouse, a semantic cube or legacy files: daily tracking for a client, weekly reporting by country, the client meeting packs, the distribution centre dashboard and the own-store dashboard. They had to be moved onto SAC.',
       challenge:
-        'SAP files are cumulative: additive movements, not snapshots. Several currencies coexist. And reports had to keep running during the migration.',
+        'Power BI Pro caps a model at 1 GB and a refresh at 2 hours: reading 5 GB of CSV in Power Query was out of reach. The country reports built on the weekly model call its tables and measures by name, so a single rename breaks them with nothing to flag it. Leadership wanted SAC’s figures, converted at the current rate. And the daily update had to be run by a colleague with no Python knowledge, on a workstation without Python.',
       built: [
-        'Two Python and Polars scripts: an initial build from history, then daily integration of new files with archiving.',
-        'A single Parquet file read by Power BI, replacing three Power Query queries.',
-        'Department mapping rules moved out of code into Excel tables the business can edit.',
-        'Exchange rates fetched by API and retail prices per currency for multi-currency calculations.',
-        'In parallel, an audit of an existing semantic model: 114 measures sorted into 8 folders, hard-coded years replaced with dynamic DAX, 10 broken measures found.'
+        'A Python and DuckDB pipeline: history converted once, then each daily file. Sales are aggregated by day × store × item, tickets counted separately, and each month becomes a Parquet file, written to a temporary file and then swapped in.',
+        'One aggregation script per report, cutting about 58 million rows down to the grain the report needs and refusing to write if quantities and amounts do not match the shared base.',
+        'In each of the five models, only the loading queries were rewritten: reading the months in the rolling window and converting to euros at the latest SAC rate. Tables, relationships and some 460 measures are unchanged.',
+        'A run kit: three buttons, a green, amber or red window that says which reports to refresh, a log for every run, a lock against double runs and a portable Python, so nothing has to be installed on workstations.',
+        'Validation scripts that compare each report with the old one, by month and by department, against thresholds: 0.5% on sales, 0.2% on quantities, exact ticket counts.',
+        'Documentation for each report (before, after, choices, checks), an operations guide and a one-page guide for the person who runs the update.'
       ],
       decisions: [
-        { title: 'Polars instead of Power Query for preparation', text: 'Columnar processing, fast on several gigabytes, versioned and testable outside Power BI.' },
-        { title: 'Parquet as the hand-off format', text: 'Compressed, typed, read natively by Power BI: the report only loads clean data.' },
-        { title: 'Mapping tables instead of code', text: 'When a retailer reorganises its departments, the business edits a table row, not a query.' },
-        { title: 'Incremental refresh', text: 'Only new periods are reprocessed each day; history stays frozen.' }
+        { title: 'Change the source, not the model', text: 'No table, column, measure or relationship is renamed: the columns produced by Python already carry the model’s names. Visuals and the country reports built on the weekly model keep working untouched.' },
+        { title: 'Do the heavy lifting once, before Power BI', text: 'Power Query can neither delegate nor parallelise reading a CSV: it would decode and re-aggregate 5 GB at every refresh. DuckDB, a SQL engine that runs inside the script with no server, does it once; Power Query only reads clean files.' },
+        { title: 'Monthly files instead of incremental refresh', text: 'On files, every incremental partition would reread everything. One Parquet file per month and a rolling window (current and previous year) give the same gain without that fragility, and the model stops growing year after year.' },
+        { title: 'Compute per key, not per row', text: 'The first version of the weekly reporting took 2 h 08 to refresh, over the limit: it reread the large files several times and redid, on 11 million rows, country, department and rate calculations that only depend on a few tens of thousands of retailer × store × department × currency combinations. Done once on that key table, with the ISO year written directly by Python, they bring the refresh down to 8 minutes, with the same amounts to the decimal.' },
+        { title: 'Keep local currency, convert at refresh', text: 'Files keep amounts in local currency, and euros are computed at SAC’s latest rate, as leadership asked. The rate file had no euro-to-euro row: without it, all sales in euros would have vanished without a single error. A currency with no rate now stops the refresh rather than skewing a total.' },
+        { title: 'Reject a duplicate rather than count twice', text: 'Daily files also carry corrections to days already delivered. So the pipeline compares ticket by ticket: identical content is rejected, a top-up is added without recounting tickets. Every trap case was replayed on a fake IT folder: 39 checks out of 39.' }
       ],
       result:
-        'Data preparation now lives outside Power BI, in readable, versioned code. Business rules sit in tables their owners can edit, and the model is organised and free of broken measures.',
-      next: 'Schedule the daily run and add automatic consistency checks before each load.'
+        'The five reports now read the Parquet files. Measured in Power BI Desktop, refreshes take about 8 minutes for the weekly reporting, 27 for the meeting packs, 15 for the distribution centre dashboard and one for the stores, all under the 2-hour limit. No measure was renamed. The checks also surfaced upstream defects: sales losing their distribution centre in a join, history exports cut off by Excel at 1,048,575 rows, exchange rates rounded to two decimals.',
+      next: 'Finish the side-by-side validation report by report, then publish to the service through the gateway. After that, schedule the update on an IT machine and only trigger the Power BI refresh when the window is green.'
     }
   },
+
   {
     slug: 'suivi-quotidien-client',
     group: 'rand',

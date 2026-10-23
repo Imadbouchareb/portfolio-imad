@@ -156,26 +156,28 @@ export const PipelineVisual = ({ lang, compact }) => {
   const fr = lang === 'fr';
   const steps = fr
     ? [
-        { t: 'SAP Analytics Cloud', d: 'Exports CSV quotidiens, environ 5 Go d’historique' },
-        { t: 'Python et Polars', d: 'Nettoyage, mapping des rayons, devises, archivage' },
-        { t: 'Parquet', d: 'Un fichier unique, compressé et typé' },
-        { t: 'Power BI', d: 'Modèle en étoile, rafraîchissement incrémentiel' }
+        { t: 'Exports SAC', d: 'Un historique de 5 Go, puis un fichier CSV par jour' },
+        { t: 'Python et DuckDB', d: 'Décode, type, agrège au jour × magasin × article, refuse les doublons' },
+        { t: 'Parquet mensuels', d: 'Un socle commun, un fichier par mois, compressé' },
+        { t: 'Un jeu par rapport', d: 'Réduit au grain utile, contrôlé avant d’être écrit' },
+        { t: 'Power BI', d: 'Chargement réécrit ; tables, relations et mesures inchangées' }
       ]
     : [
-        { t: 'SAP Analytics Cloud', d: 'Daily CSV exports, about 5 GB of history' },
-        { t: 'Python and Polars', d: 'Cleaning, department mapping, currencies, archiving' },
-        { t: 'Parquet', d: 'A single compressed, typed file' },
-        { t: 'Power BI', d: 'Star schema, incremental refresh' }
+        { t: 'SAC exports', d: 'A 5 GB history file, then one CSV file per day' },
+        { t: 'Python and DuckDB', d: 'Decodes, types, aggregates by day × store × item, rejects duplicates' },
+        { t: 'Monthly Parquet', d: 'One shared base, one compressed file per month' },
+        { t: 'One set per report', d: 'Cut to the grain each report needs, checked before writing' },
+        { t: 'Power BI', d: 'Loading queries rewritten; tables, relationships and measures unchanged' }
       ];
-  const inputs = fr
-    ? ['Tables de mapping Excel tenues par le métier', 'Taux de change par API']
-    : ['Excel mapping tables owned by the business', 'Exchange rates by API'];
+  const around = fr
+    ? ['Taux de change SAC : euros recalculés à chaque actualisation', 'Magasins (SAP HANA) et budgets Excel : conservés', 'Kit d’exploitation : un double-clic le matin, vert, jaune ou rouge']
+    : ['SAC exchange rates: euros recalculated at every refresh', 'Stores (SAP HANA) and Excel budgets: kept', 'Run kit: one double-click each morning, green, amber or red'];
   return (
     <div className="p-5 sm:p-6">
-      <ol className={compact ? 'grid grid-cols-2 gap-2' : 'grid gap-2 sm:grid-cols-4 sm:gap-0'}>
+      <ol className={compact ? 'grid grid-cols-2 gap-2' : 'grid gap-2 sm:grid-cols-5 sm:gap-0'}>
         {steps.map((s, i) => (
           <li key={s.t} className="relative flex sm:block">
-            <div className={`flex-1 rounded-lg border p-3 ${compact ? '' : 'sm:mr-5'} ${i === 1 ? 'border-accent bg-paper' : 'border-line bg-paper'}`}>
+            <div className={`flex-1 rounded-lg border p-3 ${compact ? '' : 'sm:mr-5 sm:h-full'} ${i === 1 ? 'border-accent bg-paper' : 'border-line bg-paper'}`}>
               <p className="text-[11px] text-muted">{i + 1}</p>
               <p className="mt-0.5 font-semibold leading-snug text-ink">{s.t}</p>
               <p className="mt-1.5 text-xs leading-relaxed text-muted">{s.d}</p>
@@ -188,12 +190,9 @@ export const PipelineVisual = ({ lang, compact }) => {
           </li>
         ))}
       </ol>
-      <div className={compact ? 'mt-2' : 'mt-3 sm:ml-[25%] sm:mr-[50%]'}>
-        {!compact && <div className="mx-auto hidden h-4 w-px bg-ink/30 sm:block" aria-hidden="true" />}
-        <ul className="space-y-1.5 rounded-lg border border-dashed border-line p-3 text-xs text-muted">
-          {inputs.map((x) => <li key={x}>{x}</li>)}
-        </ul>
-      </div>
+      <ul className={`mt-3 grid gap-2 text-xs text-muted ${compact ? '' : 'sm:grid-cols-3'}`}>
+        {around.map((x) => <li key={x} className="rounded-lg border border-dashed border-line p-3 leading-relaxed">{x}</li>)}
+      </ul>
     </div>
   );
 };

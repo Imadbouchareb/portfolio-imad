@@ -49,7 +49,7 @@ export const content = {
     },
     proof: [
       { value: '35–40', label: 'enseignes retail suivies chaque semaine', source: 'Groupe Rand' },
-      { value: '5 Go', label: "d'historique de ventes repris dans un pipeline Python", source: 'Groupe Rand' },
+      { value: '5 Go', label: "d'historique SAC converti en Parquet pour cinq rapports Power BI", source: 'Groupe Rand' },
       { value: '−40 %', label: 'de temps de reporting manuel', source: 'SNCF' },
       { value: 'PL-300', label: 'Microsoft Power BI Data Analyst', source: 'Certifié en 2025' }
     ],
@@ -102,7 +102,7 @@ export const content = {
         points: [
           'Reporting Power BI quotidien, hebdomadaire et mensuel sur 35 à 40 enseignes en Europe et en Amérique du Nord.',
           'Dossiers d’analyse pour 2 à 7 rendez-vous commerciaux de la Direction Générale par semaine.',
-          'Migration des rapports vers les données SAP Analytics Cloud : pipeline Python et Parquet, et une application qui contrôle chaque reporting face à SAC.',
+          'Migration de cinq rapports Power BI vers les données SAP Analytics Cloud : pipeline Python, DuckDB et Parquet, et une application qui contrôle chaque reporting face à SAC.',
           'Analyses test-contrôle en magasin et tableau d’alertes quotidien sur les ventes comparables.'
         ]
       },
@@ -131,7 +131,7 @@ export const content = {
     ],
     skills: [
       { title: 'Business Intelligence', items: 'Power BI (PL-300), DAX, Power Query (M), SAP Analytics Cloud, Excel', proof: 'Tous les jours chez Groupe Rand : modèles, mesures, rapports de direction.' },
-      { title: 'Préparation des données', items: 'Python (pandas, Polars), Parquet, SQL, SAP HANA, SQL Server, pytest', proof: 'Pipeline de ventes, connexion aux données SAP et contrôle des reportings chez Groupe Rand.' },
+      { title: 'Préparation des données', items: 'Python (pandas, DuckDB), Parquet, SQL, SAP HANA, SQL Server, pytest', proof: 'Pipeline de ventes, connexion aux données SAP et contrôle des reportings chez Groupe Rand.' },
       { title: 'Power Platform', items: 'Power Apps (Canvas, Power Fx), Power Automate, Dataverse, SharePoint', proof: 'Deux applications en production à la SNCF.' },
       { title: 'IA appliquée', items: 'LLM, RAG, ChromaDB, LangChain, Streamlit', proof: 'Projet SAV à HETIC : pipeline LLM, application Streamlit et rapport Power BI.' }
     ],
@@ -204,7 +204,7 @@ export const content = {
     },
     proof: [
       { value: '35–40', label: 'retail chains tracked weekly', source: 'Groupe Rand' },
-      { value: '5 GB', label: 'of sales history moved to a Python pipeline', source: 'Groupe Rand' },
+      { value: '5 GB', label: 'of SAC history converted to Parquet for five Power BI reports', source: 'Groupe Rand' },
       { value: '−40%', label: 'manual reporting time', source: 'SNCF' },
       { value: 'PL-300', label: 'Microsoft Power BI Data Analyst', source: 'Certified 2025' }
     ],
@@ -256,7 +256,7 @@ export const content = {
         points: [
           'Daily, weekly and monthly Power BI reporting on 35 to 40 retail chains in Europe and North America.',
           'Analysis packs for 2 to 7 leadership client meetings a week.',
-          'Moved reports onto SAP Analytics Cloud data: a Python and Parquet pipeline, and an app that checks every reporting against SAC.',
+          'Moved five Power BI reports onto SAP Analytics Cloud data: a Python, DuckDB and Parquet pipeline, and an app that checks every reporting against SAC.',
           'In-store test and control analysis, and a daily alert dashboard on like-for-like sales.'
         ]
       },
@@ -285,7 +285,7 @@ export const content = {
     ],
     skills: [
       { title: 'Business Intelligence', items: 'Power BI (PL-300), DAX, Power Query (M), SAP Analytics Cloud, Excel', proof: 'Daily at Groupe Rand: models, measures, leadership reports.' },
-      { title: 'Data preparation', items: 'Python (pandas, Polars), Parquet, SQL, SAP HANA, SQL Server, pytest', proof: 'Sales pipeline, SAP data connections and reporting checks at Groupe Rand.' },
+      { title: 'Data preparation', items: 'Python (pandas, DuckDB), Parquet, SQL, SAP HANA, SQL Server, pytest', proof: 'Sales pipeline, SAP data connections and reporting checks at Groupe Rand.' },
       { title: 'Power Platform', items: 'Power Apps (Canvas, Power Fx), Power Automate, Dataverse, SharePoint', proof: 'Two apps in production at SNCF.' },
       { title: 'Applied AI', items: 'LLM, RAG, ChromaDB, LangChain, Streamlit', proof: 'Customer service project at HETIC: LLM pipeline, Streamlit app and Power BI report.' }
     ],
