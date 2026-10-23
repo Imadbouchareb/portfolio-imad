@@ -119,7 +119,7 @@ export const content = {
       },
       {
         company: 'HETIC',
-        place: 'Montreuil',
+        place: 'Paris',
         role: "Projet de fin d'études, analyse SAV par LLM",
         date: 'Juil. à nov. 2025',
         points: ['Application SAV en Streamlit au-dessus d’un pipeline LLM : trois écrans par rôle et un score de priorité, détaillés dans les études de cas.']
@@ -153,7 +153,7 @@ export const content = {
       { name: 'Power BI expert', by: 'SNCF', date: 'Oct. 2024', link: '/certificats/PowerBI_Expert.pdf' }
     ],
     degrees: [
-      { title: 'Master Data et IA', school: 'HETIC, Montreuil', year: '2025' },
+      { title: 'Master Data et IA', school: 'HETIC, Paris', year: '2025' },
       { title: 'Master 1 Ingénierie mathématique et data science', school: 'Université de Haute-Alsace, Mulhouse', year: '2024' },
       { title: 'Master Recherche opérationnelle, management du risque et négociation', school: 'USTHB, Alger', year: '2022' }
     ],
@@ -273,7 +273,7 @@ export const content = {
       },
       {
         company: 'HETIC',
-        place: 'Montreuil',
+        place: 'Paris',
         role: 'Final project, LLM customer service analysis',
         date: 'July to Nov. 2025',
         points: ['Streamlit support app on top of an LLM pipeline: three role-based screens and a priority score, detailed in the case studies.']
@@ -307,7 +307,7 @@ export const content = {
       { name: 'Power BI expert', by: 'SNCF', date: 'Oct. 2024', link: '/certificats/PowerBI_Expert.pdf' }
     ],
     degrees: [
-      { title: 'MSc Data and AI', school: 'HETIC, Montreuil', year: '2025' },
+      { title: 'MSc Data and AI', school: 'HETIC, Paris', year: '2025' },
       { title: 'MSc (year 1) Applied Mathematics and Data Science', school: 'Université de Haute-Alsace, Mulhouse', year: '2024' },
       { title: 'MSc Operations Research, Risk Management and Negotiation', school: 'USTHB, Algiers', year: '2022' }
     ],
