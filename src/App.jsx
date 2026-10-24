@@ -288,7 +288,7 @@ const Home = ({ t, lang }) => {
             <ul className="mt-3 divide-y divide-line border-y border-line">
               {t.degrees.map((d) => (
                 <li key={d.title} className="flex items-baseline justify-between gap-4 py-3">
-                  <span><span className="text-ink">{d.title}</span><span className="block text-sm text-muted">{d.school}</span></span>
+                  <span><span className="text-ink">{d.title}</span><span className="block text-sm text-muted">{d.school}</span>{d.detail && <span className="block text-sm text-muted">{d.detail}</span>}</span>
                   <span className="text-sm text-muted">{d.year}</span>
                 </li>
               ))}

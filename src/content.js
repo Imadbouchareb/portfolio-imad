@@ -155,7 +155,7 @@ export const content = {
     degrees: [
       { title: 'Master Data et IA', school: 'HETIC, Paris', year: '2025' },
       { title: 'Master 1 Ingénierie mathématique et data science', school: 'Université de Haute-Alsace, Mulhouse', year: '2024' },
-      { title: 'Master Recherche opérationnelle, management du risque et négociation', school: 'USTHB, Alger', year: '2022' }
+      { title: 'Licence et Master Recherche opérationnelle, management du risque et négociation', school: 'USTHB, Alger', detail: 'Mathématiques appliquées : probabilités, statistiques, optimisation, modélisation', year: '2022' }
     ],
     languages: 'Langues : français (C2), anglais professionnel.',
     contact: {
@@ -309,7 +309,7 @@ export const content = {
     degrees: [
       { title: 'MSc Data and AI', school: 'HETIC, Paris', year: '2025' },
       { title: 'MSc (year 1) Applied Mathematics and Data Science', school: 'Université de Haute-Alsace, Mulhouse', year: '2024' },
-      { title: 'MSc Operations Research, Risk Management and Negotiation', school: 'USTHB, Algiers', year: '2022' }
+      { title: 'BSc and MSc Operations Research, Risk Management and Negotiation', school: 'USTHB, Algiers', detail: 'Applied mathematics: probability, statistics, optimisation, modelling', year: '2022' }
     ],
     languages: 'Languages: French (C2), professional English.',
     contact: {
