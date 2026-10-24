@@ -1,7 +1,7 @@
 /* Textes du site (FR / EN). Les études de cas sont dans cases.js. */
 
 export const SITE = {
-  url: 'https://portfolio-imad-theta.vercel.app',
+  url: 'https://imad-bouchareb.vercel.app',
   email: 'imad.bouchareb08@gmail.com',
   linkedin: 'https://www.linkedin.com/in/imad-bouchareb/',
   github: 'https://github.com/Imadbouchareb',
