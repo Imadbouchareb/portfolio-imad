@@ -131,7 +131,7 @@ export const content = {
     ],
     skills: [
       { title: 'Business Intelligence', items: 'Power BI (PL-300), DAX, Power Query (M), SAP Analytics Cloud, Excel', proof: 'Tous les jours chez Groupe Rand : modèles, mesures, rapports de direction.' },
-      { title: 'Préparation des données', items: 'Python (pandas, DuckDB), Parquet, SQL, SAP HANA, SQL Server', proof: 'Pipeline de ventes, connexion aux données SAP et contrôle des reportings chez Groupe Rand.' },
+      { title: 'Préparation des données', items: 'Python (pandas, Polars, DuckDB), Parquet, SQL, SAP HANA, SQL Server', proof: 'Pipeline de ventes, connexion aux données SAP et contrôle des reportings chez Groupe Rand.' },
       { title: 'Power Platform', items: 'Power Apps (Canvas, Power Fx), Power Automate, Dataverse, SharePoint', proof: 'Deux applications en production à la SNCF.' },
       { title: 'IA appliquée', items: 'LLM, RAG, ChromaDB, LangChain, Streamlit', proof: 'Projet SAV à HETIC : pipeline LLM, application Streamlit et rapport Power BI.' }
     ],
@@ -285,7 +285,7 @@ export const content = {
     ],
     skills: [
       { title: 'Business Intelligence', items: 'Power BI (PL-300), DAX, Power Query (M), SAP Analytics Cloud, Excel', proof: 'Daily at Groupe Rand: models, measures, leadership reports.' },
-      { title: 'Data preparation', items: 'Python (pandas, DuckDB), Parquet, SQL, SAP HANA, SQL Server', proof: 'Sales pipeline, SAP data connections and reporting checks at Groupe Rand.' },
+      { title: 'Data preparation', items: 'Python (pandas, Polars, DuckDB), Parquet, SQL, SAP HANA, SQL Server', proof: 'Sales pipeline, SAP data connections and reporting checks at Groupe Rand.' },
       { title: 'Power Platform', items: 'Power Apps (Canvas, Power Fx), Power Automate, Dataverse, SharePoint', proof: 'Two apps in production at SNCF.' },
       { title: 'Applied AI', items: 'LLM, RAG, ChromaDB, LangChain, Streamlit', proof: 'Customer service project at HETIC: LLM pipeline, Streamlit app and Power BI report.' }
     ],
