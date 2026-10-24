@@ -97,7 +97,7 @@ export const content = {
       {
         company: 'Groupe Rand',
         place: 'Paris',
-        role: 'Data Analyst, Power BI et performance retail',
+        role: 'Sales Analyst (Data Analyst BI), performance commerciale retail',
         date: 'Depuis janv. 2026',
         points: [
           'Reporting Power BI quotidien, hebdomadaire et mensuel sur 35 à 40 enseignes en Europe et en Amérique du Nord.',
@@ -251,7 +251,7 @@ export const content = {
       {
         company: 'Groupe Rand',
         place: 'Paris',
-        role: 'Data Analyst, Power BI and retail performance',
+        role: 'Sales Analyst (BI Data Analyst), retail sales performance',
         date: 'Since Jan. 2026',
         points: [
           'Daily, weekly and monthly Power BI reporting on 35 to 40 retail chains in Europe and North America.',
