@@ -260,7 +260,16 @@ const Home = ({ t, lang }) => {
         <SectionTitle id="credentials-title" title={t.sections.credentials} />
         <div className="grid gap-x-12 gap-y-10 lg:grid-cols-2">
           <div>
-            <div className="rounded-xl bg-surface p-7">
+            <h3 className="text-sm font-semibold text-ink">{t.labels.education}</h3>
+            <ul className="mt-3 divide-y divide-line border-y border-line">
+              {t.degrees.map((d) => (
+                <li key={d.title} className="flex items-baseline justify-between gap-4 py-3">
+                  <span><span className="text-ink">{d.title}</span><span className="block text-sm text-muted">{d.school}</span>{d.detail && <span className="block text-sm text-muted">{d.detail}</span>}</span>
+                  <span className="text-sm text-muted">{d.year}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 rounded-xl bg-surface p-7">
               <div className="flex items-center gap-3">
                 <img src="/logos/microsoft.svg" alt="Microsoft" width="22" height="22" className="h-5 w-auto" />
                 <span className="display text-xl text-accent">{t.cert.code}</span>
@@ -272,15 +281,6 @@ const Home = ({ t, lang }) => {
                 {t.labels.verify} <ArrowUpRight size={15} />
               </a>
             </div>
-            <h3 className="mt-10 text-sm font-semibold text-ink">{t.labels.education}</h3>
-            <ul className="mt-3 divide-y divide-line border-y border-line">
-              {t.degrees.map((d) => (
-                <li key={d.title} className="flex items-baseline justify-between gap-4 py-3">
-                  <span><span className="text-ink">{d.title}</span><span className="block text-sm text-muted">{d.school}</span>{d.detail && <span className="block text-sm text-muted">{d.detail}</span>}</span>
-                  <span className="text-sm text-muted">{d.year}</span>
-                </li>
-              ))}
-            </ul>
           </div>
           <div>
             <h3 className="text-sm font-semibold text-ink">{t.labels.trainings}</h3>
