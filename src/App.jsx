@@ -258,21 +258,21 @@ const Home = ({ t, lang }) => {
       {/* Certifications et formation */}
       <section id="formation" aria-labelledby="credentials-title" className="scroll-mt-20 border-t border-line py-20 sm:py-24">
         <SectionTitle id="credentials-title" title={t.sections.credentials} />
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
-          <div className="self-start rounded-xl bg-surface p-7">
-            <div className="flex items-center gap-3">
-              <img src="/logos/microsoft.svg" alt="Microsoft" width="22" height="22" className="h-5 w-auto" />
-              <span className="display text-xl text-accent">{t.cert.code}</span>
-            </div>
-            <h3 className="mt-4 text-lg font-semibold leading-snug text-ink">{t.cert.name}</h3>
-            <p className="mt-2 text-muted">{t.cert.desc}</p>
-            <p className="mt-1 text-sm text-muted">{t.cert.date}</p>
-            <a href={t.cert.link} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline">
-              {t.labels.verify} <ArrowUpRight size={15} />
-            </a>
-          </div>
+        <div className="grid gap-x-12 gap-y-10 lg:grid-cols-2">
           <div>
-            <h3 className="text-sm font-semibold text-ink">{t.labels.education}</h3>
+            <div className="rounded-xl bg-surface p-7">
+              <div className="flex items-center gap-3">
+                <img src="/logos/microsoft.svg" alt="Microsoft" width="22" height="22" className="h-5 w-auto" />
+                <span className="display text-xl text-accent">{t.cert.code}</span>
+              </div>
+              <h3 className="mt-4 text-lg font-semibold leading-snug text-ink">{t.cert.name}</h3>
+              <p className="mt-2 text-muted">{t.cert.desc}</p>
+              <p className="mt-1 text-sm text-muted">{t.cert.date}</p>
+              <a href={t.cert.link} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline">
+                {t.labels.verify} <ArrowUpRight size={15} />
+              </a>
+            </div>
+            <h3 className="mt-10 text-sm font-semibold text-ink">{t.labels.education}</h3>
             <ul className="mt-3 divide-y divide-line border-y border-line">
               {t.degrees.map((d) => (
                 <li key={d.title} className="flex items-baseline justify-between gap-4 py-3">
@@ -281,7 +281,9 @@ const Home = ({ t, lang }) => {
                 </li>
               ))}
             </ul>
-            <h3 className="mt-10 text-sm font-semibold text-ink">{t.labels.trainings}</h3>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-ink">{t.labels.trainings}</h3>
             <ul className="mt-3 divide-y divide-line border-y border-line">
               {t.trainings.map((c) => (
                 <li key={c.name}>
