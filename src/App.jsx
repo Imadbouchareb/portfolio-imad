@@ -52,7 +52,7 @@ const Header = ({ t, route, theme, toggleTheme }) => {
     <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
         <Link to={home} className="display text-lg">{t.hero.name}</Link>
-        <nav aria-label="Navigation" className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Navigation" className="hidden items-center gap-7 lg:flex">
           {t.nav.map((n) => <Link key={n.href} to={navHref(n.href)} className="text-sm text-muted hover:text-ink">{n.label}</Link>)}
         </nav>
         <div className="flex items-center gap-1">
@@ -68,13 +68,13 @@ const Header = ({ t, route, theme, toggleTheme }) => {
           <a href={SITE.cv[route.lang]} download className="ml-1 flex items-center gap-2 rounded-md bg-ink px-3.5 py-2 text-sm font-medium text-paper hover:bg-ink/85">
             <Download size={15} /><span className="hidden sm:inline">{t.cv}</span><span className="sm:hidden">{t.cvShort}</span>
           </a>
-          <button onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open} className="rounded-md p-2 text-muted hover:text-ink md:hidden">
+          <button onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open} className="rounded-md p-2 text-muted hover:text-ink lg:hidden">
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
       {open && (
-        <nav aria-label="Navigation" className="border-t border-line px-5 py-2 md:hidden">
+        <nav aria-label="Navigation" className="border-t border-line px-5 py-2 lg:hidden">
           {t.nav.map((n) => (
             <Link key={n.href} to={navHref(n.href)} onClick={() => setOpen(false)} className="block py-3 text-base text-ink">{n.label}</Link>
           ))}
@@ -256,7 +256,7 @@ const Home = ({ t, lang }) => {
       </section>
 
       {/* Certifications et formation */}
-      <section aria-labelledby="credentials-title" className="border-t border-line py-20 sm:py-24">
+      <section id="certifications" aria-labelledby="credentials-title" className="scroll-mt-20 border-t border-line py-20 sm:py-24">
         <SectionTitle id="credentials-title" title={t.sections.credentials} />
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
           <div className="self-start rounded-xl bg-surface p-7">

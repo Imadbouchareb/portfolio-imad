@@ -20,6 +20,7 @@ export const content = {
       { label: 'Projets', href: '#projets' },
       { label: 'Parcours', href: '#parcours' },
       { label: 'Compétences', href: '#competences' },
+      { label: 'Certifications', href: '#certifications' },
       { label: 'Contact', href: '#contact' }
     ],
     cv: 'Télécharger le CV',
@@ -175,6 +176,7 @@ export const content = {
       { label: 'Projects', href: '#projets' },
       { label: 'Experience', href: '#parcours' },
       { label: 'Skills', href: '#competences' },
+      { label: 'Certifications', href: '#certifications' },
       { label: 'Contact', href: '#contact' }
     ],
     cv: 'Download CV',
