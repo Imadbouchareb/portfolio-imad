@@ -256,7 +256,7 @@ const Home = ({ t, lang }) => {
       </section>
 
       {/* Certifications et formation */}
-      <section id="certifications" aria-labelledby="credentials-title" className="scroll-mt-20 border-t border-line py-20 sm:py-24">
+      <section id="formation" aria-labelledby="credentials-title" className="scroll-mt-20 border-t border-line py-20 sm:py-24">
         <SectionTitle id="credentials-title" title={t.sections.credentials} />
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
           <div className="self-start rounded-xl bg-surface p-7">
