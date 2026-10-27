@@ -272,7 +272,16 @@ const Home = ({ t, lang }) => {
             </a>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-ink">{t.labels.trainings}</h3>
+            <h3 className="text-sm font-semibold text-ink">{t.labels.education}</h3>
+            <ul className="mt-3 divide-y divide-line border-y border-line">
+              {t.degrees.map((d) => (
+                <li key={d.title} className="flex items-baseline justify-between gap-4 py-3">
+                  <span><span className="text-ink">{d.title}</span><span className="block text-sm text-muted">{d.school}</span>{d.detail && <span className="block text-sm text-muted">{d.detail}</span>}</span>
+                  <span className="text-sm text-muted">{d.year}</span>
+                </li>
+              ))}
+            </ul>
+            <h3 className="mt-10 text-sm font-semibold text-ink">{t.labels.trainings}</h3>
             <ul className="mt-3 divide-y divide-line border-y border-line">
               {t.trainings.map((c) => (
                 <li key={c.name}>
@@ -281,15 +290,6 @@ const Home = ({ t, lang }) => {
                     <span><span className="text-ink">{c.name}</span><span className="text-sm text-muted">, {c.by}</span></span>
                     <span className="flex flex-none items-center gap-2 text-sm text-muted">{c.date}<ArrowUpRight size={14} /></span>
                   </a>
-                </li>
-              ))}
-            </ul>
-            <h3 className="mt-10 text-sm font-semibold text-ink">{t.labels.education}</h3>
-            <ul className="mt-3 divide-y divide-line border-y border-line">
-              {t.degrees.map((d) => (
-                <li key={d.title} className="flex items-baseline justify-between gap-4 py-3">
-                  <span><span className="text-ink">{d.title}</span><span className="block text-sm text-muted">{d.school}</span>{d.detail && <span className="block text-sm text-muted">{d.detail}</span>}</span>
-                  <span className="text-sm text-muted">{d.year}</span>
                 </li>
               ))}
             </ul>
