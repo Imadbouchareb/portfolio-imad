@@ -50,7 +50,7 @@ export const content = {
     },
     proof: [
       { value: '35–40', label: 'enseignes retail suivies chaque semaine', source: 'Groupe Rand' },
-      { value: '5 Go', label: "d'historique SAC converti en Parquet pour cinq rapports Power BI", source: 'Groupe Rand' },
+      { value: '52 min', label: 'pour actualiser cinq rapports Power BI, contre 3 h 55 avant la refonte', source: 'Groupe Rand' },
       { value: '−40 %', label: 'de temps de reporting manuel', source: 'SNCF' },
       { value: 'PL-300', label: 'Microsoft Power BI Data Analyst', source: 'Certifié en 2025' }
     ],
@@ -103,7 +103,7 @@ export const content = {
         points: [
           'Reporting Power BI quotidien, hebdomadaire et mensuel sur 35 à 40 enseignes en Europe et en Amérique du Nord.',
           'Dossiers d’analyse pour 2 à 7 rendez-vous commerciaux de la Direction Générale par semaine.',
-          'Migration de cinq rapports Power BI vers les données SAP Analytics Cloud : pipeline Python, DuckDB et Parquet, et une application qui contrôle chaque reporting face à SAC.',
+          'Migration de cinq rapports Power BI vers les données SAP Analytics Cloud : pipeline Python, DuckDB et Parquet (actualisation ramenée de 3 h 55 à 52 min), et une application qui contrôle chaque reporting face à SAC.',
           'Analyses test-contrôle en magasin et tableau d’alertes quotidien sur les ventes comparables.'
         ]
       },
@@ -206,7 +206,7 @@ export const content = {
     },
     proof: [
       { value: '35–40', label: 'retail chains tracked weekly', source: 'Groupe Rand' },
-      { value: '5 GB', label: 'of SAC history converted to Parquet for five Power BI reports', source: 'Groupe Rand' },
+      { value: '52 min', label: 'to refresh five Power BI reports, down from 3 h 55 before the rebuild', source: 'Groupe Rand' },
       { value: '−40%', label: 'manual reporting time', source: 'SNCF' },
       { value: 'PL-300', label: 'Microsoft Power BI Data Analyst', source: 'Certified 2025' }
     ],
@@ -258,7 +258,7 @@ export const content = {
         points: [
           'Daily, weekly and monthly Power BI reporting on 35 to 40 retail chains in Europe and North America.',
           'Analysis packs for 2 to 7 leadership client meetings a week.',
-          'Moved five Power BI reports onto SAP Analytics Cloud data: a Python, DuckDB and Parquet pipeline, and an app that checks every reporting against SAC.',
+          'Moved five Power BI reports onto SAP Analytics Cloud data: a Python, DuckDB and Parquet pipeline (refresh time cut from 3 h 55 to 52 min), and an app that checks every reporting against SAC.',
           'In-store test and control analysis, and a daily alert dashboard on like-for-like sales.'
         ]
       },
