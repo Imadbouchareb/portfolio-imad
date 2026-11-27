@@ -496,19 +496,19 @@ export const cases = [
       sector: 'Distribution retail, 2026',
       title: 'Le suivi CA hebdo des clients, généré en un glisser-déposer',
       summary:
-        'Un outil Python qui transforme le fichier de travail de chaque client en diffusion de la semaine : onglets figés et triés par rang, et une page de synthèse qui s’adapte au fichier. Utilisé chaque semaine par l’équipe, sur six clients.',
+        'Un outil Python qui transforme le fichier de travail de chaque client en diffusion de la semaine : onglets figés et triés par rang, et une page de synthèse qui s’adapte au fichier. La diffusion d’un fichier passe d’environ 5 minutes à la main à quelques secondes. Utilisé chaque semaine par l’équipe, aujourd’hui sur huit clients.',
       role: 'Conception, développement et mise à disposition de l’équipe',
       period: 'Septembre 2026',
       pagesTitle: 'Le reste de l’outil',
       caption: 'Diffusions produites par l’outil sur deux fichiers fictifs (clients, magasins et montants inventés).',
       context:
-        'Chaque semaine, le contrôle de gestion diffuse le suivi du chiffre d’affaires des magasins de plusieurs clients : des tests avec objectifs, des clients installés, en euros, en dollars ou en francs suisses. Le fichier de travail est alimenté par l’export SAP Analytics Cloud au moyen de formules SUMIFS. Pour diffuser, on copiait chaque onglet dans un nouveau classeur, on collait en valeurs, puis on triait les magasins par rang, client par client.',
+        'Chaque semaine, le contrôle de gestion diffuse le suivi du chiffre d’affaires des magasins de plusieurs clients : des tests avec objectifs, des clients installés, en euros, en dollars ou en francs suisses. Le fichier de travail est alimenté par l’export SAP Analytics Cloud au moyen de formules SUMIFS. Pour diffuser, on copiait chaque onglet dans un nouveau classeur, on collait en valeurs, on triait les magasins par rang onglet par onglet, puis on enregistrait le fichier sous le nom de la semaine : environ 5 minutes par fichier quand le client a plusieurs rayons. Et il n’y avait pas de page de synthèse.',
       challenge:
         'Aucun fichier n’a la même forme : un ou plusieurs rayons, un objectif ou non, une colonne centrale ou non, des devises différentes, des tests qui débordent sur l’année suivante. L’outil devait marcher sur tous sans réglage, être lancé par des collègues qui n’ouvrent jamais Python, et ne jamais abîmer le fichier de travail, qui porte la connexion SAC.',
       built: [
         'Un lanceur Windows : on glisse un ou plusieurs fichiers, ou un dossier, dans la fenêtre. Il trouve Python et installe la seule librairie nécessaire si elle manque.',
         'Une détection de la structure : onglets de suivi, lignes Total Réel et Total Objectif, rayons, centrales, devise, année et première semaine.',
-        'La diffusion : onglets figés en valeurs, magasins triés par rang avec leur mise en forme, onglets sources et complément SAC retirés, fichier nommé « Diffusion SXX ».',
+        'La diffusion : onglets figés en valeurs, magasins triés par rang avec leur mise en forme, onglets sources et complément SAC retirés, fichier nommé « Diffusion SXX » et enregistré directement dans le bon dossier, en quelques secondes.',
         'Une page de synthèse, qui n’existait pas avant : réel face à l’objectif par rayon ou poids des rayons, trois dernières semaines, répartition par centrale, rappels du suivi, avancement du test et graphique.',
         'Des contrôles avant diffusion : Total Réel comparé jour par jour à l’export SAC, calcul manuel signalé, ventes sans onglet rayon reprises dans une ligne « Autres rayons ».',
         'Un journal de chaque exécution et des messages en clair dans la fenêtre.'
@@ -522,7 +522,7 @@ export const cases = [
         { title: 'Corriger à partir du journal', text: 'Chaque exécution est journalisée. Le journal a montré deux erreurs qui revenaient : une diffusion déjà ouverte par un collègue et un fichier déposé deux fois. La version suivante les traite, et charge un fichier de 33 Mo en quelques secondes au lieu de deux minutes et demie, en vidant les onglets lourds inutiles avant lecture.' }
       ],
       result:
-        '65 exécutions en cinq semaines par deux personnes de l’équipe, sur six clients, dont 61 sans erreur. La diffusion de la semaine se fait en un glisser-déposer, avec une page de synthèse qui n’existait pas avant.',
+        'La diffusion d’un fichier passe d’environ 5 minutes à la main, quand le client a plusieurs rayons, à quelques secondes en un glisser-déposer, avec une page de synthèse qui n’existait pas avant. L’outil est utilisé chaque semaine par l’équipe, aujourd’hui sur huit clients ; sur ses cinq premières semaines, le journal compte 65 exécutions par deux personnes, dont 61 sans erreur.',
       next: 'Un jeu de fichiers fictifs couvrant tous les cas (avec ou sans objectif, plusieurs rayons, centrales, devises, test à cheval sur deux années), relancé à chaque nouvelle version pour vérifier les sorties.'
     },
     en: {
@@ -530,19 +530,19 @@ export const cases = [
       sector: 'Retail distribution, 2026',
       title: 'Weekly client sales tracking, built with one drag and drop',
       summary:
-        'A Python tool that turns each client’s working file into the weekly file to send: frozen tabs sorted by rank, plus a summary page that adapts to the file. Used every week by the team, across six clients.',
+        'A Python tool that turns each client’s working file into the weekly file to send: frozen tabs sorted by rank, plus a summary page that adapts to the file. Sending one file goes from about 5 minutes by hand to a few seconds. Used every week by the team, now across eight clients.',
       role: 'Design, development and rollout to the team',
       period: 'September 2026',
       pagesTitle: 'The rest of the tool',
       caption: 'Weekly files produced by the tool from two fictional working files (clients, stores and amounts made up).',
       context:
-        'Every week, the controlling team sends out store sales tracking for several clients: tests with targets, established clients, in euros, dollars or Swiss francs. The working file is fed by the SAP Analytics Cloud export through SUMIFS formulas. To send it, each tab was copied into a new workbook, pasted as values, then stores were sorted by rank, client by client.',
+        'Every week, the controlling team sends out store sales tracking for several clients: tests with targets, established clients, in euros, dollars or Swiss francs. The working file is fed by the SAP Analytics Cloud export through SUMIFS formulas. To send it, each tab was copied into a new workbook, pasted as values, stores were sorted by rank tab by tab, then the file was saved under the week’s name: about 5 minutes per file when the client has several departments. And there was no summary page.',
       challenge:
         'No two files share the same shape: one or several departments, a target or not, a distribution centre column or not, different currencies, tests running into the next year. The tool had to work on all of them with no settings, be launched by colleagues who never open Python, and never damage the working file, which holds the SAC connection.',
       built: [
         'A Windows launcher: drop one or several files, or a folder, into the window. It finds Python and installs the one library it needs if missing.',
         'Structure detection: tracking tabs, Actual and Target total rows, departments, distribution centres, currency, year and first week.',
-        'The weekly file: tabs frozen as values, stores sorted by rank with their formatting, source tabs and SAC add-in removed, file named “Diffusion SXX”.',
+        'The weekly file: tabs frozen as values, stores sorted by rank with their formatting, source tabs and SAC add-in removed, file named “Diffusion SXX” and saved straight into the right folder, in a few seconds.',
         'A summary page that did not exist before: actual against target by department or department share, last three weeks, split by distribution centre, tracking notes, test progress and a chart.',
         'Checks before sending: Actual total compared day by day with the SAC export, manual calculation flagged, sales with no department tab shown on an “Other departments” line.',
         'A log of every run and plain-language messages in the window.'
@@ -556,7 +556,7 @@ export const cases = [
         { title: 'Fix from the log', text: 'Every run is logged. The log showed two recurring errors: a weekly file already open on a colleague’s machine, and a file dropped twice. The next version handles both, and loads a 33 MB file in a few seconds instead of two and a half minutes by emptying heavy unused tabs before reading.' }
       ],
       result:
-        '65 runs in five weeks by two people on the team, across six clients, 61 of them without error. The weekly file takes one drag and drop, with a summary page that did not exist before.',
+        'Sending one file goes from about 5 minutes by hand, when the client has several departments, to a few seconds with one drag and drop, with a summary page that did not exist before. The tool is used every week by the team, now across eight clients; over its first five weeks, the log shows 65 runs by two people, 61 of them without error.',
       next: 'A set of fictional files covering every case (with or without targets, several departments, distribution centres, currencies, a test spanning two years), rerun with every new version to check the outputs.'
     }
   },
