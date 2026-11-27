@@ -152,47 +152,84 @@ export const AlertsVisual = ({ lang }) => {
 
 /* ---------------- Étude 2 : pipeline ---------------- */
 
+const PipelineFlow = ({ steps, around, compact, hi }) => (
+  <>
+    <ol className={compact ? 'grid grid-cols-2 gap-2' : 'grid gap-2 sm:grid-cols-5 sm:gap-0'}>
+      {steps.map((s, i) => (
+        <li key={s.t} className="relative flex sm:block">
+          <div className={`flex-1 rounded-lg border p-3 ${compact ? '' : 'sm:mr-5 sm:h-full'} ${i === hi ? 'border-accent bg-paper' : 'border-line bg-paper'}`}>
+            <p className="text-[11px] text-muted">{i + 1}</p>
+            <p className="mt-0.5 font-semibold leading-snug text-ink">{s.t}</p>
+            <p className="mt-1.5 text-xs leading-relaxed text-muted">{s.d}</p>
+          </div>
+          {!compact && i < steps.length - 1 && (
+            <span aria-hidden="true" className="absolute right-0 top-1/2 hidden h-px w-5 -translate-y-1/2 bg-ink/40 sm:block">
+              <span className="absolute -right-0.5 -top-[3px] h-0 w-0 border-y-[3.5px] border-l-[5px] border-y-transparent border-l-ink/40" />
+            </span>
+          )}
+        </li>
+      ))}
+    </ol>
+    <ul className={`mt-3 grid gap-2 text-xs text-muted ${compact ? '' : 'sm:grid-cols-3'}`}>
+      {around.map((x) => <li key={x} className="rounded-lg border border-dashed border-line p-3 leading-relaxed">{x}</li>)}
+    </ul>
+  </>
+);
+
 export const PipelineVisual = ({ lang, compact }) => {
   const fr = lang === 'fr';
-  const steps = fr
-    ? [
-        { t: 'Base SAP HANA', d: 'Ventes, produits et magasins, en lecture seule, mémoire plafonnée par requête' },
-        { t: 'SQL par rapport', d: 'Filtré, joint au produit et regroupé par HANA, au grain du rapport' },
-        { t: 'Un mois à la fois', d: 'Chaque mois dans une vue Power Query, lu seulement au moment voulu' },
-        { t: 'Contrôles', d: 'Devise sans taux = arrêt ; chiffres validés face à l’ancienne version' },
-        { t: 'Power BI', d: 'Chargement réécrit ; tables, relations et mesures inchangées' }
-      ]
-    : [
-        { t: 'SAP HANA database', d: 'Sales, products and stores, read-only, memory capped per query' },
-        { t: 'SQL per report', d: 'Filtered, joined to products and grouped by HANA, at the report’s grain' },
-        { t: 'One month at a time', d: 'Each month in a Power Query view, read only when needed' },
-        { t: 'Checks', d: 'Currency with no rate = stop; figures validated against the old version' },
-        { t: 'Power BI', d: 'Loading queries rewritten; tables, relationships and measures unchanged' }
-      ];
-  const around = fr
-    ? ['Taux de change : dernier taux de SAC, en attendant une table de taux dans HANA', 'Historique 2019-2023, fréquentation et budgets Excel : fichiers conservés', 'En secours : la première étape, Python et DuckDB sur les exports SAC']
-    : ['Exchange rates: SAC’s latest rate, until a rate table exists in HANA', '2019-2023 history, footfall and Excel budgets: files kept', 'Fallback: the first stage, Python and DuckDB on the SAC exports'];
+  const v1 = {
+    label: fr ? 'Version 1 : Python et Parquet, sans accès à la base' : 'Version 1: Python and Parquet, without database access',
+    steps: fr
+      ? [
+          { t: 'Exports SAC', d: 'Un historique de 5 Go, puis un fichier CSV par jour' },
+          { t: 'Python et DuckDB', d: 'Décode, type, agrège au jour × magasin × article, refuse les doublons' },
+          { t: 'Parquet mensuels', d: 'Un socle commun, un fichier par mois, compressé' },
+          { t: 'Un jeu par rapport', d: 'Réduit au grain utile, contrôlé avant d’être écrit' },
+          { t: 'Power BI', d: 'Chargement réécrit ; tables, relations et mesures inchangées' }
+        ]
+      : [
+          { t: 'SAC exports', d: 'A 5 GB history file, then one CSV file per day' },
+          { t: 'Python and DuckDB', d: 'Decodes, types, aggregates by day × store × item, rejects duplicates' },
+          { t: 'Monthly Parquet', d: 'One shared base, one compressed file per month' },
+          { t: 'One set per report', d: 'Cut to the grain each report needs, checked before writing' },
+          { t: 'Power BI', d: 'Loading queries rewritten; tables, relationships and measures unchanged' }
+        ],
+    around: fr
+      ? ['Taux de change SAC : euros recalculés à chaque actualisation', 'Magasins (SAP HANA) et budgets Excel : conservés', 'Kit d’exploitation : un double-clic le matin, vert, jaune ou rouge']
+      : ['SAC exchange rates: euros recalculated at every refresh', 'Stores (SAP HANA) and Excel budgets: kept', 'Run kit: one double-click each morning, green, amber or red']
+  };
+  const v2 = {
+    label: fr ? 'Version 2 : lecture directe de SAP HANA' : 'Version 2: reading SAP HANA directly',
+    steps: fr
+      ? [
+          { t: 'Base SAP HANA', d: 'Ventes, produits et magasins, en lecture seule, mémoire plafonnée par requête' },
+          { t: 'SQL par rapport', d: 'Filtré, joint au produit et regroupé par HANA, au grain du rapport' },
+          { t: 'Un mois à la fois', d: 'Chaque mois dans une vue Power Query, lu seulement au moment voulu' },
+          { t: 'Contrôles', d: 'Devise sans taux = arrêt ; chiffres validés face à l’ancienne version' },
+          { t: 'Power BI', d: 'Chargement réécrit ; tables, relations et mesures inchangées' }
+        ]
+      : [
+          { t: 'SAP HANA database', d: 'Sales, products and stores, read-only, memory capped per query' },
+          { t: 'SQL per report', d: 'Filtered, joined to products and grouped by HANA, at the report’s grain' },
+          { t: 'One month at a time', d: 'Each month in a Power Query view, read only when needed' },
+          { t: 'Checks', d: 'Currency with no rate = stop; figures validated against the old version' },
+          { t: 'Power BI', d: 'Loading queries rewritten; tables, relationships and measures unchanged' }
+        ],
+    around: fr
+      ? ['Taux de change : dernier taux de SAC, en attendant une table de taux dans HANA', 'Historique 2019-2023, fréquentation et budgets Excel : fichiers conservés', 'En secours : la version 1, Python et DuckDB sur les exports SAC']
+      : ['Exchange rates: SAC’s latest rate, until a rate table exists in HANA', '2019-2023 history, footfall and Excel budgets: files kept', 'Fallback: version 1, Python and DuckDB on the SAC exports']
+  };
+  if (compact) return <div className="p-5 sm:p-6"><PipelineFlow {...v2} compact hi={1} /></div>;
   return (
-    <div className="p-5 sm:p-6">
-      <ol className={compact ? 'grid grid-cols-2 gap-2' : 'grid gap-2 sm:grid-cols-5 sm:gap-0'}>
-        {steps.map((s, i) => (
-          <li key={s.t} className="relative flex sm:block">
-            <div className={`flex-1 rounded-lg border p-3 ${compact ? '' : 'sm:mr-5 sm:h-full'} ${i === 1 ? 'border-accent bg-paper' : 'border-line bg-paper'}`}>
-              <p className="text-[11px] text-muted">{i + 1}</p>
-              <p className="mt-0.5 font-semibold leading-snug text-ink">{s.t}</p>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted">{s.d}</p>
-            </div>
-            {!compact && i < steps.length - 1 && (
-              <span aria-hidden="true" className="absolute right-0 top-1/2 hidden h-px w-5 -translate-y-1/2 bg-ink/40 sm:block">
-                <span className="absolute -right-0.5 -top-[3px] h-0 w-0 border-y-[3.5px] border-l-[5px] border-y-transparent border-l-ink/40" />
-              </span>
-            )}
-          </li>
-        ))}
-      </ol>
-      <ul className={`mt-3 grid gap-2 text-xs text-muted ${compact ? '' : 'sm:grid-cols-3'}`}>
-        {around.map((x) => <li key={x} className="rounded-lg border border-dashed border-line p-3 leading-relaxed">{x}</li>)}
-      </ul>
+    <div className="space-y-6 p-5 sm:p-6">
+      {[v1, v2].map((v, k) => (
+        <div key={v.label}>
+          <p className="mb-2.5 text-xs font-semibold uppercase tracking-wide text-accent">{v.label}</p>
+          <PipelineFlow {...v} hi={1} />
+          {k === 0 && <div aria-hidden="true" className="mt-6 border-t border-dashed border-line" />}
+        </div>
+      ))}
     </div>
   );
 };

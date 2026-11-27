@@ -659,7 +659,7 @@ export const cases = [
         'Cinq rapports Power BI rebranchés de l’ancienne base SQL sur les données SAP, en trois versions et sans renommer une seule mesure. Faute d’accès à la base SAP HANA, une première version transforme les exports SAP Analytics Cloud avec Python et DuckDB (5 Go convertis en Parquet). Quand l’informatique ouvre enfin un accès en lecture seule, la version finale lit HANA directement, sans Python ni fichier intermédiaire. L’actualisation des cinq rapports passe de 3 h 55 à 54 minutes, chiffres validés face à l’ancienne version.',
       role: 'Conception, développement et documentation',
       period: '2026',
-      caption: 'Le circuit des données après la refonte : la lecture directe de SAP HANA.',
+      caption: 'Le circuit des données dans les deux versions : d’abord Python et Parquet sur les exports, puis la lecture directe de SAP HANA.',
       reportsTitle: 'Le dispositif en images',
       reportsIntro: 'Images reconstituées pour le portfolio : aucun nom de client, de serveur ni de dossier réel. Les durées et les volumes sont ceux du projet.',
       context:
@@ -704,7 +704,7 @@ export const cases = [
         'Five Power BI reports moved from the old SQL database onto SAP data, in three versions and without renaming a single measure. With no access to the SAP HANA database, a first version transforms the SAP Analytics Cloud exports with Python and DuckDB (5 GB turned into Parquet). Once IT finally opened read-only access, the final version reads HANA directly, with no Python and no intermediate files. Refresh time for the five reports drops from 3 h 55 to 54 minutes, with figures validated against the old version.',
       role: 'Design, build and documentation',
       period: '2026',
-      caption: 'How data flows after the rebuild: reading SAP HANA directly.',
+      caption: 'How data flows in both versions: first Python and Parquet on the exports, then direct reads from SAP HANA.',
       reportsTitle: 'The system in pictures',
       reportsIntro: 'Images recreated for the portfolio: no real client, server or folder names. Durations and volumes are the project’s own.',
       context:
