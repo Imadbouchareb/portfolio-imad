@@ -3,6 +3,108 @@
 
 export const cases = [
   {
+    slug: 'pipeline-donnees-ventes',
+    group: 'rand',
+    visual: 'pipeline',
+    stack: ['SAP HANA (SQL)', 'Power Query (M)', 'Power BI', 'Python', 'DuckDB', 'Parquet', 'SAP Analytics Cloud', 'Batch Windows'],
+    reports: [
+      { src: '/images/pipeline-ventes/1-avant-apres.webp', fr: 'Avant, chaque rapport refaisait son travail à chaque actualisation. Après, le travail lourd est fait hors de Power BI (par DuckDB, puis par HANA), et aucun nom ne change dans les modèles.', en: 'Before, every report redid its work at each refresh. After, the heavy lifting happens outside Power BI (in DuckDB, then in HANA), and no name changes in the models.' },
+      { src: '/images/pipeline-ventes/2-actualisation.webp', fr: 'Les durées d’actualisation des trois versions (avant, Python et Parquet, lecture directe de HANA), face aux limites de Power BI Pro : 3 h 55 pour les cinq rapports avant, 54 minutes après. À droite, le diagnostic qui a permis de lire HANA malgré son plafond de mémoire.', en: 'Refresh times for the three versions (before, Python and Parquet, direct HANA reads), against the Power BI Pro limits: 3 h 55 for the five reports before, 54 minutes after. On the right, the diagnosis that made HANA readable despite its memory cap.' },
+      { src: '/images/pipeline-ventes/3-kit.webp', fr: 'Version 1 : la mise à jour du matin, reconstituée sur des données fictives. Vert, on actualise ; jaune, un fichier déposé deux fois est refusé ; rouge, un fichier tronqué arrête tout.', en: 'Version 1: the morning update, recreated on fictional data. Green, refresh; amber, a file dropped twice is rejected; red, a truncated file stops everything.' },
+      { src: '/images/pipeline-ventes/4-pieges.webp', fr: 'Version 1 : les cas pièges rejoués sur un faux dossier de l’informatique avant la mise en service, puis les seuils de comparaison avec les anciens rapports.', en: 'Version 1: the trap cases replayed on a fake IT folder before go-live, then the comparison thresholds against the old reports.' }
+    ],
+    fr: {
+      kind: 'SQL, Python et Power BI',
+      sector: 'Distribution retail, 2026',
+      title: 'Refonte de la chaîne de données des rapports de ventes',
+      summary:
+        'Cinq rapports Power BI rebranchés de l’ancienne base SQL sur les données SAP, en trois versions et sans renommer une seule mesure. Faute d’accès à la base SAP HANA, une première version transforme les exports SAP Analytics Cloud avec Python et DuckDB (5 Go convertis en Parquet). Quand l’informatique ouvre enfin un accès en lecture seule, la version finale lit HANA directement, sans Python ni fichier intermédiaire. L’actualisation des cinq rapports passe de 3 h 55 à 54 minutes, chiffres validés face à l’ancienne version.',
+      role: 'Conception, développement et documentation',
+      period: '2026',
+      caption: 'Le circuit des données dans les deux versions : d’abord Python et Parquet sur les exports, puis la lecture directe de SAP HANA.',
+      reportsTitle: 'Le dispositif en images',
+      reportsIntro: 'Images reconstituées pour le portfolio : aucun nom de client, de serveur ni de dossier réel. Les durées et les volumes sont ceux du projet.',
+      context:
+        'Les chiffres de référence de l’entreprise viennent désormais de SAP Analytics Cloud. Cinq rapports Power BI lisaient encore l’ancien entrepôt SQL Server, un cube sémantique ou d’anciens fichiers : le suivi quotidien d’un client, le reporting hebdomadaire par pays, la trame des rendez-vous commerciaux, le tableau de bord des centrales et celui des magasins en propre. Il fallait les rebrancher sur les données SAP. Mais l’informatique n’ouvrait pas d’accès direct à la base SAP HANA : la seule source disponible était des fichiers CSV déposés chaque jour sur le réseau, un historique d’environ 5 Go puis un fichier par jour qui n’apporte que les nouveautés, rattrapages compris. En novembre, l’informatique a annoncé l’arrêt de ces exports et accepté d’ouvrir un accès en lecture seule à HANA.',
+      challenge:
+        'La licence Power BI Pro limite un modèle à 1 Go et une actualisation à 2 heures : lire 5 Go de CSV dans Power Query était hors de portée. Les rapports par pays posés sur le modèle hebdo appellent ses tables et ses mesures par leur nom, si bien qu’un seul renommage les casse sans que rien ne le signale. La direction voulait retrouver les chiffres de SAC, convertis au taux du jour. Et la mise à jour quotidienne devait pouvoir être lancée par une collègue sans notions de Python, sur un poste où Python n’est pas installé. Côté HANA, chaque requête de l’accès en lecture seule est plafonnée en mémoire : même vingt lignes brutes d’une vue de ventes étaient refusées.',
+      versionsTitle: 'Trois versions',
+      versions: [
+        { label: 'Avant', title: 'Les rapports sur l’ancienne base', time: '3 h 55', timeLabel: 'pour les cinq rapports', text: 'Entrepôt SQL Server, cube sémantique ou anciens fichiers. Chaque actualisation refaisait tout le travail dans Power Query : 1 h pour le reporting hebdo, le tableau des centrales et celui des magasins, 35 minutes pour la trame des rendez-vous, 20 pour le suivi quotidien.' },
+        { label: 'Version 1', title: 'Python et Parquet, sans accès à la base', time: '52 min', timeLabel: '+ le pipeline du matin', text: 'Pas d’accès à HANA : seuls les exports CSV de SAC sont disponibles. Un pipeline Python et DuckDB convertit 5 Go d’historique et chaque fichier du jour en Parquet mensuels, un jeu par rapport, avec un kit d’exploitation en trois boutons pour la collègue qui lance la mise à jour.' },
+        { label: 'Version 2', title: 'Lecture directe de SAP HANA', time: '54 min', timeLabel: 'sans script ni fichier', text: 'L’informatique ouvre un accès en lecture seule, plafonné en mémoire. Les rapports interrogent HANA en SQL, un mois à la fois : plus de Python ni de fichier intermédiaire, chiffres validés face à l’ancienne version. La version 1 reste en secours.' }
+      ],
+      built: [
+        'Version 1 : un pipeline Python et DuckDB qui convertit l’historique de 5 Go puis chaque fichier du jour, agrège au grain jour × magasin × article et écrit un fichier Parquet par mois, en temporaire puis remplacé.',
+        'Version 1 : un script d’agrégat par rapport, qui réduit environ 58 millions de lignes au grain du rapport et refuse d’écrire si quantités et montants ne retombent pas sur le socle commun.',
+        'Version 1 : un kit d’exploitation pour la personne qui lance la mise à jour, sans notions de Python : trois boutons, une fenêtre verte, jaune ou rouge, un journal par lancement, un verrou contre les doubles lancements et un Python portable.',
+        'Version 2 : des requêtes SQL envoyées directement à SAP HANA depuis Power BI, déjà filtrées, jointes au produit et regroupées au grain du rapport, lues un mois à la fois.',
+        'Version 2 : sept scripts Python de découverte et de contrôle de la base, en lecture seule : catalogue des tables et des vues, chiffres de chaque vue face à un rapport connu, diagnostic de mémoire, comparaison de requêtes.',
+        'Dans les deux versions, seules les requêtes de chargement des cinq modèles sont réécrites : tables, relations et quelque 460 mesures restent inchangées.',
+        'À chaque version, des validations chiffrées contre l’ancienne (seuils de 0,5 % sur le chiffre d’affaires et 0,2 % sur les quantités pour la version 1, contrôle vue par vue pour la version 2) et une documentation par rapport.'
+      ],
+      decisions: [
+        { phase: 'Les deux versions', title: 'Changer la source, pas le modèle', text: 'Aucune table, colonne, mesure ni relation n’est renommée : les fichiers de la version 1 comme les requêtes de la version 2 renvoient déjà les noms du modèle. Les visuels et les rapports par pays posés sur le modèle hebdo continuent de fonctionner sans retouche.' },
+        { phase: 'Les deux versions', title: 'Faire le travail lourd hors de Power Query', text: 'Power Query ne sait ni déléguer ni paralléliser la lecture d’un CSV : il redécoderait et réagrégerait 5 Go à chaque actualisation. Dans la version 1, DuckDB, un moteur SQL qui tourne dans le script sans serveur, fait ce travail une fois, en amont. Dans la version 2, c’est HANA qui filtre, joint et regroupe : Power BI ne reçoit que le résultat.' },
+        { phase: 'Version 1', title: 'Des fichiers mensuels plutôt que l’actualisation incrémentale', text: 'Sur des fichiers, chaque partition incrémentale relirait tout. Un Parquet par mois et une fenêtre glissante (année en cours et précédente) donnent le même gain sans cette fragilité, et le modèle cesse de grossir d’une année sur l’autre.' },
+        { phase: 'Version 1', title: 'Calculer par clé, pas par ligne', text: 'La première version Parquet du reporting hebdo mettait 2 h 08 à s’actualiser, deux fois plus que l’ancienne (1 h) et au-dessus de la limite : elle relisait les gros fichiers plusieurs fois et refaisait, sur 11 millions de lignes, des calculs qui ne dépendent que de quelques dizaines de milliers de combinaisons enseigne × magasin × rayon × devise. Faits une fois sur cette table de clés, ils ramènent l’actualisation à 8 minutes, avec les mêmes montants à la décimale.' },
+        { phase: 'Version 1', title: 'Refuser un doublon plutôt que compter deux fois', text: 'Les fichiers du jour contiennent aussi des corrections de jours déjà livrés. Le pipeline compare donc ticket par ticket : un contenu identique est refusé, un complément est additionné sans recompter les tickets. Tous les cas pièges ont été rejoués sur un faux dossier de l’informatique : 39 contrôles sur 39.' },
+        { phase: 'Version 2', title: 'Lire un mois après l’autre', text: 'Sur HANA, le reporting hebdo tombait en erreur de mémoire sur toute la période. Plutôt que deviner, un script a rejoué chaque cas séparément : un mois passe seul en 5 secondes, les 23 mois l’un après l’autre aussi (11,7 millions de lignes en 2 minutes), mais pas ouverts en même temps. C’est Power BI qui les lançait tous d’un coup pour lire leurs colonnes. Chaque mois est donc enveloppé dans une vue Power Query dont les colonnes sont données à l’avance, et n’est interrogé qu’au moment d’être lu. Le même schéma sert dans les cinq rapports.' },
+        { phase: 'Version 2', title: 'Mesurer la mémoire avant de réécrire', text: 'L’informatique a signalé des requêtes d’environ 2 Go. Chaque requête a été rejouée dans sa version d’origine et dans une version optimisée, avec la mémoire notée par HANA : à résultat identique, les requêtes optimisées consomment de 50 à 90 % de mémoire en moins (jointure sur la table produit plutôt que sur une vue, ventes regroupées avant la jointure, contrôles limités à trois mois). Les idées qui coûtaient plus ont été écartées.' },
+        { phase: 'Version 2', title: 'Ne retenir une vue qu’après un chiffre connu', text: 'Le texte SQL des vues n’est pas visible avec un accès en lecture seule. Aucune vue n’a donc été retenue sans contrôle : une semaine d’un client à 0,16 % de l’ancien rapport, les magasins en propre à 0,4 % au plus, et l’année 2024 identique hors euro, l’écart en euros étant expliqué par quatre codes absents et 35 magasins renumérotés.' },
+        { phase: 'Les deux versions', title: 'Garder la devise locale, convertir à l’actualisation', text: 'Les montants restent en devise locale, et l’euro est calculé au dernier taux de SAC, comme le demande la direction. Le fichier de taux ne contenait pas de ligne euro vers euro : sans elle, tout le chiffre d’affaires en euros aurait disparu sans la moindre erreur. Une devise sans taux arrête désormais l’actualisation plutôt que de fausser un total.' }
+      ],
+      result:
+        'Les cinq rapports lisent maintenant directement SAP HANA, et leurs chiffres ont été validés face à l’ancienne version. Mesurée dans Power BI Desktop, leur actualisation passe de 3 h 55 à 54 minutes au total (−77 %) : de 20 à 2 minutes pour le suivi quotidien du client, de 1 h à 15 minutes pour le reporting hebdo, de 1 h à 2 pour les magasins, de 1 h à 29 pour le tableau des centrales et de 35 à 6 pour la trame des rendez-vous. C’est à peine plus que la version 1 (52 minutes), sans le pipeline à lancer chaque matin ni fichier intermédiaire, et aucune mesure n’a été renommée. Les contrôles ont aussi mis au jour des défauts en amont : des ventes qui perdaient leur centrale dans une jointure, des exports d’historique tronqués par Excel à 1 048 575 lignes, des taux de change arrondis à deux décimales.',
+      next: 'Publier les cinq rapports sur le service et planifier leur actualisation, avec une passerelle installée sur un serveur plutôt que sur un poste. Remplacer le dernier fichier, celui des taux de change, quand une table de taux sera ouverte dans HANA.'
+    },
+    en: {
+      kind: 'SQL, Python and Power BI',
+      sector: 'Retail distribution, 2026',
+      title: 'Rebuilding the data pipeline behind sales reports',
+      summary:
+        'Five Power BI reports moved from the old SQL database onto SAP data, in three versions and without renaming a single measure. With no access to the SAP HANA database, a first version transforms the SAP Analytics Cloud exports with Python and DuckDB (5 GB turned into Parquet). Once IT finally opened read-only access, the final version reads HANA directly, with no Python and no intermediate files. Refresh time for the five reports drops from 3 h 55 to 54 minutes, with figures validated against the old version.',
+      role: 'Design, build and documentation',
+      period: '2026',
+      caption: 'How data flows in both versions: first Python and Parquet on the exports, then direct reads from SAP HANA.',
+      reportsTitle: 'The system in pictures',
+      reportsIntro: 'Images recreated for the portfolio: no real client, server or folder names. Durations and volumes are the project’s own.',
+      context:
+        'The company’s reference figures now come from SAP Analytics Cloud. Five Power BI reports still read the old SQL Server warehouse, a semantic cube or legacy files: daily tracking for a client, weekly reporting by country, the client meeting packs, the distribution centre dashboard and the own-store dashboard. They had to be moved onto SAP data. But IT did not open direct access to the SAP HANA database: the only available source was CSV files dropped on the network every day, a history file of about 5 GB, then one file per day carrying only what is new, late corrections included. In November, IT announced those exports would stop and agreed to open read-only access to HANA.',
+      challenge:
+        'Power BI Pro caps a model at 1 GB and a refresh at 2 hours: reading 5 GB of CSV in Power Query was out of reach. The country reports built on the weekly model call its tables and measures by name, so a single rename breaks them with nothing to flag it. Leadership wanted SAC’s figures, converted at the current rate. And the daily update had to be run by a colleague with no Python knowledge, on a workstation without Python. On the HANA side, every query from the read-only account is memory-capped: even twenty raw rows from a sales view were refused.',
+      versionsTitle: 'Three versions',
+      versions: [
+        { label: 'Before', title: 'Reports on the old database', time: '3 h 55', timeLabel: 'for the five reports', text: 'SQL Server warehouse, semantic cube or legacy files. Every refresh redid all the work in Power Query: 1 h for the weekly reporting, the distribution centre and the store dashboards, 35 minutes for the meeting packs, 20 for the daily tracking.' },
+        { label: 'Version 1', title: 'Python and Parquet, without database access', time: '52 min', timeLabel: '+ the morning pipeline', text: 'No HANA access: only the SAC CSV exports are available. A Python and DuckDB pipeline turns 5 GB of history and each daily file into monthly Parquet files, one set per report, with a three-button run kit for the colleague who runs the update.' },
+        { label: 'Version 2', title: 'Reading SAP HANA directly', time: '54 min', timeLabel: 'no script, no files', text: 'IT opens read-only access, memory-capped. The reports query HANA in SQL, one month at a time: no more Python or intermediate files, figures validated against the old version. Version 1 stays as a fallback.' }
+      ],
+      built: [
+        'Version 1: a Python and DuckDB pipeline that converts the 5 GB history and then each daily file, aggregates by day × store × item and writes one Parquet file per month, to a temporary file then swapped in.',
+        'Version 1: one aggregation script per report, cutting about 58 million rows down to the report’s grain and refusing to write if quantities and amounts do not match the shared base.',
+        'Version 1: a run kit for the person who runs the update, with no Python knowledge: three buttons, a green, amber or red window, a log for every run, a lock against double runs and a portable Python.',
+        'Version 2: SQL queries sent straight to SAP HANA from Power BI, already filtered, joined to products and grouped at the report’s grain, read one month at a time.',
+        'Version 2: seven read-only Python scripts to discover and check the database: catalogue of tables and views, each view’s figures against a known report, memory diagnosis, query comparison.',
+        'In both versions, only the loading queries of the five models are rewritten: tables, relationships and some 460 measures stay unchanged.',
+        'For each version, figure-by-figure validation against the old one (0.5% on sales and 0.2% on quantities for version 1, view-by-view checks for version 2) and documentation for each report.'
+      ],
+      decisions: [
+        { phase: 'Both versions', title: 'Change the source, not the model', text: 'No table, column, measure or relationship is renamed: version 1’s files and version 2’s queries already return the model’s names. Visuals and the country reports built on the weekly model keep working untouched.' },
+        { phase: 'Both versions', title: 'Do the heavy lifting outside Power Query', text: 'Power Query can neither delegate nor parallelise reading a CSV: it would decode and re-aggregate 5 GB at every refresh. In version 1, DuckDB, a SQL engine that runs inside the script with no server, does that work once, upstream. In version 2, HANA filters, joins and groups: Power BI only receives the result.' },
+        { phase: 'Version 1', title: 'Monthly files instead of incremental refresh', text: 'On files, every incremental partition would reread everything. One Parquet file per month and a rolling window (current and previous year) give the same gain without that fragility, and the model stops growing year after year.' },
+        { phase: 'Version 1', title: 'Compute per key, not per row', text: 'The first Parquet version of the weekly reporting took 2 h 08 to refresh, twice as long as the old one (1 h) and over the limit: it reread the large files several times and redid, on 11 million rows, calculations that only depend on a few tens of thousands of retailer × store × department × currency combinations. Done once on that key table, they bring the refresh down to 8 minutes, with the same amounts to the decimal.' },
+        { phase: 'Version 1', title: 'Reject a duplicate rather than count twice', text: 'Daily files also carry corrections to days already delivered. So the pipeline compares ticket by ticket: identical content is rejected, a top-up is added without recounting tickets. Every trap case was replayed on a fake IT folder: 39 checks out of 39.' },
+        { phase: 'Version 2', title: 'Read one month after another', text: 'On HANA, the weekly reporting hit a memory error over the full period. Instead of guessing, a script replayed each case on its own: one month passes alone in 5 seconds, the 23 months one after another too (11.7 million rows in 2 minutes), but not all opened at once. Power BI was launching them all together to read their columns. Each month is now wrapped in a Power Query view whose columns are declared upfront, and is only queried when it is read. The same pattern runs in all five reports.' },
+        { phase: 'Version 2', title: 'Measure memory before rewriting', text: 'IT flagged queries of about 2 GB. Each query was replayed in its original and an optimised version, with the memory recorded by HANA: for identical results, the optimised queries use 50 to 90% less memory (joining the product table rather than a view, grouping sales before the join, checks limited to three months). Ideas that cost more were dropped.' },
+        { phase: 'Version 2', title: 'Only keep a view after a known figure', text: 'The views’ SQL text is not visible to a read-only account. So no view was kept without a check: one week of a client within 0.16% of the old report, own stores within 0.4% at most, and 2024 identical outside the euro, the euro gap explained by four missing codes and 35 renumbered stores.' },
+        { phase: 'Both versions', title: 'Keep local currency, convert at refresh', text: 'Amounts stay in local currency, and euros are computed at SAC’s latest rate, as leadership asked. The rate file had no euro-to-euro row: without it, all sales in euros would have vanished without a single error. A currency with no rate now stops the refresh rather than skewing a total.' }
+      ],
+      result:
+        'The five reports now read SAP HANA directly, and their figures have been validated against the old version. Measured in Power BI Desktop, their refresh time drops from 3 h 55 to 54 minutes in total (−77%): from 20 to 2 minutes for the client’s daily tracking, 1 h to 15 minutes for the weekly reporting, 1 h to 2 for the stores, 1 h to 29 for the distribution centre dashboard and 35 to 6 for the meeting packs. That is barely more than version 1 (52 minutes), with no morning pipeline to run and no intermediate files, and no measure was renamed. The checks also surfaced upstream defects: sales losing their distribution centre in a join, history exports cut off by Excel at 1,048,575 rows, exchange rates rounded to two decimals.',
+      next: 'Publish the five reports to the service and schedule their refresh, with a gateway on a server rather than a workstation. Replace the last file, the exchange rates, once a rate table is opened in HANA.'
+    }
+  },
+  {
     slug: 'trame-rendez-vous-clients',
     group: 'rand',
     visual: 'shots',
@@ -227,181 +329,6 @@ export const cases = [
     }
   },
   {
-    slug: 'couverture-conduite-sncf',
-    group: 'sncf',
-    visual: 'shots',
-    stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint'],
-    shots: [
-      { src: '/images/couverture-conduite/0-ecran-origine.webp', fr: 'L’écran d’origine, celui que le pôle ouvrait chaque matin : une ligne par jour, les JS au tas, les ressources et les absences en colonnes, les week-ends repérés. Gardé comme page d’accueil, rebranché sur le modèle refondu.', en: 'The original screen the team opened every morning: one row per day, uncovered duties, resources and absences in columns, weekends flagged. Kept as the landing page, rewired to the rebuilt model.' },
-      { src: '/images/couverture-conduite/1-synthese.webp', fr: 'La synthèse du matin : les JS au tas des huit prochains jours par ligne, la marge de couverture et le statut de chaque jour.', en: 'The morning summary: uncovered duties for the next eight days by line, the coverage margin and each day’s status.' },
-      { src: '/images/couverture-conduite/2-jour-par-jour.webp', fr: 'La vue de travail du pôle : une ligne par jour, toutes les mesures, le statut en couleur.', en: 'The team’s working view: one row per day, every measure, status in colour.' },
-      { src: '/images/couverture-conduite/3-js-au-tas.webp', fr: 'Un jour de grève : les JS au tas une par une, les trains qu’elles portent, par branche et par heure de prise de service.', en: 'A strike day: uncovered duties one by one, the trains they carry, by branch and by start time.' },
-      { src: '/images/couverture-conduite/4-absences.webp', fr: 'Les absences non planifiables par motif et par dépôt, face aux JS au tas.', en: 'Unplanned absences by reason and depot, against uncovered duties.' }
-    ],
-    fr: {
-      kind: 'Power BI',
-      sector: 'SNCF, 2025',
-      title: 'Couverture de la conduite : les trains sans conducteur, chaque matin',
-      summary:
-        'Le rapport que le pôle Production Traction de l’établissement Transilien L, A et J ouvrait chaque matin : combien de journées de service restent sans conducteur, sur quelle ligne, quels trains elles portent, et si les conducteurs disponibles suffisent pour les couvrir.',
-      role: 'Conception du rapport en alternance, puis audit et refonte pour le portfolio',
-      period: '2025',
-      caption: 'Captures du rapport refondu, alimenté par des données entièrement fictives.',
-      context:
-        "Chaque jour de service d'un conducteur (une JS) porte une suite de trains. Une JS sans conducteur affecté, « au tas », c'est autant de trains menacés de suppression. Deux fois par jour, le planning de conduite est extrait et déposé sur SharePoint ; le pôle Production Traction s'en sert pour décider, chaque matin, quelles JS couvrir en priorité et avec quels conducteurs.",
-      challenge:
-        "Le rapport d'origine tenait en un grand tableau de 24 colonnes et 128 mesures, dont beaucoup en double. Le dossier lu était écrit en dur pour un mois donné, des mesures d'historique pointaient vers une table qui n'existait plus, et les JS étaient comptées par code sur la période, donc sous-comptées dans les totaux dès qu'on regardait plusieurs jours. Surtout, il disait combien de JS restaient au tas, pas si on pouvait les couvrir.",
-      built: [
-        'Un modèle propre : 37 mesures documentées et rangées par thème (charge, ressources, absences, pilotage) à la place des 128 d’origine.',
-        'Des règles métier écrites une seule fois, en colonnes calculées : JS non couverte, réserve non couverte, motif d’absence, ligne commerciale, type de train.',
-        'Une marge de couverture (conducteurs disponibles moins JS au tas) et un statut par jour : couvert, sous tension, découvert.',
-        'Un horizon de planification recalculé à chaque extraction : J à J+7, J+8 à J+14, J+15 à J+28, au-delà.',
-        'L’écran d’origine gardé en page d’accueil, rebranché sur le nouveau modèle, et cinq pages ajoutées : la synthèse du matin, la vue jour par jour, le détail des JS au tas avec leurs trains, les absences, et une page de définitions.'
-      ],
-      decisions: [
-        {
-          title: 'Une marge, pas seulement un stock',
-          text: "Vingt JS au tas avec trente conducteurs disponibles, ce n'est pas le même matin que vingt JS au tas avec dix. La marge et le statut du jour disent tout de suite où il faudra supprimer des trains si rien ne change."
-        },
-        {
-          title: 'Compter les JS jour par jour',
-          text: "Un même code de JS revient chaque jour. Un comptage distinct sur la période en perdait la plupart dès qu'on sélectionnait une semaine. Les mesures comptent maintenant jour par jour, puis additionnent."
-        },
-        {
-          title: 'Relier les JS aux trains',
-          text: "Chaque JS au tas est reliée aux trains qu'elle porte, en séparant les trains commerciaux des trains sans voyageurs. Le pôle voit l'impact pour les voyageurs, pas seulement un nombre de JS."
-        },
-        {
-          title: 'Lire selon l’horizon',
-          text: "Une JS au tas à J+20 est normale, à J+1 c'est une alerte. L'horizon, recalculé par rapport à la date d'extraction, sépare ce qui est urgent de ce que le planning comblera de lui-même."
-        }
-      ],
-      result:
-        "Chaque matin, une page répond aux trois questions du pôle : combien de JS restent à couvrir, sur quelle ligne et quels trains elles portent, et si les conducteurs disponibles suffisent. Les jours découverts sont repérés une semaine à l'avance, avec les JS et les trains concernés.",
-      next: "Lire automatiquement le dossier du mois en cours plutôt qu'un chemin écrit en dur, et reconstruire l'historique quotidien des JS au tas pour suivre la tendance d'un mois sur l'autre."
-    },
-    en: {
-      kind: 'Power BI',
-      sector: 'SNCF, 2025',
-      title: 'Driver coverage: trains without a driver, every morning',
-      summary:
-        'The report the train-driving production team of the Transilien L, A and J network opened every morning: how many duties still have no driver, on which line, which trains they carry, and whether the available drivers are enough to cover them.',
-      role: 'Built the report during my work-study, then audited and rebuilt it for this portfolio',
-      period: '2025',
-      caption: 'Screens of the rebuilt report, fed with entirely fictitious data.',
-      context:
-        'Each driver duty carries a sequence of trains. A duty with no driver assigned puts all those trains at risk of cancellation. Twice a day the driving schedule is extracted to SharePoint; the production team uses it every morning to decide which duties to cover first, and with whom.',
-      challenge:
-        'The original report was one 24-column table and 128 measures, many of them duplicates. The source folder was hard-coded to one month, history measures pointed to a table that no longer existed, and duties were counted by code over the period, so totals were undercounted as soon as several days were selected. Above all, it said how many duties were uncovered, not whether they could be covered.',
-      built: [
-        'A clean model: 37 documented measures grouped by theme (workload, resources, absences, steering) instead of the original 128.',
-        'Business rules written once, as calculated columns: uncovered duty, uncovered standby, absence reason, line, train type.',
-        'A coverage margin (available drivers minus uncovered duties) and a daily status: covered, under pressure, short.',
-        'A planning horizon recalculated at each extraction: D to D+7, D+8 to D+14, D+15 to D+28, beyond.',
-        'The original screen kept as the landing page, rewired to the new model, plus five new pages: the morning summary, the day-by-day view, uncovered duties with their trains, absences, and a definitions page.'
-      ],
-      decisions: [
-        { title: 'A margin, not just a backlog', text: 'Twenty uncovered duties with thirty available drivers is not the same morning as twenty with ten. The margin and the daily status show at once where trains will be cancelled if nothing changes.' },
-        { title: 'Count duties day by day', text: 'The same duty code comes back every day. A distinct count over the period lost most of them as soon as a week was selected. Measures now count day by day, then add up.' },
-        { title: 'Link duties to trains', text: 'Each uncovered duty is linked to the trains it carries, separating passenger trains from empty runs. The team sees the impact on passengers, not just a number of duties.' },
-        { title: 'Read by horizon', text: 'An uncovered duty at D+20 is normal; at D+1 it is an alert. The horizon, recalculated from the extraction date, separates what is urgent from what the schedule will fill on its own.' }
-      ],
-      result:
-        'Every morning, one page answers the team’s three questions: how many duties are left to cover, on which line and with which trains, and whether the available drivers are enough. Short days are spotted a week ahead, with the duties and trains involved.',
-      next: 'Read the current month’s folder automatically instead of a hard-coded path, and rebuild the daily history of uncovered duties to track the trend month after month.'
-    }
-  },
-  {
-    slug: 'bilan-performance-enseigne',
-    group: 'rand',
-    visual: 'shots',
-    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'Excel', 'PowerPoint'],
-    download: {
-      href: '/dossiers/bilan-enseigne-a.pdf',
-      fr: { title: 'Exemple', label: 'Le dossier complet (PDF, données fictives)' },
-      en: { title: 'Sample', label: 'The full pack (PDF, fictional data)' }
-    },
-    shots: [
-      { src: '/images/bilan-enseigne/1-synthese.webp', fr: 'Synthèse : magasins, VA, marge nette, démarque et écart au budget, sur l’année (P1) et sur les mois d’opération (P2).', en: 'Summary: stores, sales, net margin, markdown and gap to budget, for the year (P1) and the promotion months (P2).' },
-      { src: '/images/bilan-enseigne/2-courbe-mensuelle.webp', fr: 'VA comparable mois par mois face à 2025, les mois de l’opération en jaune.', en: 'Like-for-like sales month by month against 2025, promotion months in yellow.' },
-      { src: '/images/bilan-enseigne/3-constats-leviers.webp', fr: 'Constats et leviers pour la direction, avec le levier principal chiffré en deux hypothèses.', en: 'Findings and levers for leadership, with the main lever costed under two assumptions.' },
-      { src: '/images/bilan-enseigne/4-rayons-mois.webp', fr: 'Évolution face à N-1 par rayon et par mois : l’Acier et le Piercing portent la croissance.', en: 'Change against last year by department and month: Steel and Piercing drive growth.' },
-      { src: '/images/bilan-enseigne/5-tranches-prix.webp', fr: 'Ventes par tranche de prix du rayon Bijoux, affiliés et succursales : en période d’opération, les petits prix portent la remise.', en: 'Jewellery sales by price band, affiliates and company-owned stores: during the promotion, low prices carry the discount.' },
-      { src: '/images/bilan-enseigne/6-affilies-succursales.webp', fr: 'KPI des affiliés face aux succursales, et poids des tickets par type : OP+, OP simple, hors opération.', en: 'Affiliates against company-owned stores, and ticket share by type: OP+, simple OP, outside the promotion.' },
-      { src: '/images/bilan-enseigne/7-mix-rayons-tickets.webp', fr: 'Mix des rayons et des types de ticket, en VA et en quantités. Des barres empilées remplacent les seize camemberts d’origine.', en: 'Department and ticket-type mix, in sales and units. Stacked bars replace the original sixteen pie charts.' },
-      { src: '/images/bilan-enseigne/8-best-hors-best.webp', fr: 'Magasins Best (plus de +8 % face à N-1) et Hors Best, avec chaque magasin placé selon son évolution et son écart au budget.', en: 'Best stores (over +8% against last year) and the rest, with each store plotted by growth and gap to budget.' },
-      { src: '/images/bilan-enseigne/9-bilan-test.webp', fr: 'Le bilan du test de 2025 sur 8 magasins, face au réseau, avant la généralisation de l’opération.', en: 'The 2025 test on 8 stores, against the network, before the promotion was rolled out.' }
-    ],
-    fr: {
-      kind: 'Power BI',
-      sector: 'Distribution retail, 2026',
-      title: 'Bilan de performance d’une enseigne du groupe',
-      summary:
-        'L’analyse interne d’une enseigne du groupe, une trentaine de magasins en France et en Belgique : ventes comparables, marge au prix de revient, démarque, effet d’une opération commerciale testée en 2025 puis généralisée, et des leviers chiffrés pour la direction.',
-      role: 'Modèle, analyses et synthèse, en binôme',
-      period: 'Octobre 2026',
-      pagesTitle: 'Les autres pages du dossier',
-      caption: 'Pages au format du dossier remis à la direction, refaites avec des données fictives (enseigne, magasins et montants inventés).',
-      context:
-        'La direction fait le point sur l’année d’une des enseignes du groupe, en affiliation et en succursale. Une opération commerciale, des articles offerts à partir d’un certain nombre d’achats, a été testée en 2025 sur huit magasins, puis étendue à tout le réseau sur quatre mois de 2026. Les questions étaient simples : l’année est-elle bonne, que coûte l’opération en marge, et que faire ensuite ?',
-      challenge:
-        'Comparer des périmètres qui ne bougent pas, sur neuf mois et deux types de magasins. Calculer des marges à partir d’un prix de revient tenu dans un fichier à part, avec la TVA de chaque pays. Lire l’effet d’une opération étalée sur quatre mois non consécutifs. Et mesurer un test lancé à des dates différentes selon les magasins.',
-      built: [
-        'Une base comparable magasin × mois, appliquée à toutes les mesures : ventes, budget, tickets et coûts partagent exactement le même périmètre.',
-        'Deux périodes lues côte à côte sur chaque page : l’année (P1) et les mois d’opération (P2).',
-        'La marge nette par rayon au prix de revient, la démarque accordée, et les ventes par tranche de prix, en affiliés et en succursales.',
-        'Les KPI par type de magasin et par niveau de performance (Best au-delà de +8 %), le top 15 des magasins, le poids des tickets en opération.',
-        'Le bilan du test de 2025 face au réseau, semaine par semaine et magasin par magasin.',
-        'Une page de constats et de leviers chiffrés pour la direction, et une mesure de contrôle entre les deux tables de ventes avant chaque export.'
-      ],
-      decisions: [
-        { title: 'Comparer au mois et au magasin', text: 'Un couple magasin × mois n’entre dans les calculs que s’il a vendu les deux années. Un magasin fermé un mois ne perd que ce mois-là. La table des couples comparables filtre toutes les mesures par TREATAS : un seul périmètre pour tout le dossier, sans relation de plus.' },
-        { title: 'L’opération se lit sur ses mois', text: 'Sur l’année, quatre mois d’opération se noient dans les soldes et les mois creux. Chaque page affiche donc les mois d’opération à part, en jaune. La démarque passe de 38,8 % sur l’année à 24,2 % sur ces mois, et la marge nette monte à 79 %.' },
-        { title: 'Un test daté magasin par magasin', text: 'Les huit magasins test n’ont pas démarré le même jour. Le comparable part de la date de début de chacun, et un magasin sorti du test pendant 12 jours est exclu sur ces jours-là. Les magasins test font +27 % quand le réseau fait +5 %.' },
-        { title: 'Chiffrer le levier, avec deux hypothèses', text: 'Sur les mois d’opération, un ticket en opération fait 38 € contre 17,7 € hors opération. Passer de 58 % à 65 % de tickets en opération rapporterait 1 à 2 points de croissance sur l’année. L’hypothèse haute suppose que le client converti dépense comme les clients déjà en opération. L’hypothèse prudente n’en garde que la moitié, parce que ce sont les plus gros acheteurs qui adhèrent les premiers.' },
-        { title: 'Lire la démarque par tranche de prix', text: 'L’article offert est le moins cher du ticket. Les Bijoux à moins de 6 € font 24 % des quantités et portent 63 % de remise sur les mois d’opération. D’où le levier sur la grille de prix, en sachant que la valeur offerte montera avec le panier.' },
-        { title: 'Des barres empilées plutôt que seize camemberts', text: 'Le mix par rayon et par type de ticket se comparait sur seize camemberts. Quatre graphiques en barres empilées montrent les mêmes parts, et les quatre groupes, affiliés et succursales sur les deux périodes, se lisent d’un seul regard.' }
-      ],
-      result:
-        'Un dossier où l’année, les mois d’opération et le test se lisent sur le même périmètre comparable, et qui se termine par des leviers chiffrés. Sur l’exemple fictif : +4,8 % sur l’année mais −10 % face au budget, une opération qui touche 58 % des tickets sur ses mois, et des magasins Best qui en font passer 66 %.',
-      next: 'Suivre la part de tickets en opération magasin par magasin pendant la prochaine vague, et mesurer l’effet réel face au réseau plutôt que l’hypothèse.'
-    },
-    en: {
-      kind: 'Power BI',
-      sector: 'Retail distribution, 2026',
-      title: 'Performance review of one of the group’s banners',
-      summary:
-        'An internal review of one of the group’s banners, about thirty stores in France and Belgium: like-for-like sales, margin at cost price, markdown, the effect of a promotion tested in 2025 then rolled out, and costed levers for leadership.',
-      role: 'Model, analysis and summary, built as a pair',
-      period: 'October 2026',
-      pagesTitle: 'The other pages of the pack',
-      caption: 'Pages in the format of the pack given to leadership, rebuilt with fictional data (banner, stores and amounts made up).',
-      context:
-        'Leadership reviews the year of one of the group’s banners, across affiliate and company-owned stores. A promotion, free items above a number of purchases, was tested in 2025 in eight stores, then extended to the whole network over four months of 2026. The questions were simple: is the year good, what does the promotion cost in margin, and what next?',
-      challenge:
-        'Compare stable scopes over nine months and two store types. Compute margins from a cost price kept in a separate file, with each country’s VAT. Read the effect of a promotion spread over four non-consecutive months. And measure a test that started on different dates in different stores.',
-      built: [
-        'A store × month comparable base applied to every measure: sales, budget, tickets and costs share exactly the same scope.',
-        'Two periods side by side on every page: the year (P1) and the promotion months (P2).',
-        'Net margin by department at cost price, markdown, and sales by price band, for affiliates and company-owned stores.',
-        'KPIs by store type and performance level (Best above +8%), the top 15 stores, the share of promotion tickets.',
-        'The 2025 test against the network, week by week and store by store.',
-        'A findings and costed levers page for leadership, and a control measure between the two sales tables before every export.'
-      ],
-      decisions: [
-        { title: 'Comparable by month and store', text: 'A store × month pair only counts if it sold in both years. A store closed for a month loses that month only. The comparable pairs table filters every measure through TREATAS: one scope for the whole pack, with no extra relationship.' },
-        { title: 'The promotion is read on its own months', text: 'Over the year, four promotion months get lost among sales periods and quiet months. Every page shows them separately, in yellow. Markdown goes from 38.8% over the year to 24.2% on those months, and net margin rises to 79%.' },
-        { title: 'A test dated store by store', text: 'The eight test stores did not start on the same day. The comparison starts from each store’s own start date, and a store taken out of the test for 12 days is excluded on those days. Test stores grow 27% while the network grows 5%.' },
-        { title: 'Cost the lever, under two assumptions', text: 'During the promotion months, a promotion ticket averages €38 against €17.70 outside it. Going from 58% to 65% of tickets in the promotion would add 1 to 2 points of growth over the year. The high case assumes converted customers spend like those already in the promotion. The cautious case keeps half of that, because the biggest buyers join first.' },
-        { title: 'Read markdown by price band', text: 'The free item is the cheapest one in the basket. Jewellery under €6 makes 24% of units and carries a 63% discount during the promotion. Hence the price-grid lever, knowing that the value given away rises with the basket.' },
-        { title: 'Stacked bars instead of sixteen pies', text: 'Department and ticket-type mix used to be compared across sixteen pie charts. Four stacked bar charts show the same shares, and the four groups, affiliates and company-owned stores over both periods, read at a glance.' }
-      ],
-      result:
-        'A pack where the year, the promotion months and the test rest on the same comparable scope, ending with costed levers. On the fictional example: +4.8% over the year but −10% against budget, a promotion reaching 58% of tickets on its months, and Best stores reaching 66%.',
-      next: 'Track the share of promotion tickets store by store during the next wave, and measure the real effect against the network rather than the assumption.'
-    }
-  },
-  {
     slug: 'reconciliation-sac-power-bi',
     group: 'rand',
     visual: 'shots',
@@ -560,7 +487,6 @@ export const cases = [
       next: 'A set of fictional files covering every case (with or without targets, several departments, distribution centres, currencies, a test spanning two years), rerun with every new version to check the outputs.'
     }
   },
-
   {
     slug: 'affectation-agents-sncf',
     group: 'sncf',
@@ -641,314 +567,178 @@ export const cases = [
     }
   },
   {
-    slug: 'pipeline-donnees-ventes',
-    group: 'rand',
-    visual: 'pipeline',
-    stack: ['SAP HANA (SQL)', 'Power Query (M)', 'Power BI', 'Python', 'DuckDB', 'Parquet', 'SAP Analytics Cloud', 'Batch Windows'],
-    reports: [
-      { src: '/images/pipeline-ventes/1-avant-apres.webp', fr: 'Avant, chaque rapport refaisait son travail à chaque actualisation. Après, le travail lourd est fait hors de Power BI (par DuckDB, puis par HANA), et aucun nom ne change dans les modèles.', en: 'Before, every report redid its work at each refresh. After, the heavy lifting happens outside Power BI (in DuckDB, then in HANA), and no name changes in the models.' },
-      { src: '/images/pipeline-ventes/2-actualisation.webp', fr: 'Les durées d’actualisation des trois versions (avant, Python et Parquet, lecture directe de HANA), face aux limites de Power BI Pro : 3 h 55 pour les cinq rapports avant, 54 minutes après. À droite, le diagnostic qui a permis de lire HANA malgré son plafond de mémoire.', en: 'Refresh times for the three versions (before, Python and Parquet, direct HANA reads), against the Power BI Pro limits: 3 h 55 for the five reports before, 54 minutes after. On the right, the diagnosis that made HANA readable despite its memory cap.' },
-      { src: '/images/pipeline-ventes/3-kit.webp', fr: 'Version 1 : la mise à jour du matin, reconstituée sur des données fictives. Vert, on actualise ; jaune, un fichier déposé deux fois est refusé ; rouge, un fichier tronqué arrête tout.', en: 'Version 1: the morning update, recreated on fictional data. Green, refresh; amber, a file dropped twice is rejected; red, a truncated file stops everything.' },
-      { src: '/images/pipeline-ventes/4-pieges.webp', fr: 'Version 1 : les cas pièges rejoués sur un faux dossier de l’informatique avant la mise en service, puis les seuils de comparaison avec les anciens rapports.', en: 'Version 1: the trap cases replayed on a fake IT folder before go-live, then the comparison thresholds against the old reports.' }
-    ],
-    fr: {
-      kind: 'SQL, Python et Power BI',
-      sector: 'Distribution retail, 2026',
-      title: 'Refonte de la chaîne de données des rapports de ventes',
-      summary:
-        'Cinq rapports Power BI rebranchés de l’ancienne base SQL sur les données SAP, en trois versions et sans renommer une seule mesure. Faute d’accès à la base SAP HANA, une première version transforme les exports SAP Analytics Cloud avec Python et DuckDB (5 Go convertis en Parquet). Quand l’informatique ouvre enfin un accès en lecture seule, la version finale lit HANA directement, sans Python ni fichier intermédiaire. L’actualisation des cinq rapports passe de 3 h 55 à 54 minutes, chiffres validés face à l’ancienne version.',
-      role: 'Conception, développement et documentation',
-      period: '2026',
-      caption: 'Le circuit des données dans les deux versions : d’abord Python et Parquet sur les exports, puis la lecture directe de SAP HANA.',
-      reportsTitle: 'Le dispositif en images',
-      reportsIntro: 'Images reconstituées pour le portfolio : aucun nom de client, de serveur ni de dossier réel. Les durées et les volumes sont ceux du projet.',
-      context:
-        'Les chiffres de référence de l’entreprise viennent désormais de SAP Analytics Cloud. Cinq rapports Power BI lisaient encore l’ancien entrepôt SQL Server, un cube sémantique ou d’anciens fichiers : le suivi quotidien d’un client, le reporting hebdomadaire par pays, la trame des rendez-vous commerciaux, le tableau de bord des centrales et celui des magasins en propre. Il fallait les rebrancher sur les données SAP. Mais l’informatique n’ouvrait pas d’accès direct à la base SAP HANA : la seule source disponible était des fichiers CSV déposés chaque jour sur le réseau, un historique d’environ 5 Go puis un fichier par jour qui n’apporte que les nouveautés, rattrapages compris. En novembre, l’informatique a annoncé l’arrêt de ces exports et accepté d’ouvrir un accès en lecture seule à HANA.',
-      challenge:
-        'La licence Power BI Pro limite un modèle à 1 Go et une actualisation à 2 heures : lire 5 Go de CSV dans Power Query était hors de portée. Les rapports par pays posés sur le modèle hebdo appellent ses tables et ses mesures par leur nom, si bien qu’un seul renommage les casse sans que rien ne le signale. La direction voulait retrouver les chiffres de SAC, convertis au taux du jour. Et la mise à jour quotidienne devait pouvoir être lancée par une collègue sans notions de Python, sur un poste où Python n’est pas installé. Côté HANA, chaque requête de l’accès en lecture seule est plafonnée en mémoire : même vingt lignes brutes d’une vue de ventes étaient refusées.',
-      versionsTitle: 'Trois versions',
-      versions: [
-        { label: 'Avant', title: 'Les rapports sur l’ancienne base', time: '3 h 55', timeLabel: 'pour les cinq rapports', text: 'Entrepôt SQL Server, cube sémantique ou anciens fichiers. Chaque actualisation refaisait tout le travail dans Power Query : 1 h pour le reporting hebdo, le tableau des centrales et celui des magasins, 35 minutes pour la trame des rendez-vous, 20 pour le suivi quotidien.' },
-        { label: 'Version 1', title: 'Python et Parquet, sans accès à la base', time: '52 min', timeLabel: '+ le pipeline du matin', text: 'Pas d’accès à HANA : seuls les exports CSV de SAC sont disponibles. Un pipeline Python et DuckDB convertit 5 Go d’historique et chaque fichier du jour en Parquet mensuels, un jeu par rapport, avec un kit d’exploitation en trois boutons pour la collègue qui lance la mise à jour.' },
-        { label: 'Version 2', title: 'Lecture directe de SAP HANA', time: '54 min', timeLabel: 'sans script ni fichier', text: 'L’informatique ouvre un accès en lecture seule, plafonné en mémoire. Les rapports interrogent HANA en SQL, un mois à la fois : plus de Python ni de fichier intermédiaire, chiffres validés face à l’ancienne version. La version 1 reste en secours.' }
-      ],
-      built: [
-        'Version 1 : un pipeline Python et DuckDB qui convertit l’historique de 5 Go puis chaque fichier du jour, agrège au grain jour × magasin × article et écrit un fichier Parquet par mois, en temporaire puis remplacé.',
-        'Version 1 : un script d’agrégat par rapport, qui réduit environ 58 millions de lignes au grain du rapport et refuse d’écrire si quantités et montants ne retombent pas sur le socle commun.',
-        'Version 1 : un kit d’exploitation pour la personne qui lance la mise à jour, sans notions de Python : trois boutons, une fenêtre verte, jaune ou rouge, un journal par lancement, un verrou contre les doubles lancements et un Python portable.',
-        'Version 2 : des requêtes SQL envoyées directement à SAP HANA depuis Power BI, déjà filtrées, jointes au produit et regroupées au grain du rapport, lues un mois à la fois.',
-        'Version 2 : sept scripts Python de découverte et de contrôle de la base, en lecture seule : catalogue des tables et des vues, chiffres de chaque vue face à un rapport connu, diagnostic de mémoire, comparaison de requêtes.',
-        'Dans les deux versions, seules les requêtes de chargement des cinq modèles sont réécrites : tables, relations et quelque 460 mesures restent inchangées.',
-        'À chaque version, des validations chiffrées contre l’ancienne (seuils de 0,5 % sur le chiffre d’affaires et 0,2 % sur les quantités pour la version 1, contrôle vue par vue pour la version 2) et une documentation par rapport.'
-      ],
-      decisions: [
-        { phase: 'Les deux versions', title: 'Changer la source, pas le modèle', text: 'Aucune table, colonne, mesure ni relation n’est renommée : les fichiers de la version 1 comme les requêtes de la version 2 renvoient déjà les noms du modèle. Les visuels et les rapports par pays posés sur le modèle hebdo continuent de fonctionner sans retouche.' },
-        { phase: 'Les deux versions', title: 'Faire le travail lourd hors de Power Query', text: 'Power Query ne sait ni déléguer ni paralléliser la lecture d’un CSV : il redécoderait et réagrégerait 5 Go à chaque actualisation. Dans la version 1, DuckDB, un moteur SQL qui tourne dans le script sans serveur, fait ce travail une fois, en amont. Dans la version 2, c’est HANA qui filtre, joint et regroupe : Power BI ne reçoit que le résultat.' },
-        { phase: 'Version 1', title: 'Des fichiers mensuels plutôt que l’actualisation incrémentale', text: 'Sur des fichiers, chaque partition incrémentale relirait tout. Un Parquet par mois et une fenêtre glissante (année en cours et précédente) donnent le même gain sans cette fragilité, et le modèle cesse de grossir d’une année sur l’autre.' },
-        { phase: 'Version 1', title: 'Calculer par clé, pas par ligne', text: 'La première version Parquet du reporting hebdo mettait 2 h 08 à s’actualiser, deux fois plus que l’ancienne (1 h) et au-dessus de la limite : elle relisait les gros fichiers plusieurs fois et refaisait, sur 11 millions de lignes, des calculs qui ne dépendent que de quelques dizaines de milliers de combinaisons enseigne × magasin × rayon × devise. Faits une fois sur cette table de clés, ils ramènent l’actualisation à 8 minutes, avec les mêmes montants à la décimale.' },
-        { phase: 'Version 1', title: 'Refuser un doublon plutôt que compter deux fois', text: 'Les fichiers du jour contiennent aussi des corrections de jours déjà livrés. Le pipeline compare donc ticket par ticket : un contenu identique est refusé, un complément est additionné sans recompter les tickets. Tous les cas pièges ont été rejoués sur un faux dossier de l’informatique : 39 contrôles sur 39.' },
-        { phase: 'Version 2', title: 'Lire un mois après l’autre', text: 'Sur HANA, le reporting hebdo tombait en erreur de mémoire sur toute la période. Plutôt que deviner, un script a rejoué chaque cas séparément : un mois passe seul en 5 secondes, les 23 mois l’un après l’autre aussi (11,7 millions de lignes en 2 minutes), mais pas ouverts en même temps. C’est Power BI qui les lançait tous d’un coup pour lire leurs colonnes. Chaque mois est donc enveloppé dans une vue Power Query dont les colonnes sont données à l’avance, et n’est interrogé qu’au moment d’être lu. Le même schéma sert dans les cinq rapports.' },
-        { phase: 'Version 2', title: 'Mesurer la mémoire avant de réécrire', text: 'L’informatique a signalé des requêtes d’environ 2 Go. Chaque requête a été rejouée dans sa version d’origine et dans une version optimisée, avec la mémoire notée par HANA : à résultat identique, les requêtes optimisées consomment de 50 à 90 % de mémoire en moins (jointure sur la table produit plutôt que sur une vue, ventes regroupées avant la jointure, contrôles limités à trois mois). Les idées qui coûtaient plus ont été écartées.' },
-        { phase: 'Version 2', title: 'Ne retenir une vue qu’après un chiffre connu', text: 'Le texte SQL des vues n’est pas visible avec un accès en lecture seule. Aucune vue n’a donc été retenue sans contrôle : une semaine d’un client à 0,16 % de l’ancien rapport, les magasins en propre à 0,4 % au plus, et l’année 2024 identique hors euro, l’écart en euros étant expliqué par quatre codes absents et 35 magasins renumérotés.' },
-        { phase: 'Les deux versions', title: 'Garder la devise locale, convertir à l’actualisation', text: 'Les montants restent en devise locale, et l’euro est calculé au dernier taux de SAC, comme le demande la direction. Le fichier de taux ne contenait pas de ligne euro vers euro : sans elle, tout le chiffre d’affaires en euros aurait disparu sans la moindre erreur. Une devise sans taux arrête désormais l’actualisation plutôt que de fausser un total.' }
-      ],
-      result:
-        'Les cinq rapports lisent maintenant directement SAP HANA, et leurs chiffres ont été validés face à l’ancienne version. Mesurée dans Power BI Desktop, leur actualisation passe de 3 h 55 à 54 minutes au total (−77 %) : de 20 à 2 minutes pour le suivi quotidien du client, de 1 h à 15 minutes pour le reporting hebdo, de 1 h à 2 pour les magasins, de 1 h à 29 pour le tableau des centrales et de 35 à 6 pour la trame des rendez-vous. C’est à peine plus que la version 1 (52 minutes), sans le pipeline à lancer chaque matin ni fichier intermédiaire, et aucune mesure n’a été renommée. Les contrôles ont aussi mis au jour des défauts en amont : des ventes qui perdaient leur centrale dans une jointure, des exports d’historique tronqués par Excel à 1 048 575 lignes, des taux de change arrondis à deux décimales.',
-      next: 'Publier les cinq rapports sur le service et planifier leur actualisation, avec une passerelle installée sur un serveur plutôt que sur un poste. Remplacer le dernier fichier, celui des taux de change, quand une table de taux sera ouverte dans HANA.'
-    },
-    en: {
-      kind: 'SQL, Python and Power BI',
-      sector: 'Retail distribution, 2026',
-      title: 'Rebuilding the data pipeline behind sales reports',
-      summary:
-        'Five Power BI reports moved from the old SQL database onto SAP data, in three versions and without renaming a single measure. With no access to the SAP HANA database, a first version transforms the SAP Analytics Cloud exports with Python and DuckDB (5 GB turned into Parquet). Once IT finally opened read-only access, the final version reads HANA directly, with no Python and no intermediate files. Refresh time for the five reports drops from 3 h 55 to 54 minutes, with figures validated against the old version.',
-      role: 'Design, build and documentation',
-      period: '2026',
-      caption: 'How data flows in both versions: first Python and Parquet on the exports, then direct reads from SAP HANA.',
-      reportsTitle: 'The system in pictures',
-      reportsIntro: 'Images recreated for the portfolio: no real client, server or folder names. Durations and volumes are the project’s own.',
-      context:
-        'The company’s reference figures now come from SAP Analytics Cloud. Five Power BI reports still read the old SQL Server warehouse, a semantic cube or legacy files: daily tracking for a client, weekly reporting by country, the client meeting packs, the distribution centre dashboard and the own-store dashboard. They had to be moved onto SAP data. But IT did not open direct access to the SAP HANA database: the only available source was CSV files dropped on the network every day, a history file of about 5 GB, then one file per day carrying only what is new, late corrections included. In November, IT announced those exports would stop and agreed to open read-only access to HANA.',
-      challenge:
-        'Power BI Pro caps a model at 1 GB and a refresh at 2 hours: reading 5 GB of CSV in Power Query was out of reach. The country reports built on the weekly model call its tables and measures by name, so a single rename breaks them with nothing to flag it. Leadership wanted SAC’s figures, converted at the current rate. And the daily update had to be run by a colleague with no Python knowledge, on a workstation without Python. On the HANA side, every query from the read-only account is memory-capped: even twenty raw rows from a sales view were refused.',
-      versionsTitle: 'Three versions',
-      versions: [
-        { label: 'Before', title: 'Reports on the old database', time: '3 h 55', timeLabel: 'for the five reports', text: 'SQL Server warehouse, semantic cube or legacy files. Every refresh redid all the work in Power Query: 1 h for the weekly reporting, the distribution centre and the store dashboards, 35 minutes for the meeting packs, 20 for the daily tracking.' },
-        { label: 'Version 1', title: 'Python and Parquet, without database access', time: '52 min', timeLabel: '+ the morning pipeline', text: 'No HANA access: only the SAC CSV exports are available. A Python and DuckDB pipeline turns 5 GB of history and each daily file into monthly Parquet files, one set per report, with a three-button run kit for the colleague who runs the update.' },
-        { label: 'Version 2', title: 'Reading SAP HANA directly', time: '54 min', timeLabel: 'no script, no files', text: 'IT opens read-only access, memory-capped. The reports query HANA in SQL, one month at a time: no more Python or intermediate files, figures validated against the old version. Version 1 stays as a fallback.' }
-      ],
-      built: [
-        'Version 1: a Python and DuckDB pipeline that converts the 5 GB history and then each daily file, aggregates by day × store × item and writes one Parquet file per month, to a temporary file then swapped in.',
-        'Version 1: one aggregation script per report, cutting about 58 million rows down to the report’s grain and refusing to write if quantities and amounts do not match the shared base.',
-        'Version 1: a run kit for the person who runs the update, with no Python knowledge: three buttons, a green, amber or red window, a log for every run, a lock against double runs and a portable Python.',
-        'Version 2: SQL queries sent straight to SAP HANA from Power BI, already filtered, joined to products and grouped at the report’s grain, read one month at a time.',
-        'Version 2: seven read-only Python scripts to discover and check the database: catalogue of tables and views, each view’s figures against a known report, memory diagnosis, query comparison.',
-        'In both versions, only the loading queries of the five models are rewritten: tables, relationships and some 460 measures stay unchanged.',
-        'For each version, figure-by-figure validation against the old one (0.5% on sales and 0.2% on quantities for version 1, view-by-view checks for version 2) and documentation for each report.'
-      ],
-      decisions: [
-        { phase: 'Both versions', title: 'Change the source, not the model', text: 'No table, column, measure or relationship is renamed: version 1’s files and version 2’s queries already return the model’s names. Visuals and the country reports built on the weekly model keep working untouched.' },
-        { phase: 'Both versions', title: 'Do the heavy lifting outside Power Query', text: 'Power Query can neither delegate nor parallelise reading a CSV: it would decode and re-aggregate 5 GB at every refresh. In version 1, DuckDB, a SQL engine that runs inside the script with no server, does that work once, upstream. In version 2, HANA filters, joins and groups: Power BI only receives the result.' },
-        { phase: 'Version 1', title: 'Monthly files instead of incremental refresh', text: 'On files, every incremental partition would reread everything. One Parquet file per month and a rolling window (current and previous year) give the same gain without that fragility, and the model stops growing year after year.' },
-        { phase: 'Version 1', title: 'Compute per key, not per row', text: 'The first Parquet version of the weekly reporting took 2 h 08 to refresh, twice as long as the old one (1 h) and over the limit: it reread the large files several times and redid, on 11 million rows, calculations that only depend on a few tens of thousands of retailer × store × department × currency combinations. Done once on that key table, they bring the refresh down to 8 minutes, with the same amounts to the decimal.' },
-        { phase: 'Version 1', title: 'Reject a duplicate rather than count twice', text: 'Daily files also carry corrections to days already delivered. So the pipeline compares ticket by ticket: identical content is rejected, a top-up is added without recounting tickets. Every trap case was replayed on a fake IT folder: 39 checks out of 39.' },
-        { phase: 'Version 2', title: 'Read one month after another', text: 'On HANA, the weekly reporting hit a memory error over the full period. Instead of guessing, a script replayed each case on its own: one month passes alone in 5 seconds, the 23 months one after another too (11.7 million rows in 2 minutes), but not all opened at once. Power BI was launching them all together to read their columns. Each month is now wrapped in a Power Query view whose columns are declared upfront, and is only queried when it is read. The same pattern runs in all five reports.' },
-        { phase: 'Version 2', title: 'Measure memory before rewriting', text: 'IT flagged queries of about 2 GB. Each query was replayed in its original and an optimised version, with the memory recorded by HANA: for identical results, the optimised queries use 50 to 90% less memory (joining the product table rather than a view, grouping sales before the join, checks limited to three months). Ideas that cost more were dropped.' },
-        { phase: 'Version 2', title: 'Only keep a view after a known figure', text: 'The views’ SQL text is not visible to a read-only account. So no view was kept without a check: one week of a client within 0.16% of the old report, own stores within 0.4% at most, and 2024 identical outside the euro, the euro gap explained by four missing codes and 35 renumbered stores.' },
-        { phase: 'Both versions', title: 'Keep local currency, convert at refresh', text: 'Amounts stay in local currency, and euros are computed at SAC’s latest rate, as leadership asked. The rate file had no euro-to-euro row: without it, all sales in euros would have vanished without a single error. A currency with no rate now stops the refresh rather than skewing a total.' }
-      ],
-      result:
-        'The five reports now read SAP HANA directly, and their figures have been validated against the old version. Measured in Power BI Desktop, their refresh time drops from 3 h 55 to 54 minutes in total (−77%): from 20 to 2 minutes for the client’s daily tracking, 1 h to 15 minutes for the weekly reporting, 1 h to 2 for the stores, 1 h to 29 for the distribution centre dashboard and 35 to 6 for the meeting packs. That is barely more than version 1 (52 minutes), with no morning pipeline to run and no intermediate files, and no measure was renamed. The checks also surfaced upstream defects: sales losing their distribution centre in a join, history exports cut off by Excel at 1,048,575 rows, exchange rates rounded to two decimals.',
-      next: 'Publish the five reports to the service and schedule their refresh, with a gateway on a server rather than a workstation. Replace the last file, the exchange rates, once a rate table is opened in HANA.'
-    }
-  },
-
-  {
-    slug: 'suivi-quotidien-client',
+    slug: 'bilan-performance-enseigne',
     group: 'rand',
     visual: 'shots',
-    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'Excel', 'PowerPoint'],
+    download: {
+      href: '/dossiers/bilan-enseigne-a.pdf',
+      fr: { title: 'Exemple', label: 'Le dossier complet (PDF, données fictives)' },
+      en: { title: 'Sample', label: 'The full pack (PDF, fictional data)' }
+    },
     shots: [
-      { src: '/images/daily-retail/1-comparable-tous-pays.webp', fr: 'Page d’origine : le CA comparable semaine par semaine, tous pays, avec le détail par pays et par rayon de la semaine en cours.', en: 'Original page: like-for-like sales week by week, all countries, with the current week broken down by country and department.' },
-      { src: '/images/daily-retail/2-jauges-jour.webp', fr: 'Page d’origine : la veille face au budget de la semaine, rayon par rayon, sur le premier marché.', en: 'Original page: yesterday against the weekly budget, department by department, on the largest market.' },
-      { src: '/images/daily-retail/3-jauges-semaine.webp', fr: 'Page d’origine : la semaine close face au budget, avec l’écart en euros.', en: 'Original page: the closed week against budget, with the gap in euros.' },
-      { src: '/images/daily-retail/4-courbe-hebdo.webp', fr: 'Page d’origine : la courbe hebdomadaire 2026, 2025 et budget. Le texte en haut à droite rappelle la mise à jour manuelle de chaque semaine.', en: 'Original page: the weekly curve for 2026, 2025 and budget. The note at the top right is the manual update needed every week.' },
-      { src: '/images/daily-retail/5-synthese.webp', fr: 'Nouvelle page de synthèse : CA, évolution comparable, atteinte du budget et atterrissage, puis la courbe de l’année et les écarts par pays et par rayon.', en: 'New summary page: sales, like-for-like change, budget achievement and landing, then the year curve and gaps by country and department.' },
-      { src: '/images/daily-retail/6-pilotage-budget.webp', fr: 'Nouvelle page budget : atteinte par pays et par rayon, CA et budget par semaine close, écarts en euros.', en: 'New budget page: achievement by country and department, sales and budget per closed week, gaps in euros.' },
-      { src: '/images/daily-retail/7-magasins.webp', fr: 'Nouvelle page magasins : les plus fortes baisses et hausses en euros, et chaque magasin placé selon sa taille et son évolution.', en: 'New store page: the largest drops and gains in euros, and every store plotted by size and change.' }
+      { src: '/images/bilan-enseigne/1-synthese.webp', fr: 'Synthèse : magasins, VA, marge nette, démarque et écart au budget, sur l’année (P1) et sur les mois d’opération (P2).', en: 'Summary: stores, sales, net margin, markdown and gap to budget, for the year (P1) and the promotion months (P2).' },
+      { src: '/images/bilan-enseigne/2-courbe-mensuelle.webp', fr: 'VA comparable mois par mois face à 2025, les mois de l’opération en jaune.', en: 'Like-for-like sales month by month against 2025, promotion months in yellow.' },
+      { src: '/images/bilan-enseigne/3-constats-leviers.webp', fr: 'Constats et leviers pour la direction, avec le levier principal chiffré en deux hypothèses.', en: 'Findings and levers for leadership, with the main lever costed under two assumptions.' },
+      { src: '/images/bilan-enseigne/4-rayons-mois.webp', fr: 'Évolution face à N-1 par rayon et par mois : l’Acier et le Piercing portent la croissance.', en: 'Change against last year by department and month: Steel and Piercing drive growth.' },
+      { src: '/images/bilan-enseigne/5-tranches-prix.webp', fr: 'Ventes par tranche de prix du rayon Bijoux, affiliés et succursales : en période d’opération, les petits prix portent la remise.', en: 'Jewellery sales by price band, affiliates and company-owned stores: during the promotion, low prices carry the discount.' },
+      { src: '/images/bilan-enseigne/6-affilies-succursales.webp', fr: 'KPI des affiliés face aux succursales, et poids des tickets par type : OP+, OP simple, hors opération.', en: 'Affiliates against company-owned stores, and ticket share by type: OP+, simple OP, outside the promotion.' },
+      { src: '/images/bilan-enseigne/7-mix-rayons-tickets.webp', fr: 'Mix des rayons et des types de ticket, en VA et en quantités. Des barres empilées remplacent les seize camemberts d’origine.', en: 'Department and ticket-type mix, in sales and units. Stacked bars replace the original sixteen pie charts.' },
+      { src: '/images/bilan-enseigne/8-best-hors-best.webp', fr: 'Magasins Best (plus de +8 % face à N-1) et Hors Best, avec chaque magasin placé selon son évolution et son écart au budget.', en: 'Best stores (over +8% against last year) and the rest, with each store plotted by growth and gap to budget.' },
+      { src: '/images/bilan-enseigne/9-bilan-test.webp', fr: 'Le bilan du test de 2025 sur 8 magasins, face au réseau, avant la généralisation de l’opération.', en: 'The 2025 test on 8 stores, against the network, before the promotion was rolled out.' }
     ],
     fr: {
       kind: 'Power BI',
       sector: 'Distribution retail, 2026',
-      title: 'Suivi quotidien d’un client distributeur face au budget',
+      title: 'Bilan de performance d’une enseigne du groupe',
       summary:
-        'Le rapport envoyé chaque matin pour un client distributeur présent dans sept pays : la veille et la semaine face à N-1 et au budget, rayon par rayon. Repris, débarrassé de ses mises à jour manuelles et complété par trois pages d’analyse.',
-      role: 'Reprise du rapport, audit, corrections et trois nouvelles pages',
-      period: '2026',
-      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
+        'L’analyse interne d’une enseigne du groupe, une trentaine de magasins en France et en Belgique : ventes comparables, marge au prix de revient, démarque, effet d’une opération commerciale testée en 2025 puis généralisée, et des leviers chiffrés pour la direction.',
+      role: 'Modèle, analyses et synthèse, en binôme',
+      period: 'Octobre 2026',
+      pagesTitle: 'Les autres pages du dossier',
+      caption: 'Pages au format du dossier remis à la direction, refaites avec des données fictives (enseigne, magasins et montants inventés).',
       context:
-        "Le groupe gère plusieurs rayons dans les magasins d'une enseigne de distribution : plus de 200 points de vente répartis sur sept pays européens. Chaque matin, le rapport donne au client et à l'équipe commerciale le CA de la veille et de la semaine en cours, face à l'an dernier et au budget, avec un focus sur le premier marché.",
+        'La direction fait le point sur l’année d’une des enseignes du groupe, en affiliation et en succursale. Une opération commerciale, des articles offerts à partir d’un certain nombre d’achats, a été testée en 2025 sur huit magasins, puis étendue à tout le réseau sur quatre mois de 2026. Les questions étaient simples : l’année est-elle bonne, que coûte l’opération en marge, et que faire ensuite ?',
       challenge:
-        "Le rapport tenait par des gestes manuels : une formule de budget restant à modifier chaque semaine, une liste de 253 dates cochées dans un filtre de page pour borner l'an dernier, des dates d'objectif écrites dans les mesures et des historiques importés en CSV. Dix pages masquées pointaient vers des tables supprimées, et aucune page ne disait en un écran si le réseau tenait son budget.",
+        'Comparer des périmètres qui ne bougent pas, sur neuf mois et deux types de magasins. Calculer des marges à partir d’un prix de revient tenu dans un fichier à part, avec la TVA de chaque pays. Lire l’effet d’une opération étalée sur quatre mois non consécutifs. Et mesurer un test lancé à des dates différentes selon les magasins.',
       built: [
-        'Un audit du modèle : 14 pages dont 10 masquées, 67 mesures presque toutes rangées dans la table des magasins, deux mesures cassées par une table supprimée.',
-        'Une table de mesures dédiée, avec la dernière date de vente et la dernière semaine close calculées à partir des données.',
-        'Un budget comparé au CA sur le même périmètre : pays et rayons budgétés, semaines closes uniquement.',
-        'Une page de synthèse : CA, évolution comparable, atteinte du budget et atterrissage estimé, puis la courbe de l’année et les écarts par pays et par rayon.',
-        'Une page de pilotage du budget : atteinte par pays et par rayon, CA et budget par semaine, écarts en euros.',
-        'Une page magasins : les plus fortes baisses et hausses en euros, et un nuage de points magasin par magasin.'
+        'Une base comparable magasin × mois, appliquée à toutes les mesures : ventes, budget, tickets et coûts partagent exactement le même périmètre.',
+        'Deux périodes lues côte à côte sur chaque page : l’année (P1) et les mois d’opération (P2).',
+        'La marge nette par rayon au prix de revient, la démarque accordée, et les ventes par tranche de prix, en affiliés et en succursales.',
+        'Les KPI par type de magasin et par niveau de performance (Best au-delà de +8 %), le top 15 des magasins, le poids des tickets en opération.',
+        'Le bilan du test de 2025 face au réseau, semaine par semaine et magasin par magasin.',
+        'Une page de constats et de leviers chiffrés pour la direction, et une mesure de contrôle entre les deux tables de ventes avant chaque export.'
       ],
       decisions: [
-        {
-          title: 'La semaine close se déduit des ventes',
-          text: "Le budget restant était corrigé à la main chaque lundi. La mesure « Dernière semaine close » part de la dernière date de vente : un dimanche clôt la semaine, sinon on s'arrête à la précédente. Plus rien à toucher le lundi matin."
-        },
-        {
-          title: 'Comparer CA et budget sur le même périmètre',
-          text: "Le budget couvre six pays et six rayons, à partir de la semaine 6. Diviser le CA total par ce budget compte un pays et un rayon non budgétés, et une semaine entamée face à un budget de semaine pleine. Le calcul garde le même périmètre des deux côtés."
-        },
-        {
-          title: 'Garder le comparable d’origine',
-          text: "Le rapport définissait déjà un comparable au bon grain : magasin × jour de la semaine × semaine, avec un N-1 décalé de 364 jours. Je l'ai gardé et réutilisé dans les nouvelles pages plutôt que d'en créer un second, qui aurait donné un autre chiffre."
-        },
-        {
-          title: 'Un atterrissage simple, écrit sur la page',
-          text: "L'atterrissage prolonge le taux d'atteinte actuel sur les semaines restantes du budget. L'hypothèse est volontairement simple et affichée à côté du chiffre, pour que le client puisse la discuter."
-        },
-        {
-          title: 'Des couleurs calculées',
-          text: "Le vert et le rouge viennent de mesures (au-dessus ou en dessous de zéro, ou de 100 % du budget) appliquées aux barres, aux cartes et aux tableaux. Le dégradé de la matrice budget est centré sur 100 % d'atteinte."
-        }
+        { title: 'Comparer au mois et au magasin', text: 'Un couple magasin × mois n’entre dans les calculs que s’il a vendu les deux années. Un magasin fermé un mois ne perd que ce mois-là. La table des couples comparables filtre toutes les mesures par TREATAS : un seul périmètre pour tout le dossier, sans relation de plus.' },
+        { title: 'L’opération se lit sur ses mois', text: 'Sur l’année, quatre mois d’opération se noient dans les soldes et les mois creux. Chaque page affiche donc les mois d’opération à part, en jaune. La démarque passe de 38,8 % sur l’année à 24,2 % sur ces mois, et la marge nette monte à 79 %.' },
+        { title: 'Un test daté magasin par magasin', text: 'Les huit magasins test n’ont pas démarré le même jour. Le comparable part de la date de début de chacun, et un magasin sorti du test pendant 12 jours est exclu sur ces jours-là. Les magasins test font +27 % quand le réseau fait +5 %.' },
+        { title: 'Chiffrer le levier, avec deux hypothèses', text: 'Sur les mois d’opération, un ticket en opération fait 38 € contre 17,7 € hors opération. Passer de 58 % à 65 % de tickets en opération rapporterait 1 à 2 points de croissance sur l’année. L’hypothèse haute suppose que le client converti dépense comme les clients déjà en opération. L’hypothèse prudente n’en garde que la moitié, parce que ce sont les plus gros acheteurs qui adhèrent les premiers.' },
+        { title: 'Lire la démarque par tranche de prix', text: 'L’article offert est le moins cher du ticket. Les Bijoux à moins de 6 € font 24 % des quantités et portent 63 % de remise sur les mois d’opération. D’où le levier sur la grille de prix, en sachant que la valeur offerte montera avec le panier.' },
+        { title: 'Des barres empilées plutôt que seize camemberts', text: 'Le mix par rayon et par type de ticket se comparait sur seize camemberts. Quatre graphiques en barres empilées montrent les mêmes parts, et les quatre groupes, affiliés et succursales sur les deux périodes, se lisent d’un seul regard.' }
       ],
       result:
-        'Le rapport du matin ne demande plus de retouche hebdomadaire, et une page résume l’état du réseau face à 2025 et au budget. Sur les données fictives : +3,1 % en comparable et 97,8 % du budget atteint en semaine 41, avec un écart concentré sur le premier marché et le premier rayon.',
-      next: 'Remplacer la liste de dates du filtre de page par une borne calculée sur la dernière date de vente, charger les historiques depuis l’entrepôt plutôt que depuis des exports CSV, et signaler les magasins qui décrochent plusieurs semaines de suite.'
+        'Un dossier où l’année, les mois d’opération et le test se lisent sur le même périmètre comparable, et qui se termine par des leviers chiffrés. Sur l’exemple fictif : +4,8 % sur l’année mais −10 % face au budget, une opération qui touche 58 % des tickets sur ses mois, et des magasins Best qui en font passer 66 %.',
+      next: 'Suivre la part de tickets en opération magasin par magasin pendant la prochaine vague, et mesurer l’effet réel face au réseau plutôt que l’hypothèse.'
     },
     en: {
       kind: 'Power BI',
       sector: 'Retail distribution, 2026',
-      title: 'Daily tracking of a retail account against budget',
+      title: 'Performance review of one of the group’s banners',
       summary:
-        'The report sent every morning for a retail account present in seven countries: yesterday and the current week against last year and budget, department by department. Taken over, freed from its manual updates and extended with three analysis pages.',
-      role: 'Took over the report: audit, fixes and three new pages',
-      period: '2026',
-      caption: 'Screenshots of the Power BI report, running on fictional data.',
+        'An internal review of one of the group’s banners, about thirty stores in France and Belgium: like-for-like sales, margin at cost price, markdown, the effect of a promotion tested in 2025 then rolled out, and costed levers for leadership.',
+      role: 'Model, analysis and summary, built as a pair',
+      period: 'October 2026',
+      pagesTitle: 'The other pages of the pack',
+      caption: 'Pages in the format of the pack given to leadership, rebuilt with fictional data (banner, stores and amounts made up).',
       context:
-        'The group runs several departments inside the stores of a retail chain: more than 200 stores across seven European countries. Every morning, the report gives the account and the sales team yesterday’s sales and the current week, against last year and budget, with a focus on the largest market.',
+        'Leadership reviews the year of one of the group’s banners, across affiliate and company-owned stores. A promotion, free items above a number of purchases, was tested in 2025 in eight stores, then extended to the whole network over four months of 2026. The questions were simple: is the year good, what does the promotion cost in margin, and what next?',
       challenge:
-        'The report relied on manual steps: a remaining-budget formula edited every week, a list of 253 dates ticked in a page filter to bound last year, target dates written into measures and history tables imported from CSV. Ten hidden pages pointed at deleted tables, and no page showed at a glance whether the network was on budget.',
+        'Compare stable scopes over nine months and two store types. Compute margins from a cost price kept in a separate file, with each country’s VAT. Read the effect of a promotion spread over four non-consecutive months. And measure a test that started on different dates in different stores.',
       built: [
-        'A model audit: 14 pages including 10 hidden, 67 measures almost all stored in the store table, two measures broken by a deleted table.',
-        'A dedicated measure table, with the last sales date and the last closed week computed from the data.',
-        'Budget compared with sales on the same scope: budgeted countries and departments, closed weeks only.',
-        'A summary page: sales, like-for-like change, budget achievement and estimated landing, then the year curve and gaps by country and department.',
-        'A budget page: achievement by country and department, sales and budget per week, gaps in euros.',
-        'A store page: the largest drops and gains in euros, and a scatter plot store by store.'
+        'A store × month comparable base applied to every measure: sales, budget, tickets and costs share exactly the same scope.',
+        'Two periods side by side on every page: the year (P1) and the promotion months (P2).',
+        'Net margin by department at cost price, markdown, and sales by price band, for affiliates and company-owned stores.',
+        'KPIs by store type and performance level (Best above +8%), the top 15 stores, the share of promotion tickets.',
+        'The 2025 test against the network, week by week and store by store.',
+        'A findings and costed levers page for leadership, and a control measure between the two sales tables before every export.'
       ],
       decisions: [
-        {
-          title: 'The closed week comes from the sales',
-          text: 'The remaining budget was edited by hand every Monday. The “last closed week” measure starts from the last sales date: a Sunday closes the week, otherwise it stops at the previous one. Nothing left to edit on Monday morning.'
-        },
-        {
-          title: 'Compare sales and budget on the same scope',
-          text: 'The budget covers six countries and six departments, from week 6. Dividing total sales by that budget counts a country and a department with no budget, and a week in progress against a full-week budget. The calculation keeps the same scope on both sides.'
-        },
-        {
-          title: 'Keep the original like-for-like',
-          text: 'The report already defined like-for-like at the right grain: store × weekday × week, with last year shifted by 364 days. I kept it and reused it in the new pages rather than building a second one that would give a different figure.'
-        },
-        {
-          title: 'A simple landing, written on the page',
-          text: 'The landing extends the current achievement rate over the remaining budget weeks. The assumption is deliberately simple and shown next to the figure, so the account can challenge it.'
-        },
-        {
-          title: 'Computed colours',
-          text: 'Green and red come from measures (above or below zero, or 100% of budget) applied to bars, cards and tables. The budget matrix gradient is centred on 100% achievement.'
-        }
+        { title: 'Comparable by month and store', text: 'A store × month pair only counts if it sold in both years. A store closed for a month loses that month only. The comparable pairs table filters every measure through TREATAS: one scope for the whole pack, with no extra relationship.' },
+        { title: 'The promotion is read on its own months', text: 'Over the year, four promotion months get lost among sales periods and quiet months. Every page shows them separately, in yellow. Markdown goes from 38.8% over the year to 24.2% on those months, and net margin rises to 79%.' },
+        { title: 'A test dated store by store', text: 'The eight test stores did not start on the same day. The comparison starts from each store’s own start date, and a store taken out of the test for 12 days is excluded on those days. Test stores grow 27% while the network grows 5%.' },
+        { title: 'Cost the lever, under two assumptions', text: 'During the promotion months, a promotion ticket averages €38 against €17.70 outside it. Going from 58% to 65% of tickets in the promotion would add 1 to 2 points of growth over the year. The high case assumes converted customers spend like those already in the promotion. The cautious case keeps half of that, because the biggest buyers join first.' },
+        { title: 'Read markdown by price band', text: 'The free item is the cheapest one in the basket. Jewellery under €6 makes 24% of units and carries a 63% discount during the promotion. Hence the price-grid lever, knowing that the value given away rises with the basket.' },
+        { title: 'Stacked bars instead of sixteen pies', text: 'Department and ticket-type mix used to be compared across sixteen pie charts. Four stacked bar charts show the same shares, and the four groups, affiliates and company-owned stores over both periods, read at a glance.' }
       ],
       result:
-        'The morning report no longer needs a weekly edit, and one page sums up the network against 2025 and budget. On the fictional data: +3.1% like-for-like and 97.8% of budget achieved at week 41, with the gap concentrated on the largest market and the largest department.',
-      next: 'Replace the list of dates in the page filter with a bound computed from the last sales date, load history from the warehouse instead of CSV exports, and flag stores that fall behind several weeks in a row.'
+        'A pack where the year, the promotion months and the test rest on the same comparable scope, ending with costed levers. On the fictional example: +4.8% over the year but −10% against budget, a promotion reaching 58% of tickets on its months, and Best stores reaching 66%.',
+      next: 'Track the share of promotion tickets store by store during the next wave, and measure the real effect against the network rather than the assumption.'
     }
   },
   {
-    slug: 'analyse-messages-service-client',
-    group: 'hetic',
+    slug: 'couverture-conduite-sncf',
+    group: 'sncf',
     visual: 'shots',
-    stack: ['Python', 'Streamlit', 'Power BI', 'DAX', 'Power Query', 'pandas', 'Mistral AI'],
-    link: 'https://github.com/Imadbouchareb/LLMAnalyzer-SAV-Tweets',
+    stack: ['Power BI', 'DAX', 'Power Query', 'SharePoint'],
     shots: [
-      { src: '/images/sav-llm/0-file-attente.webp', fr: 'L’écran Agent SAV : la file d’attente, avec les tickets ouverts, les urgents et un menu par tâche (urgences, thèmes, affectations, exports, journal).', en: 'The support agent screen: the queue, with open and urgent tickets and a menu per task (urgent cases, topics, assignments, exports, log).' },
-      { src: '/images/sav-llm/1-accueil-roles.webp', fr: 'L’accueil : on importe le fichier produit par le pipeline, puis chacun ouvre l’écran de son rôle.', en: 'The landing page: import the file produced by the pipeline, then each person opens the screen for their role.' },
-      { src: '/images/sav-llm/2-ticket-suggestion.webp', fr: 'Un ticket ouvert : le résumé et la réponse proposés par le LLM à côté du message d’origine. L’agent accepte la suggestion ou écrit sa réponse.', en: 'An open ticket: the summary and reply suggested by the LLM next to the original message. The agent accepts the suggestion or writes their own.' },
-      { src: '/images/sav-llm/3-analyste-priorite.webp', fr: 'L’écran Analyste : les messages au-dessus du seuil de priorité, avec leur score, leur statut et leur thème.', en: 'The analyst screen: messages above the priority threshold, with their score, status and topic.' },
-      { src: '/images/sav-llm/4-priorite-temps.webp', fr: 'Le score de priorité de chaque message dans le temps, coloré par sentiment.', en: 'Each message’s priority score over time, coloured by sentiment.' },
-      { src: '/images/sav-llm/5-manager-operations.webp', fr: 'L’écran Manager, onglet Opérations : statuts des tickets, volume par jour et par heure, courbe horaire.', en: 'The manager screen, Operations tab: ticket statuses, volume by day and hour, hourly curve.' }
-    ],
-    reports: [
-      { src: '/images/sav-llm-pbi/0-vue-ensemble.webp', fr: 'La page d’origine, rebranchée sur les messages fictifs : publications collectées, messages clients, sentiment moyen, part d’urgents, volume par mois, thèmes et équipes.', en: 'The original page, rewired to the fictional messages: posts collected, customer messages, average sentiment, share of urgent messages, monthly volume, topics and teams.' },
-      { src: '/images/sav-llm-pbi/1-temporel.webp', fr: 'Quand les clients écrivent : chaleur jour × heure, sentiment par jour de la semaine, courbe horaire et cumul.', en: 'When customers write: day × hour heatmap, sentiment by weekday, hourly curve and running total.' },
-      { src: '/images/sav-llm-pbi/2-urgence.webp', fr: 'Les messages urgents un par un avec la raison détectée, le délai cible, la gravité et l’urgence par équipe.', en: 'Urgent messages one by one with the detected reason, target response time, severity and urgency by team.' },
-      { src: '/images/sav-llm-pbi/3-sentiment.webp', fr: 'Le sentiment : jauges, évolution mensuelle et nuage des mots-clés des messages négatifs (visuel Python).', en: 'Sentiment: gauges, monthly trend and a word cloud of keywords from negative messages (Python visual).' },
-      { src: '/images/sav-llm-pbi/4-incidents.webp', fr: 'Les journées de pic, les villes citées dans les messages et les intentions détectées par le LLM, croisées avec la gravité.', en: 'Peak days, cities mentioned in messages and the intents detected by the LLM, crossed with severity.' },
-      { src: '/images/sav-llm-pbi/5-priorite.webp', fr: 'Page ajoutée : le score de priorité de l’application SAV repris dans le rapport, par équipe, par mois et par thème, avec la liste des messages à traiter en premier.', en: 'Added page: the support app’s priority score brought into the report, by team, month and topic, with the list of messages to handle first.' },
-      { src: '/images/sav-llm-pbi/6-qualite.webp', fr: 'Page ajoutée : du flux collecté aux messages clients, et les deux définitions de l’urgence (règle de mots-clés et note du LLM) croisées.', en: 'Added page: from collected posts to customer messages, and the two definitions of urgency (keyword rule and LLM score) side by side.' }
-    ],
-    figures: [
-      { v: 'savFlow', fr: 'Du message brut à l’écran de l’agent : le pipeline LLM de l’équipe en amont, l’application SAV que j’ai créée en aval.', en: 'From raw message to the agent’s screen: the team’s LLM pipeline upstream, the support app I built downstream.' }
+      { src: '/images/couverture-conduite/0-ecran-origine.webp', fr: 'L’écran d’origine, celui que le pôle ouvrait chaque matin : une ligne par jour, les JS au tas, les ressources et les absences en colonnes, les week-ends repérés. Gardé comme page d’accueil, rebranché sur le modèle refondu.', en: 'The original screen the team opened every morning: one row per day, uncovered duties, resources and absences in columns, weekends flagged. Kept as the landing page, rewired to the rebuilt model.' },
+      { src: '/images/couverture-conduite/1-synthese.webp', fr: 'La synthèse du matin : les JS au tas des huit prochains jours par ligne, la marge de couverture et le statut de chaque jour.', en: 'The morning summary: uncovered duties for the next eight days by line, the coverage margin and each day’s status.' },
+      { src: '/images/couverture-conduite/2-jour-par-jour.webp', fr: 'La vue de travail du pôle : une ligne par jour, toutes les mesures, le statut en couleur.', en: 'The team’s working view: one row per day, every measure, status in colour.' },
+      { src: '/images/couverture-conduite/3-js-au-tas.webp', fr: 'Un jour de grève : les JS au tas une par une, les trains qu’elles portent, par branche et par heure de prise de service.', en: 'A strike day: uncovered duties one by one, the trains they carry, by branch and by start time.' },
+      { src: '/images/couverture-conduite/4-absences.webp', fr: 'Les absences non planifiables par motif et par dépôt, face aux JS au tas.', en: 'Unplanned absences by reason and depot, against uncovered duties.' }
     ],
     fr: {
-      kind: 'LLM et application',
-      pagesTitle: 'Les autres écrans de l’application',
-      flowsTitle: 'Le circuit des données',
-      sector: "Projet de fin d'études HETIC, 2025",
-      title: 'L’application SAV qui traite les messages clients analysés par un LLM',
+      kind: 'Power BI',
+      sector: 'SNCF, 2025',
+      title: 'Couverture de la conduite : les trains sans conducteur, chaque matin',
       summary:
-        'Un pipeline LLM lit les tweets adressés au service client et note chaque message : thème, sentiment, urgence, gravité, résumé, réponse proposée. J’ai créé l’application qui en fait un outil de travail : un écran pour l’analyste, un pour le manager, une file d’attente priorisée pour l’agent SAV. Et le rapport Power BI de pilotage sur la même sortie.',
-      role: 'Création et conception de l’application SAV, score de priorité, rapport Power BI, nettoyage des données du pipeline local. Projet à trois en méthode Scrum.',
-      period: 'Juillet à novembre 2025',
-      caption: 'L’application relancée pour le portfolio sur 1 075 messages fictifs : aucun tweet réel, auteurs anonymisés.',
+        'Le rapport que le pôle Production Traction de l’établissement Transilien L, A et J ouvrait chaque matin : combien de journées de service restent sans conducteur, sur quelle ligne, quels trains elles portent, et si les conducteurs disponibles suffisent pour les couvrir.',
+      role: 'Conception du rapport en alternance, puis audit et refonte pour le portfolio',
+      period: '2025',
+      caption: 'Captures du rapport refondu, alimenté par des données entièrement fictives.',
       context:
-        'Projet de fin d’études du Master Data et IA, sur un cas d’école : les tweets adressés au service client de Free Mobile. Des milliers de messages par mois, lus dans l’ordre d’arrivée. Mes deux coéquipiers ont construit le pipeline qui les analyse avec un LLM, et le chatbot. Ma partie : l’application qui permet au support de s’en servir.',
+        "Chaque jour de service d'un conducteur (une JS) porte une suite de trains. Une JS sans conducteur affecté, « au tas », c'est autant de trains menacés de suppression. Deux fois par jour, le planning de conduite est extrait et déposé sur SharePoint ; le pôle Production Traction s'en sert pour décider, chaque matin, quelles JS couvrir en priorité et avec quels conducteurs.",
       challenge:
-        'Une sortie de LLM n’est pas un outil. Un fichier de 16 colonnes par message ne dit ni quoi traiter en premier, ni qui s’en occupe, ni ce qui a déjà été fait. Et une nouvelle analyse devait pouvoir être rechargée sans effacer le travail des agents.',
+        "Le rapport d'origine tenait en un grand tableau de 24 colonnes et 128 mesures, dont beaucoup en double. Le dossier lu était écrit en dur pour un mois donné, des mesures d'historique pointaient vers une table qui n'existait plus, et les JS étaient comptées par code sur la période, donc sous-comptées dans les totaux dès qu'on regardait plusieurs jours. Surtout, il disait combien de JS restaient au tas, pas si on pouvait les couvrir.",
       built: [
-        'L’application SAV en Streamlit : un accueil qui importe le fichier du pipeline, puis un écran par rôle. Le code est découpé en une bibliothèque commune (chargement, score, état, grilles) et une page par écran.',
-        'L’écran Analyste : filtres par seuil de priorité, thème, sentiment et période, résultats détaillés, priorité dans le temps, réseau de thèmes, comparaisons, alertes automatiques et exports.',
-        'L’écran Manager : volume, part de messages urgents et négatifs, auteurs uniques, urgence moyenne, tickets ouverts ; statuts, chaleur jour × heure, courbe horaire, export des tickets ouverts en CSV ou JSON.',
-        'L’écran Agent SAV : la file d’attente, le résumé et la réponse proposés par le LLM pour le ticket choisi, et trois actions rapides (réaffecter, clore, mettre en attente client).',
-        'Le chargement qui normalise la sortie du pipeline (dates, thèmes, sentiment, urgence, gravité), et le nettoyage des messages pour la version locale du pipeline.',
-        'Le rapport Power BI de pilotage branché sur la même sortie : cinq pages (vue d’ensemble, heures et jours, urgence, sentiment, incidents), avec un calendrier, une quarantaine de mesures DAX et un nuage de mots en Python.'
+        'Un modèle propre : 37 mesures documentées et rangées par thème (charge, ressources, absences, pilotage) à la place des 128 d’origine.',
+        'Des règles métier écrites une seule fois, en colonnes calculées : JS non couverte, réserve non couverte, motif d’absence, ligne commerciale, type de train.',
+        'Une marge de couverture (conducteurs disponibles moins JS au tas) et un statut par jour : couvert, sous tension, découvert.',
+        'Un horizon de planification recalculé à chaque extraction : J à J+7, J+8 à J+14, J+15 à J+28, au-delà.',
+        'L’écran d’origine gardé en page d’accueil, rebranché sur le nouveau modèle, et cinq pages ajoutées : la synthèse du matin, la vue jour par jour, le détail des JS au tas avec leurs trains, les absences, et une page de définitions.'
       ],
       decisions: [
-        { title: 'Un écran par métier', text: 'L’analyste cherche des tendances, le manager surveille la charge, l’agent traite un ticket après l’autre. Un seul tableau de bord pour les trois aurait été trop chargé pour chacun.' },
-        { title: 'Un score de priorité qu’on peut expliquer', text: '45 % urgence, 40 % gravité, 15 % sentiment négatif, de 0 à 1. Un responsable support comprend pourquoi un message passe devant un autre, et règle le seuil lui-même.' },
-        { title: 'Le travail des agents stocké à part', text: 'Statuts, affectations et réponses vont dans un fichier séparé, appliqué au chargement. On réimporte une nouvelle analyse sans perdre ce qui a été traité.' },
-        { title: 'Une seule définition de l’urgence', text: 'En relisant le rapport, j’ai trouvé deux définitions qui cohabitaient : la carte comptait les messages repérés par la règle de mots-clés (33,7 % des messages), les graphiques la note du LLM (82 %). La page « Qualité des données » les croise ; la suite est d’en garder une.' },
-        { title: 'Le LLM propose, l’agent décide', text: 'La réponse suggérée s’affiche à côté du message d’origine. L’agent l’accepte ou écrit la sienne, et le statut garde la trace des deux cas.' }
+        {
+          title: 'Une marge, pas seulement un stock',
+          text: "Vingt JS au tas avec trente conducteurs disponibles, ce n'est pas le même matin que vingt JS au tas avec dix. La marge et le statut du jour disent tout de suite où il faudra supprimer des trains si rien ne change."
+        },
+        {
+          title: 'Compter les JS jour par jour',
+          text: "Un même code de JS revient chaque jour. Un comptage distinct sur la période en perdait la plupart dès qu'on sélectionnait une semaine. Les mesures comptent maintenant jour par jour, puis additionnent."
+        },
+        {
+          title: 'Relier les JS aux trains',
+          text: "Chaque JS au tas est reliée aux trains qu'elle porte, en séparant les trains commerciaux des trains sans voyageurs. Le pôle voit l'impact pour les voyageurs, pas seulement un nombre de JS."
+        },
+        {
+          title: 'Lire selon l’horizon',
+          text: "Une JS au tas à J+20 est normale, à J+1 c'est une alerte. L'horizon, recalculé par rapport à la date d'extraction, sépare ce qui est urgent de ce que le planning comblera de lui-même."
+        }
       ],
       result:
-        'Trois applications livrées par l’équipe : le pipeline, l’application SAV et le chatbot. Sur le jeu de l’école, 6 310 tweets passés dans le pipeline, 2 989 messages clients retenus après filtrage et dédoublonnage, dont 33,7 % détectés comme urgents.',
-      next: 'Brancher l’application directement sur la sortie du pipeline plutôt que sur un import de fichier, retenir une seule définition de l’urgence dans l’application et le rapport, et mesurer avec une équipe support le temps de traitement avant et après.',
-      reportsTitle: 'Le rapport Power BI sur la sortie du pipeline',
-      reportsIntro: 'J’ai aussi construit le rapport Power BI de pilotage branché sur la même sortie. Pour le portfolio, je l’ai rebranché sur les messages fictifs, sans toucher aux pages d’origine, puis j’ai ajouté deux pages : la priorité de traitement et la qualité des données.'
+        "Chaque matin, une page répond aux trois questions du pôle : combien de JS restent à couvrir, sur quelle ligne et quels trains elles portent, et si les conducteurs disponibles suffisent. Les jours découverts sont repérés une semaine à l'avance, avec les JS et les trains concernés.",
+      next: "Lire automatiquement le dossier du mois en cours plutôt qu'un chemin écrit en dur, et reconstruire l'historique quotidien des JS au tas pour suivre la tendance d'un mois sur l'autre."
     },
     en: {
-      kind: 'LLM and app',
-      pagesTitle: 'The other screens of the app',
-      flowsTitle: 'How the data flows',
-      sector: 'HETIC final project, 2025',
-      title: 'The support app that handles customer messages analysed by an LLM',
+      kind: 'Power BI',
+      sector: 'SNCF, 2025',
+      title: 'Driver coverage: trains without a driver, every morning',
       summary:
-        'An LLM pipeline reads the tweets sent to customer service and scores each message: topic, sentiment, urgency, severity, summary, suggested reply. I built the app that turns this into a working tool: one screen for the analyst, one for the manager, and a prioritised queue for the support agent. Plus the Power BI monitoring report on the same output.',
-      role: 'Created and designed the support app, the priority score, the Power BI report and the data cleaning for the local pipeline. Team of three, Scrum.',
-      period: 'July to November 2025',
-      caption: 'The app relaunched for this portfolio on 1,075 fictional messages: no real tweets, anonymised authors.',
+        'The report the train-driving production team of the Transilien L, A and J network opened every morning: how many duties still have no driver, on which line, which trains they carry, and whether the available drivers are enough to cover them.',
+      role: 'Built the report during my work-study, then audited and rebuilt it for this portfolio',
+      period: '2025',
+      caption: 'Screens of the rebuilt report, fed with entirely fictitious data.',
       context:
-        'Final project of the Master in Data and AI, on a school case: tweets sent to Free Mobile’s customer service. Thousands of messages a month, read in order of arrival. My two teammates built the pipeline that analyses them with an LLM, and the chatbot. My part: the app that lets the support team use the results.',
+        'Each driver duty carries a sequence of trains. A duty with no driver assigned puts all those trains at risk of cancellation. Twice a day the driving schedule is extracted to SharePoint; the production team uses it every morning to decide which duties to cover first, and with whom.',
       challenge:
-        'LLM output is not a tool. A 16-column file per message does not say what to handle first, who owns it or what has already been done. And a new analysis had to be reloaded without wiping the agents’ work.',
+        'The original report was one 24-column table and 128 measures, many of them duplicates. The source folder was hard-coded to one month, history measures pointed to a table that no longer existed, and duties were counted by code over the period, so totals were undercounted as soon as several days were selected. Above all, it said how many duties were uncovered, not whether they could be covered.',
       built: [
-        'The support app in Streamlit: a landing page that imports the pipeline file, then one screen per role. The code is split into a shared library (loading, score, state, grids) and one page per screen.',
-        'The analyst screen: filters by priority threshold, topic, sentiment and period, detailed results, priority over time, topic network, comparisons, automatic alerts and exports.',
-        'The manager screen: volume, share of urgent and negative messages, unique authors, average urgency, open tickets; statuses, day × hour heatmap, hourly curve, export of open tickets as CSV or JSON.',
-        'The support agent screen: the queue, the LLM’s summary and suggested reply for the selected ticket, and three quick actions (reassign, close, wait for customer).',
-        'The loader that normalises the pipeline output (dates, topics, sentiment, urgency, severity), and message cleaning for the local version of the pipeline.',
-        'The Power BI monitoring report on the same output: five pages (overview, hours and days, urgency, sentiment, incidents), with a calendar, about forty DAX measures and a Python word cloud.'
+        'A clean model: 37 documented measures grouped by theme (workload, resources, absences, steering) instead of the original 128.',
+        'Business rules written once, as calculated columns: uncovered duty, uncovered standby, absence reason, line, train type.',
+        'A coverage margin (available drivers minus uncovered duties) and a daily status: covered, under pressure, short.',
+        'A planning horizon recalculated at each extraction: D to D+7, D+8 to D+14, D+15 to D+28, beyond.',
+        'The original screen kept as the landing page, rewired to the new model, plus five new pages: the morning summary, the day-by-day view, uncovered duties with their trains, absences, and a definitions page.'
       ],
       decisions: [
-        { title: 'One screen per job', text: 'The analyst looks for trends, the manager watches the workload, the agent handles one ticket after another. A single dashboard for all three would have been too crowded for each.' },
-        { title: 'A priority score you can explain', text: '45% urgency, 40% severity, 15% negative sentiment, from 0 to 1. A support lead sees why one message comes before another, and sets the threshold themselves.' },
-        { title: 'Agents’ work stored separately', text: 'Statuses, assignments and replies go to a separate file applied on load. A new analysis can be imported without losing what has been handled.' },
-        { title: 'One definition of urgency', text: 'Reviewing the report, I found two definitions side by side: the card counted messages flagged by the keyword rule (33.7% of messages), the charts used the LLM score (82%). The “Data quality” page sets them against each other; the next step is to keep one.' },
-        { title: 'The LLM suggests, the agent decides', text: 'The suggested reply sits next to the original message. The agent accepts it or writes their own, and the status records which.' }
+        { title: 'A margin, not just a backlog', text: 'Twenty uncovered duties with thirty available drivers is not the same morning as twenty with ten. The margin and the daily status show at once where trains will be cancelled if nothing changes.' },
+        { title: 'Count duties day by day', text: 'The same duty code comes back every day. A distinct count over the period lost most of them as soon as a week was selected. Measures now count day by day, then add up.' },
+        { title: 'Link duties to trains', text: 'Each uncovered duty is linked to the trains it carries, separating passenger trains from empty runs. The team sees the impact on passengers, not just a number of duties.' },
+        { title: 'Read by horizon', text: 'An uncovered duty at D+20 is normal; at D+1 it is an alert. The horizon, recalculated from the extraction date, separates what is urgent from what the schedule will fill on its own.' }
       ],
       result:
-        'Three apps delivered by the team: the pipeline, the support app and the chatbot. On the school dataset, 6,310 tweets went through the pipeline, 2,989 customer messages were kept after filtering and de-duplication, and 33.7% were flagged as urgent.',
-      next: 'Connect the app directly to the pipeline output instead of a file import, keep a single definition of urgency in the app and the report, and measure handling time before and after with a support team.',
-      reportsTitle: 'The Power BI report on the pipeline output',
-      reportsIntro: 'I also built the Power BI monitoring report on the same output. For this portfolio I rewired it to the fictional messages, leaving the original pages as they were, and added two pages: handling priority and data quality.'
+        'Every morning, one page answers the team’s three questions: how many duties are left to cover, on which line and with which trains, and whether the available drivers are enough. Short days are spotted a week ahead, with the duties and trains involved.',
+      next: 'Read the current month’s folder automatically instead of a hard-coded path, and rebuild the daily history of uncovered duties to track the trend month after month.'
     }
   },
   {
@@ -1061,88 +851,112 @@ export const cases = [
     }
   },
   {
-    slug: 'pilotage-budgetaire-sncf',
-    group: 'sncf',
+    slug: 'suivi-quotidien-client',
+    group: 'rand',
     visual: 'shots',
-    stack: ['Power BI', 'DAX', 'Power Query', 'Excel'],
+    stack: ['Power BI', 'DAX', 'Power Query', 'SQL Server', 'SAP HANA'],
     shots: [
-      { src: '/images/finance-sncf/0-origine.webp', fr: 'L’écran d’origine, celui que le CODIR ouvrait : les charges externes à date par métier, réalisé, budget et écart, la répartition par nœud comptable et l’évolution mois par mois. Gardé en page d’accueil, sur données fictives.', en: 'The original screen the management committee opened: external costs to date by business line, actual, budget and variance, the split by accounting node and the month-by-month trend. Kept as the landing page, on fictitious data.' },
-      { src: '/images/finance-sncf/1-synthese.webp', fr: 'La synthèse CODIR ajoutée : une phrase qui résume le mois, puis les charges externes, la masse salariale, l’effectif disponible et l’intérim, chacun face au budget, avec l’atterrissage de fin d’année.', en: 'The new management summary: one sentence on the month, then external costs, payroll, available headcount and temp staff, each against budget, with the year-end landing.' },
-      { src: '/images/finance-sncf/2-effectifs.webp', fr: 'Les effectifs : l’effectif disponible en fin de mois et en moyenne sur l’année, face au budget.', en: 'Headcount: available staff at month end and on a yearly average, against budget.' },
-      { src: '/images/finance-sncf/3-interim.webp', fr: 'L’intérim en équivalents temps plein, par métier et par unité de gestion, mois par mois.', en: 'Temp staff in full-time equivalents, by business line and cost unit, month by month.' },
-      { src: '/images/finance-sncf/4-detail.webp', fr: 'Le détail des charges externes : du métier au nœud comptable, puis jusqu’au fournisseur, à la commande et à la pièce.', en: 'External cost detail: from business line to accounting node, down to supplier, purchase order and document.' }
+      { src: '/images/daily-retail/1-comparable-tous-pays.webp', fr: 'Page d’origine : le CA comparable semaine par semaine, tous pays, avec le détail par pays et par rayon de la semaine en cours.', en: 'Original page: like-for-like sales week by week, all countries, with the current week broken down by country and department.' },
+      { src: '/images/daily-retail/2-jauges-jour.webp', fr: 'Page d’origine : la veille face au budget de la semaine, rayon par rayon, sur le premier marché.', en: 'Original page: yesterday against the weekly budget, department by department, on the largest market.' },
+      { src: '/images/daily-retail/3-jauges-semaine.webp', fr: 'Page d’origine : la semaine close face au budget, avec l’écart en euros.', en: 'Original page: the closed week against budget, with the gap in euros.' },
+      { src: '/images/daily-retail/4-courbe-hebdo.webp', fr: 'Page d’origine : la courbe hebdomadaire 2026, 2025 et budget. Le texte en haut à droite rappelle la mise à jour manuelle de chaque semaine.', en: 'Original page: the weekly curve for 2026, 2025 and budget. The note at the top right is the manual update needed every week.' },
+      { src: '/images/daily-retail/5-synthese.webp', fr: 'Nouvelle page de synthèse : CA, évolution comparable, atteinte du budget et atterrissage, puis la courbe de l’année et les écarts par pays et par rayon.', en: 'New summary page: sales, like-for-like change, budget achievement and landing, then the year curve and gaps by country and department.' },
+      { src: '/images/daily-retail/6-pilotage-budget.webp', fr: 'Nouvelle page budget : atteinte par pays et par rayon, CA et budget par semaine close, écarts en euros.', en: 'New budget page: achievement by country and department, sales and budget per closed week, gaps in euros.' },
+      { src: '/images/daily-retail/7-magasins.webp', fr: 'Nouvelle page magasins : les plus fortes baisses et hausses en euros, et chaque magasin placé selon sa taille et son évolution.', en: 'New store page: the largest drops and gains in euros, and every store plotted by size and change.' }
     ],
     fr: {
       kind: 'Power BI',
-      sector: 'SNCF, 2024',
-      title: 'Pilotage budgétaire : le réalisé face au budget, chaque mois',
+      sector: 'Distribution retail, 2026',
+      title: 'Suivi quotidien d’un client distributeur face au budget',
       summary:
-        'Le rapport que le CODIR de l’établissement Transilien L, A et J lisait chaque mois après la clôture : charges externes, masse salariale, effectifs et intérim, réalisé contre budget, par métier et jusqu’à la facture.',
-      role: 'Conception du rapport en alternance avec l’équipe finance, puis audit et refonte pour le portfolio',
-      period: '2024',
-      caption: 'Captures du rapport refondu, alimenté par des données entièrement fictives.',
+        'Le rapport envoyé chaque matin pour un client distributeur présent dans sept pays : la veille et la semaine face à N-1 et au budget, rayon par rayon. Repris, débarrassé de ses mises à jour manuelles et complété par trois pages d’analyse.',
+      role: 'Reprise du rapport, audit, corrections et trois nouvelles pages',
+      period: '2026',
+      caption: 'Captures du rapport Power BI, alimenté par des données fictives.',
       context:
-        "Chaque mois, après la clôture comptable, le CODIR de l'établissement fait le point sur les dépenses face au budget : charges externes (ACE), masse salariale, effectif disponible, intérim, investissements. Les chiffres viennent des extractions du grand livre, des fichiers de budget et de la base des effectifs, que l'équipe finance dépose chaque mois.",
+        "Le groupe gère plusieurs rayons dans les magasins d'une enseigne de distribution : plus de 200 points de vente répartis sur sept pays européens. Chaque matin, le rapport donne au client et à l'équipe commerciale le CA de la veille et de la semaine en cours, face à l'an dernier et au budget, avec un focus sur le premier marché.",
       challenge:
-        "Le rapport d'origine comptait 20 pages et 37 tables de données, une par année et par source, plus 14 tables de dates créées automatiquement. Les charges y étaient en négatif : un dépassement s'affichait comme un écart négatif, et les courbes descendaient quand les dépenses montaient. La page CODIR lisait un tableau Excel retapé à la main, alors que les données de détail permettaient de la calculer. Quelques mesures étaient fausses ou mal nommées : la moyenne annuelle des effectifs divisée par des mois pas encore chargés, un cumul « 2023 » qui calculait 2024, une mesure qui pointait vers une table supprimée. Enfin, certaines pages affichaient des noms d'agents.",
+        "Le rapport tenait par des gestes manuels : une formule de budget restant à modifier chaque semaine, une liste de 253 dates cochées dans un filtre de page pour borner l'an dernier, des dates d'objectif écrites dans les mesures et des historiques importés en CSV. Dix pages masquées pointaient vers des tables supprimées, et aucune page ne disait en un écran si le réseau tenait son budget.",
       built: [
-        'Une page Synthèse CODIR calculée à partir des données de détail : charges externes, masse salariale, effectif disponible et intérim, chacun avec le réalisé à date, l’écart au budget et l’atterrissage de fin d’année.',
-        'Une phrase de synthèse écrite en DAX, qui se met à jour avec le dernier mois clos : ce que le CODIR lit en premier.',
-        'Les écarts par métier et par nœud comptable, avec une seule convention : un dépassement est positif, et rouge.',
-        '33 mesures ajoutées, documentées et rangées dans un même dossier, et la moyenne annuelle des effectifs corrigée.',
-        'Les pages d’origine gardées et rebranchées sur des données fictives, les pages nominatives retirées, une page de définitions ajoutée.'
+        'Un audit du modèle : 14 pages dont 10 masquées, 67 mesures presque toutes rangées dans la table des magasins, deux mesures cassées par une table supprimée.',
+        'Une table de mesures dédiée, avec la dernière date de vente et la dernière semaine close calculées à partir des données.',
+        'Un budget comparé au CA sur le même périmètre : pays et rayons budgétés, semaines closes uniquement.',
+        'Une page de synthèse : CA, évolution comparable, atteinte du budget et atterrissage estimé, puis la courbe de l’année et les écarts par pays et par rayon.',
+        'Une page de pilotage du budget : atteinte par pays et par rayon, CA et budget par semaine, écarts en euros.',
+        'Une page magasins : les plus fortes baisses et hausses en euros, et un nuage de points magasin par magasin.'
       ],
       decisions: [
         {
-          title: 'Calculer la synthèse plutôt que la saisir',
-          text: "Le tableau CODIR était retapé chaque mois dans Excel à partir des mêmes extractions que le reste du rapport. Le calculer supprime une ressaisie et garantit que la synthèse et le détail disent la même chose."
+          title: 'La semaine close se déduit des ventes',
+          text: "Le budget restant était corrigé à la main chaque lundi. La mesure « Dernière semaine close » part de la dernière date de vente : un dimanche clôt la semaine, sinon on s'arrête à la précédente. Plus rien à toucher le lundi matin."
         },
         {
-          title: 'Un dépassement est positif',
-          text: "En comptabilité, les charges sont négatives. En réunion, un écart positif en rouge se lit sans effort ; un écart négatif en rouge oblige à se souvenir de la convention. Les mesures de synthèse remettent les charges en positif."
+          title: 'Comparer CA et budget sur le même périmètre',
+          text: "Le budget couvre six pays et six rayons, à partir de la semaine 6. Diviser le CA total par ce budget compte un pays et un rayon non budgétés, et une semaine entamée face à un budget de semaine pleine. Le calcul garde le même périmètre des deux côtés."
         },
         {
-          title: 'Le dernier mois clos comme repère',
-          text: "Toute la page se cale sur le dernier mois clos, pas sur la date du jour : le réalisé et le budget à date couvrent les mêmes mois, et le titre dit de quel mois on parle."
+          title: 'Garder le comparable d’origine',
+          text: "Le rapport définissait déjà un comparable au bon grain : magasin × jour de la semaine × semaine, avec un N-1 décalé de 364 jours. Je l'ai gardé et réutilisé dans les nouvelles pages plutôt que d'en créer un second, qui aurait donné un autre chiffre."
         },
         {
-          title: 'Un atterrissage simple',
-          text: "Le réalisé à date plus le budget des mois restants. Ce n'est pas une prévision, c'est la question du CODIR : si les prochains mois tiennent leur budget, où finit l'année ?"
+          title: 'Un atterrissage simple, écrit sur la page',
+          text: "L'atterrissage prolonge le taux d'atteinte actuel sur les semaines restantes du budget. L'hypothèse est volontairement simple et affichée à côté du chiffre, pour que le client puisse la discuter."
+        },
+        {
+          title: 'Des couleurs calculées',
+          text: "Le vert et le rouge viennent de mesures (au-dessus ou en dessous de zéro, ou de 100 % du budget) appliquées aux barres, aux cartes et aux tableaux. Le dégradé de la matrice budget est centré sur 100 % d'atteinte."
         }
       ],
       result:
-        "Le CODIR ouvre une page qui dit, en une phrase et quatre blocs, où en est l'établissement à la fin du mois : réalisé, écart au budget, atterrissage. Pour chaque écart, on descend du métier au nœud comptable, puis jusqu'au fournisseur et à la commande.",
-      next: "Regrouper les tables par source plutôt que par année, pour qu'une nouvelle année ne demande plus de dupliquer tables et mesures, et remplacer les dates automatiques par un seul calendrier."
+        'Le rapport du matin ne demande plus de retouche hebdomadaire, et une page résume l’état du réseau face à 2025 et au budget. Sur les données fictives : +3,1 % en comparable et 97,8 % du budget atteint en semaine 41, avec un écart concentré sur le premier marché et le premier rayon.',
+      next: 'Remplacer la liste de dates du filtre de page par une borne calculée sur la dernière date de vente, charger les historiques depuis l’entrepôt plutôt que depuis des exports CSV, et signaler les magasins qui décrochent plusieurs semaines de suite.'
     },
     en: {
       kind: 'Power BI',
-      sector: 'SNCF, 2024',
-      title: 'Budget control: actuals against budget, every month',
+      sector: 'Retail distribution, 2026',
+      title: 'Daily tracking of a retail account against budget',
       summary:
-        'The report the management committee of the Transilien L, A and J network read every month after closing: external costs, payroll, headcount and temp staff, actual against budget, by business line and down to the invoice.',
-      role: 'Built the report during my work-study with the finance team, then audited and rebuilt it for this portfolio',
-      period: '2024',
-      caption: 'Screens of the rebuilt report, fed with entirely fictitious data.',
+        'The report sent every morning for a retail account present in seven countries: yesterday and the current week against last year and budget, department by department. Taken over, freed from its manual updates and extended with three analysis pages.',
+      role: 'Took over the report: audit, fixes and three new pages',
+      period: '2026',
+      caption: 'Screenshots of the Power BI report, running on fictional data.',
       context:
-        'Every month, after the books close, the management committee reviews spending against budget: external costs, payroll, available headcount, temp staff, capital spending. The figures come from general ledger extracts, budget files and the headcount base, which the finance team drops in every month.',
+        'The group runs several departments inside the stores of a retail chain: more than 200 stores across seven European countries. Every morning, the report gives the account and the sales team yesterday’s sales and the current week, against last year and budget, with a focus on the largest market.',
       challenge:
-        'The original report had 20 pages and 37 data tables, one per year and per source, plus 14 auto-generated date tables. Costs were carried as negatives: an overspend showed as a negative variance, and lines went down when spending went up. The management page read a hand-typed Excel table, although the detail data could compute it. Some measures were wrong or mislabelled: the yearly average headcount divided by months not yet loaded, a “2023” running total that computed 2024, a measure pointing to a deleted table. And some pages showed staff names.',
+        'The report relied on manual steps: a remaining-budget formula edited every week, a list of 253 dates ticked in a page filter to bound last year, target dates written into measures and history tables imported from CSV. Ten hidden pages pointed at deleted tables, and no page showed at a glance whether the network was on budget.',
       built: [
-        'A management summary page computed from the detail data: external costs, payroll, available headcount and temp staff, each with actual to date, variance to budget and year-end landing.',
-        'A summary sentence written in DAX that updates with the last closed month: what the committee reads first.',
-        'Variances by business line and accounting node, with one convention: an overspend is positive, and red.',
-        '33 new measures, documented and grouped in one folder, and the yearly average headcount fixed.',
-        'The original pages kept and rewired to fictitious data, the pages with names removed, a definitions page added.'
+        'A model audit: 14 pages including 10 hidden, 67 measures almost all stored in the store table, two measures broken by a deleted table.',
+        'A dedicated measure table, with the last sales date and the last closed week computed from the data.',
+        'Budget compared with sales on the same scope: budgeted countries and departments, closed weeks only.',
+        'A summary page: sales, like-for-like change, budget achievement and estimated landing, then the year curve and gaps by country and department.',
+        'A budget page: achievement by country and department, sales and budget per week, gaps in euros.',
+        'A store page: the largest drops and gains in euros, and a scatter plot store by store.'
       ],
       decisions: [
-        { title: 'Compute the summary instead of typing it', text: 'The management table was retyped in Excel every month from the same extracts as the rest of the report. Computing it removes a manual step and guarantees the summary and the detail say the same thing.' },
-        { title: 'An overspend is positive', text: 'In accounting, costs are negative. In a meeting, a positive variance in red reads at a glance; a negative one in red makes people remember the convention. The summary measures turn costs back into positives.' },
-        { title: 'The last closed month as the anchor', text: 'The whole page aligns on the last closed month, not today’s date: actual and budget to date cover the same months, and the title says which month it is about.' },
-        { title: 'A simple landing', text: 'Actual to date plus the budget of the remaining months. It is not a forecast; it is the committee’s question: if the coming months stay on budget, where does the year end?' }
+        {
+          title: 'The closed week comes from the sales',
+          text: 'The remaining budget was edited by hand every Monday. The “last closed week” measure starts from the last sales date: a Sunday closes the week, otherwise it stops at the previous one. Nothing left to edit on Monday morning.'
+        },
+        {
+          title: 'Compare sales and budget on the same scope',
+          text: 'The budget covers six countries and six departments, from week 6. Dividing total sales by that budget counts a country and a department with no budget, and a week in progress against a full-week budget. The calculation keeps the same scope on both sides.'
+        },
+        {
+          title: 'Keep the original like-for-like',
+          text: 'The report already defined like-for-like at the right grain: store × weekday × week, with last year shifted by 364 days. I kept it and reused it in the new pages rather than building a second one that would give a different figure.'
+        },
+        {
+          title: 'A simple landing, written on the page',
+          text: 'The landing extends the current achievement rate over the remaining budget weeks. The assumption is deliberately simple and shown next to the figure, so the account can challenge it.'
+        },
+        {
+          title: 'Computed colours',
+          text: 'Green and red come from measures (above or below zero, or 100% of budget) applied to bars, cards and tables. The budget matrix gradient is centred on 100% achievement.'
+        }
       ],
       result:
-        'The committee opens one page that says, in a sentence and four blocks, where the network stands at month end: actual, variance to budget, landing. For each variance, you drill from business line to accounting node, then down to supplier and purchase order.',
-      next: 'Group tables by source rather than by year, so a new year no longer means duplicating tables and measures, and replace the auto-generated dates with a single calendar.'
+        'The morning report no longer needs a weekly edit, and one page sums up the network against 2025 and budget. On the fictional data: +3.1% like-for-like and 97.8% of budget achieved at week 41, with the gap concentrated on the largest market and the largest department.',
+      next: 'Replace the list of dates in the page filter with a bound computed from the last sales date, load history from the warehouse instead of CSV exports, and flag stores that fall behind several weeks in a row.'
     }
   },
   {
@@ -1252,6 +1066,91 @@ export const cases = [
     }
   },
   {
+    slug: 'pilotage-budgetaire-sncf',
+    group: 'sncf',
+    visual: 'shots',
+    stack: ['Power BI', 'DAX', 'Power Query', 'Excel'],
+    shots: [
+      { src: '/images/finance-sncf/0-origine.webp', fr: 'L’écran d’origine, celui que le CODIR ouvrait : les charges externes à date par métier, réalisé, budget et écart, la répartition par nœud comptable et l’évolution mois par mois. Gardé en page d’accueil, sur données fictives.', en: 'The original screen the management committee opened: external costs to date by business line, actual, budget and variance, the split by accounting node and the month-by-month trend. Kept as the landing page, on fictitious data.' },
+      { src: '/images/finance-sncf/1-synthese.webp', fr: 'La synthèse CODIR ajoutée : une phrase qui résume le mois, puis les charges externes, la masse salariale, l’effectif disponible et l’intérim, chacun face au budget, avec l’atterrissage de fin d’année.', en: 'The new management summary: one sentence on the month, then external costs, payroll, available headcount and temp staff, each against budget, with the year-end landing.' },
+      { src: '/images/finance-sncf/2-effectifs.webp', fr: 'Les effectifs : l’effectif disponible en fin de mois et en moyenne sur l’année, face au budget.', en: 'Headcount: available staff at month end and on a yearly average, against budget.' },
+      { src: '/images/finance-sncf/3-interim.webp', fr: 'L’intérim en équivalents temps plein, par métier et par unité de gestion, mois par mois.', en: 'Temp staff in full-time equivalents, by business line and cost unit, month by month.' },
+      { src: '/images/finance-sncf/4-detail.webp', fr: 'Le détail des charges externes : du métier au nœud comptable, puis jusqu’au fournisseur, à la commande et à la pièce.', en: 'External cost detail: from business line to accounting node, down to supplier, purchase order and document.' }
+    ],
+    fr: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2024',
+      title: 'Pilotage budgétaire : le réalisé face au budget, chaque mois',
+      summary:
+        'Le rapport que le CODIR de l’établissement Transilien L, A et J lisait chaque mois après la clôture : charges externes, masse salariale, effectifs et intérim, réalisé contre budget, par métier et jusqu’à la facture.',
+      role: 'Conception du rapport en alternance avec l’équipe finance, puis audit et refonte pour le portfolio',
+      period: '2024',
+      caption: 'Captures du rapport refondu, alimenté par des données entièrement fictives.',
+      context:
+        "Chaque mois, après la clôture comptable, le CODIR de l'établissement fait le point sur les dépenses face au budget : charges externes (ACE), masse salariale, effectif disponible, intérim, investissements. Les chiffres viennent des extractions du grand livre, des fichiers de budget et de la base des effectifs, que l'équipe finance dépose chaque mois.",
+      challenge:
+        "Le rapport d'origine comptait 20 pages et 37 tables de données, une par année et par source, plus 14 tables de dates créées automatiquement. Les charges y étaient en négatif : un dépassement s'affichait comme un écart négatif, et les courbes descendaient quand les dépenses montaient. La page CODIR lisait un tableau Excel retapé à la main, alors que les données de détail permettaient de la calculer. Quelques mesures étaient fausses ou mal nommées : la moyenne annuelle des effectifs divisée par des mois pas encore chargés, un cumul « 2023 » qui calculait 2024, une mesure qui pointait vers une table supprimée. Enfin, certaines pages affichaient des noms d'agents.",
+      built: [
+        'Une page Synthèse CODIR calculée à partir des données de détail : charges externes, masse salariale, effectif disponible et intérim, chacun avec le réalisé à date, l’écart au budget et l’atterrissage de fin d’année.',
+        'Une phrase de synthèse écrite en DAX, qui se met à jour avec le dernier mois clos : ce que le CODIR lit en premier.',
+        'Les écarts par métier et par nœud comptable, avec une seule convention : un dépassement est positif, et rouge.',
+        '33 mesures ajoutées, documentées et rangées dans un même dossier, et la moyenne annuelle des effectifs corrigée.',
+        'Les pages d’origine gardées et rebranchées sur des données fictives, les pages nominatives retirées, une page de définitions ajoutée.'
+      ],
+      decisions: [
+        {
+          title: 'Calculer la synthèse plutôt que la saisir',
+          text: "Le tableau CODIR était retapé chaque mois dans Excel à partir des mêmes extractions que le reste du rapport. Le calculer supprime une ressaisie et garantit que la synthèse et le détail disent la même chose."
+        },
+        {
+          title: 'Un dépassement est positif',
+          text: "En comptabilité, les charges sont négatives. En réunion, un écart positif en rouge se lit sans effort ; un écart négatif en rouge oblige à se souvenir de la convention. Les mesures de synthèse remettent les charges en positif."
+        },
+        {
+          title: 'Le dernier mois clos comme repère',
+          text: "Toute la page se cale sur le dernier mois clos, pas sur la date du jour : le réalisé et le budget à date couvrent les mêmes mois, et le titre dit de quel mois on parle."
+        },
+        {
+          title: 'Un atterrissage simple',
+          text: "Le réalisé à date plus le budget des mois restants. Ce n'est pas une prévision, c'est la question du CODIR : si les prochains mois tiennent leur budget, où finit l'année ?"
+        }
+      ],
+      result:
+        "Le CODIR ouvre une page qui dit, en une phrase et quatre blocs, où en est l'établissement à la fin du mois : réalisé, écart au budget, atterrissage. Pour chaque écart, on descend du métier au nœud comptable, puis jusqu'au fournisseur et à la commande.",
+      next: "Regrouper les tables par source plutôt que par année, pour qu'une nouvelle année ne demande plus de dupliquer tables et mesures, et remplacer les dates automatiques par un seul calendrier."
+    },
+    en: {
+      kind: 'Power BI',
+      sector: 'SNCF, 2024',
+      title: 'Budget control: actuals against budget, every month',
+      summary:
+        'The report the management committee of the Transilien L, A and J network read every month after closing: external costs, payroll, headcount and temp staff, actual against budget, by business line and down to the invoice.',
+      role: 'Built the report during my work-study with the finance team, then audited and rebuilt it for this portfolio',
+      period: '2024',
+      caption: 'Screens of the rebuilt report, fed with entirely fictitious data.',
+      context:
+        'Every month, after the books close, the management committee reviews spending against budget: external costs, payroll, available headcount, temp staff, capital spending. The figures come from general ledger extracts, budget files and the headcount base, which the finance team drops in every month.',
+      challenge:
+        'The original report had 20 pages and 37 data tables, one per year and per source, plus 14 auto-generated date tables. Costs were carried as negatives: an overspend showed as a negative variance, and lines went down when spending went up. The management page read a hand-typed Excel table, although the detail data could compute it. Some measures were wrong or mislabelled: the yearly average headcount divided by months not yet loaded, a “2023” running total that computed 2024, a measure pointing to a deleted table. And some pages showed staff names.',
+      built: [
+        'A management summary page computed from the detail data: external costs, payroll, available headcount and temp staff, each with actual to date, variance to budget and year-end landing.',
+        'A summary sentence written in DAX that updates with the last closed month: what the committee reads first.',
+        'Variances by business line and accounting node, with one convention: an overspend is positive, and red.',
+        '33 new measures, documented and grouped in one folder, and the yearly average headcount fixed.',
+        'The original pages kept and rewired to fictitious data, the pages with names removed, a definitions page added.'
+      ],
+      decisions: [
+        { title: 'Compute the summary instead of typing it', text: 'The management table was retyped in Excel every month from the same extracts as the rest of the report. Computing it removes a manual step and guarantees the summary and the detail say the same thing.' },
+        { title: 'An overspend is positive', text: 'In accounting, costs are negative. In a meeting, a positive variance in red reads at a glance; a negative one in red makes people remember the convention. The summary measures turn costs back into positives.' },
+        { title: 'The last closed month as the anchor', text: 'The whole page aligns on the last closed month, not today’s date: actual and budget to date cover the same months, and the title says which month it is about.' },
+        { title: 'A simple landing', text: 'Actual to date plus the budget of the remaining months. It is not a forecast; it is the committee’s question: if the coming months stay on budget, where does the year end?' }
+      ],
+      result:
+        'The committee opens one page that says, in a sentence and four blocks, where the network stands at month end: actual, variance to budget, landing. For each variance, you drill from business line to accounting node, then down to supplier and purchase order.',
+      next: 'Group tables by source rather than by year, so a new year no longer means duplicating tables and measures, and replace the auto-generated dates with a single calendar.'
+    }
+  },
+  {
     slug: 'absenteisme-temps-partiel-sncf',
     group: 'sncf',
     visual: 'shots',
@@ -1334,6 +1233,105 @@ export const cases = [
       result:
         'HR reads all six units on one page, with the same rule everywhere: sick-leave days per employee since January, gap to the pro-rated target and to last year, and the sectors to look at first. Part-time contracts to handle are listed with their actual due date, including expired ones the old rule did not catch.',
       next: 'Add row-level security so each manager sees only their unit, and bring unit-specific tracking into the model: strikes and leave for COT, available staff by role for ETP.'
+    }
+  },
+  {
+    slug: 'analyse-messages-service-client',
+    group: 'hetic',
+    visual: 'shots',
+    stack: ['Python', 'Streamlit', 'Power BI', 'DAX', 'Power Query', 'pandas', 'Mistral AI'],
+    link: 'https://github.com/Imadbouchareb/LLMAnalyzer-SAV-Tweets',
+    shots: [
+      { src: '/images/sav-llm/0-file-attente.webp', fr: 'L’écran Agent SAV : la file d’attente, avec les tickets ouverts, les urgents et un menu par tâche (urgences, thèmes, affectations, exports, journal).', en: 'The support agent screen: the queue, with open and urgent tickets and a menu per task (urgent cases, topics, assignments, exports, log).' },
+      { src: '/images/sav-llm/1-accueil-roles.webp', fr: 'L’accueil : on importe le fichier produit par le pipeline, puis chacun ouvre l’écran de son rôle.', en: 'The landing page: import the file produced by the pipeline, then each person opens the screen for their role.' },
+      { src: '/images/sav-llm/2-ticket-suggestion.webp', fr: 'Un ticket ouvert : le résumé et la réponse proposés par le LLM à côté du message d’origine. L’agent accepte la suggestion ou écrit sa réponse.', en: 'An open ticket: the summary and reply suggested by the LLM next to the original message. The agent accepts the suggestion or writes their own.' },
+      { src: '/images/sav-llm/3-analyste-priorite.webp', fr: 'L’écran Analyste : les messages au-dessus du seuil de priorité, avec leur score, leur statut et leur thème.', en: 'The analyst screen: messages above the priority threshold, with their score, status and topic.' },
+      { src: '/images/sav-llm/4-priorite-temps.webp', fr: 'Le score de priorité de chaque message dans le temps, coloré par sentiment.', en: 'Each message’s priority score over time, coloured by sentiment.' },
+      { src: '/images/sav-llm/5-manager-operations.webp', fr: 'L’écran Manager, onglet Opérations : statuts des tickets, volume par jour et par heure, courbe horaire.', en: 'The manager screen, Operations tab: ticket statuses, volume by day and hour, hourly curve.' }
+    ],
+    reports: [
+      { src: '/images/sav-llm-pbi/0-vue-ensemble.webp', fr: 'La page d’origine, rebranchée sur les messages fictifs : publications collectées, messages clients, sentiment moyen, part d’urgents, volume par mois, thèmes et équipes.', en: 'The original page, rewired to the fictional messages: posts collected, customer messages, average sentiment, share of urgent messages, monthly volume, topics and teams.' },
+      { src: '/images/sav-llm-pbi/1-temporel.webp', fr: 'Quand les clients écrivent : chaleur jour × heure, sentiment par jour de la semaine, courbe horaire et cumul.', en: 'When customers write: day × hour heatmap, sentiment by weekday, hourly curve and running total.' },
+      { src: '/images/sav-llm-pbi/2-urgence.webp', fr: 'Les messages urgents un par un avec la raison détectée, le délai cible, la gravité et l’urgence par équipe.', en: 'Urgent messages one by one with the detected reason, target response time, severity and urgency by team.' },
+      { src: '/images/sav-llm-pbi/3-sentiment.webp', fr: 'Le sentiment : jauges, évolution mensuelle et nuage des mots-clés des messages négatifs (visuel Python).', en: 'Sentiment: gauges, monthly trend and a word cloud of keywords from negative messages (Python visual).' },
+      { src: '/images/sav-llm-pbi/4-incidents.webp', fr: 'Les journées de pic, les villes citées dans les messages et les intentions détectées par le LLM, croisées avec la gravité.', en: 'Peak days, cities mentioned in messages and the intents detected by the LLM, crossed with severity.' },
+      { src: '/images/sav-llm-pbi/5-priorite.webp', fr: 'Page ajoutée : le score de priorité de l’application SAV repris dans le rapport, par équipe, par mois et par thème, avec la liste des messages à traiter en premier.', en: 'Added page: the support app’s priority score brought into the report, by team, month and topic, with the list of messages to handle first.' },
+      { src: '/images/sav-llm-pbi/6-qualite.webp', fr: 'Page ajoutée : du flux collecté aux messages clients, et les deux définitions de l’urgence (règle de mots-clés et note du LLM) croisées.', en: 'Added page: from collected posts to customer messages, and the two definitions of urgency (keyword rule and LLM score) side by side.' }
+    ],
+    figures: [
+      { v: 'savFlow', fr: 'Du message brut à l’écran de l’agent : le pipeline LLM de l’équipe en amont, l’application SAV que j’ai créée en aval.', en: 'From raw message to the agent’s screen: the team’s LLM pipeline upstream, the support app I built downstream.' }
+    ],
+    fr: {
+      kind: 'LLM et application',
+      pagesTitle: 'Les autres écrans de l’application',
+      flowsTitle: 'Le circuit des données',
+      sector: "Projet de fin d'études HETIC, 2025",
+      title: 'L’application SAV qui traite les messages clients analysés par un LLM',
+      summary:
+        'Un pipeline LLM lit les tweets adressés au service client et note chaque message : thème, sentiment, urgence, gravité, résumé, réponse proposée. J’ai créé l’application qui en fait un outil de travail : un écran pour l’analyste, un pour le manager, une file d’attente priorisée pour l’agent SAV. Et le rapport Power BI de pilotage sur la même sortie.',
+      role: 'Création et conception de l’application SAV, score de priorité, rapport Power BI, nettoyage des données du pipeline local. Projet à trois en méthode Scrum.',
+      period: 'Juillet à novembre 2025',
+      caption: 'L’application relancée pour le portfolio sur 1 075 messages fictifs : aucun tweet réel, auteurs anonymisés.',
+      context:
+        'Projet de fin d’études du Master Data et IA, sur un cas d’école : les tweets adressés au service client de Free Mobile. Des milliers de messages par mois, lus dans l’ordre d’arrivée. Mes deux coéquipiers ont construit le pipeline qui les analyse avec un LLM, et le chatbot. Ma partie : l’application qui permet au support de s’en servir.',
+      challenge:
+        'Une sortie de LLM n’est pas un outil. Un fichier de 16 colonnes par message ne dit ni quoi traiter en premier, ni qui s’en occupe, ni ce qui a déjà été fait. Et une nouvelle analyse devait pouvoir être rechargée sans effacer le travail des agents.',
+      built: [
+        'L’application SAV en Streamlit : un accueil qui importe le fichier du pipeline, puis un écran par rôle. Le code est découpé en une bibliothèque commune (chargement, score, état, grilles) et une page par écran.',
+        'L’écran Analyste : filtres par seuil de priorité, thème, sentiment et période, résultats détaillés, priorité dans le temps, réseau de thèmes, comparaisons, alertes automatiques et exports.',
+        'L’écran Manager : volume, part de messages urgents et négatifs, auteurs uniques, urgence moyenne, tickets ouverts ; statuts, chaleur jour × heure, courbe horaire, export des tickets ouverts en CSV ou JSON.',
+        'L’écran Agent SAV : la file d’attente, le résumé et la réponse proposés par le LLM pour le ticket choisi, et trois actions rapides (réaffecter, clore, mettre en attente client).',
+        'Le chargement qui normalise la sortie du pipeline (dates, thèmes, sentiment, urgence, gravité), et le nettoyage des messages pour la version locale du pipeline.',
+        'Le rapport Power BI de pilotage branché sur la même sortie : cinq pages (vue d’ensemble, heures et jours, urgence, sentiment, incidents), avec un calendrier, une quarantaine de mesures DAX et un nuage de mots en Python.'
+      ],
+      decisions: [
+        { title: 'Un écran par métier', text: 'L’analyste cherche des tendances, le manager surveille la charge, l’agent traite un ticket après l’autre. Un seul tableau de bord pour les trois aurait été trop chargé pour chacun.' },
+        { title: 'Un score de priorité qu’on peut expliquer', text: '45 % urgence, 40 % gravité, 15 % sentiment négatif, de 0 à 1. Un responsable support comprend pourquoi un message passe devant un autre, et règle le seuil lui-même.' },
+        { title: 'Le travail des agents stocké à part', text: 'Statuts, affectations et réponses vont dans un fichier séparé, appliqué au chargement. On réimporte une nouvelle analyse sans perdre ce qui a été traité.' },
+        { title: 'Une seule définition de l’urgence', text: 'En relisant le rapport, j’ai trouvé deux définitions qui cohabitaient : la carte comptait les messages repérés par la règle de mots-clés (33,7 % des messages), les graphiques la note du LLM (82 %). La page « Qualité des données » les croise ; la suite est d’en garder une.' },
+        { title: 'Le LLM propose, l’agent décide', text: 'La réponse suggérée s’affiche à côté du message d’origine. L’agent l’accepte ou écrit la sienne, et le statut garde la trace des deux cas.' }
+      ],
+      result:
+        'Trois applications livrées par l’équipe : le pipeline, l’application SAV et le chatbot. Sur le jeu de l’école, 6 310 tweets passés dans le pipeline, 2 989 messages clients retenus après filtrage et dédoublonnage, dont 33,7 % détectés comme urgents.',
+      next: 'Brancher l’application directement sur la sortie du pipeline plutôt que sur un import de fichier, retenir une seule définition de l’urgence dans l’application et le rapport, et mesurer avec une équipe support le temps de traitement avant et après.',
+      reportsTitle: 'Le rapport Power BI sur la sortie du pipeline',
+      reportsIntro: 'J’ai aussi construit le rapport Power BI de pilotage branché sur la même sortie. Pour le portfolio, je l’ai rebranché sur les messages fictifs, sans toucher aux pages d’origine, puis j’ai ajouté deux pages : la priorité de traitement et la qualité des données.'
+    },
+    en: {
+      kind: 'LLM and app',
+      pagesTitle: 'The other screens of the app',
+      flowsTitle: 'How the data flows',
+      sector: 'HETIC final project, 2025',
+      title: 'The support app that handles customer messages analysed by an LLM',
+      summary:
+        'An LLM pipeline reads the tweets sent to customer service and scores each message: topic, sentiment, urgency, severity, summary, suggested reply. I built the app that turns this into a working tool: one screen for the analyst, one for the manager, and a prioritised queue for the support agent. Plus the Power BI monitoring report on the same output.',
+      role: 'Created and designed the support app, the priority score, the Power BI report and the data cleaning for the local pipeline. Team of three, Scrum.',
+      period: 'July to November 2025',
+      caption: 'The app relaunched for this portfolio on 1,075 fictional messages: no real tweets, anonymised authors.',
+      context:
+        'Final project of the Master in Data and AI, on a school case: tweets sent to Free Mobile’s customer service. Thousands of messages a month, read in order of arrival. My two teammates built the pipeline that analyses them with an LLM, and the chatbot. My part: the app that lets the support team use the results.',
+      challenge:
+        'LLM output is not a tool. A 16-column file per message does not say what to handle first, who owns it or what has already been done. And a new analysis had to be reloaded without wiping the agents’ work.',
+      built: [
+        'The support app in Streamlit: a landing page that imports the pipeline file, then one screen per role. The code is split into a shared library (loading, score, state, grids) and one page per screen.',
+        'The analyst screen: filters by priority threshold, topic, sentiment and period, detailed results, priority over time, topic network, comparisons, automatic alerts and exports.',
+        'The manager screen: volume, share of urgent and negative messages, unique authors, average urgency, open tickets; statuses, day × hour heatmap, hourly curve, export of open tickets as CSV or JSON.',
+        'The support agent screen: the queue, the LLM’s summary and suggested reply for the selected ticket, and three quick actions (reassign, close, wait for customer).',
+        'The loader that normalises the pipeline output (dates, topics, sentiment, urgency, severity), and message cleaning for the local version of the pipeline.',
+        'The Power BI monitoring report on the same output: five pages (overview, hours and days, urgency, sentiment, incidents), with a calendar, about forty DAX measures and a Python word cloud.'
+      ],
+      decisions: [
+        { title: 'One screen per job', text: 'The analyst looks for trends, the manager watches the workload, the agent handles one ticket after another. A single dashboard for all three would have been too crowded for each.' },
+        { title: 'A priority score you can explain', text: '45% urgency, 40% severity, 15% negative sentiment, from 0 to 1. A support lead sees why one message comes before another, and sets the threshold themselves.' },
+        { title: 'Agents’ work stored separately', text: 'Statuses, assignments and replies go to a separate file applied on load. A new analysis can be imported without losing what has been handled.' },
+        { title: 'One definition of urgency', text: 'Reviewing the report, I found two definitions side by side: the card counted messages flagged by the keyword rule (33.7% of messages), the charts used the LLM score (82%). The “Data quality” page sets them against each other; the next step is to keep one.' },
+        { title: 'The LLM suggests, the agent decides', text: 'The suggested reply sits next to the original message. The agent accepts it or writes their own, and the status records which.' }
+      ],
+      result:
+        'Three apps delivered by the team: the pipeline, the support app and the chatbot. On the school dataset, 6,310 tweets went through the pipeline, 2,989 customer messages were kept after filtering and de-duplication, and 33.7% were flagged as urgent.',
+      next: 'Connect the app directly to the pipeline output instead of a file import, keep a single definition of urgency in the app and the report, and measure handling time before and after with a support team.',
+      reportsTitle: 'The Power BI report on the pipeline output',
+      reportsIntro: 'I also built the Power BI monitoring report on the same output. For this portfolio I rewired it to the fictional messages, leaving the original pages as they were, and added two pages: handling priority and data quality.'
     }
   }
 
