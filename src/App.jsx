@@ -374,6 +374,21 @@ const CasePage = ({ t, lang, slug }) => {
       <div className="mt-6">
         <Block title={L.context}><p className="text-lg leading-relaxed text-ink">{d.context}</p></Block>
         <Block title={L.challenge}><p className="text-lg leading-relaxed text-ink">{d.challenge}</p></Block>
+        {d.versions && (
+          <section className="border-t border-line py-10">
+            <h2 className="text-sm font-semibold text-ink">{d.versionsTitle}</h2>
+            <ol className="mt-6 grid gap-4 md:grid-cols-3">
+              {d.versions.map((v, k) => (
+                <li key={v.label} className={`flex flex-col rounded-xl border p-5 ${k === d.versions.length - 1 ? 'border-accent bg-paper' : 'border-line bg-surface'}`}>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-accent">{v.label}</p>
+                  <h3 className="mt-1.5 font-semibold leading-snug text-ink">{v.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">{v.text}</p>
+                  <p className="mt-auto pt-4 text-ink"><span className="display text-3xl">{v.time}</span> <span className="text-xs text-muted">{v.timeLabel}</span></p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
         <Block title={L.built}>
           <ul className="space-y-2.5">{d.built.map((b) => <li key={b} className="flex gap-3 leading-relaxed text-ink"><Dash />{b}</li>)}</ul>
         </Block>
@@ -381,6 +396,7 @@ const CasePage = ({ t, lang, slug }) => {
           <dl className="space-y-6">
             {d.decisions.map((x) => (
               <div key={x.title}>
+                {x.phase && <p className="mb-0.5 text-xs font-medium text-accent">{x.phase}</p>}
                 <dt className="font-semibold text-ink">{x.title}</dt>
                 <dd className="mt-1 leading-relaxed text-muted">{x.text}</dd>
               </div>
